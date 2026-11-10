@@ -17,7 +17,7 @@ Nothing in the product invents data: every minute, streak and readiness percenta
 | Planner / timetable / subjects / exams / challenge / guardian | Complete and browser-verified |
 | Analytics, achievements, CSV export | Complete and browser-verified |
 | Supabase schema, RLS, triggers, storage policies | Complete in `supabase/migrations/0001_init.sql` |
-| Supabase runtime (real auth, cloud sync, RLS enforcement) | **Requires external configuration** — needs your project URL + anon key |
+| Supabase runtime (real auth, RLS, storage) | **Verified live** on a real project: schema, signup bootstrap, cross-account isolation, storage policies |
 | Deployment | Config committed (`vercel.json`, `netlify.toml`); **not deployed** because no hosting account/credentials were provided |
 
 No live URL is claimed. See [section 9](#9-what-was-tested-and-what-was-not) for the exact verification report.
@@ -196,13 +196,23 @@ Verified on this machine against the real running app (Chromium, 747×768 mobile
   countdown, challenge dashboard and settings preload, guardian distraction logging, achievements, settings
   (light/dark switch, reduce motion, sound), mobile "More" sheet.
 - Analytics totals matched the stored rows (2 min focused, 1/3 sessions completed, 33% completion).
+- Live Supabase project: `npm run verify:supabase` → all 18 tables present, Auth healthy, anonymous reads return 0
+  rows. Two real test accounts proved: the signup trigger creates profile + preferences (`Asia/Kolkata`), the 13
+  achievements are seeded, owners can CRUD their rows, a second account cannot read/update/delete them, forging a
+  `user_id` is rejected, a second active session is rejected with 409, an invalid distraction platform violates the
+  check constraint, avatars upload and read publicly while cross-folder writes fail, and a private study document's
+  signed URL cannot be minted by another user.
+- Browser sign-in with a real Supabase account: `/login` → `/onboarding` → dashboard, session survived a reload, and
+  no local-mode banner appeared.
 - Layout checked at 320 px, 390 px and desktop widths: no horizontal overflow, mobile bottom navigation and the
   "More" sheet reachable, fixed focus-lock header usable.
 
-Not verified, because it needs your credentials or a hosting account:
+Not verified:
 
-- Supabase sign-up/sign-in, Google OAuth, password reset email delivery, cross-device sync and RLS enforcement
-  against a live database. The SQL is written for Postgres 15 / Supabase but has not been executed on a real project.
+- Google OAuth — the provider is still disabled on the project. The button and redirect handling exist, but the
+  consent screen needs the owner's Google account.
+- Password-reset email delivery — sending to a real inbox was not exercised.
+- Cross-device sync on two physical devices (the same session was exercised through one browser profile).
 - A public deployment URL.
 - Browser notification delivery after the tab/browser is closed (impossible for a web app; see limitations).
 
