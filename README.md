@@ -18,7 +18,7 @@ Nothing in the product invents data: every minute, streak and readiness percenta
 | Analytics, achievements, CSV export | Complete and browser-verified |
 | Supabase schema, RLS, triggers, storage policies | Complete in `supabase/migrations/0001_init.sql` |
 | Supabase runtime (real auth, RLS, storage) | **Verified live** on a real project: schema, signup bootstrap, cross-account isolation, storage policies |
-| Deployment | Config committed (`vercel.json`, `netlify.toml`); **not deployed** because no hosting account/credentials were provided |
+| Deployment | **Live on Vercel**: https://focusforge-ashen-five.vercel.app (production alias, Vite build from `dist`) |
 
 No live URL is claimed. See [section 9](#9-what-was-tested-and-what-was-not) for the exact verification report.
 
@@ -166,6 +166,13 @@ vercel --prod        # production
 content type and immutable asset caching. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in Project → Settings →
 Environment Variables, then redeploy.
 
+The production deployment of this project lives at **https://focusforge-ashen-five.vercel.app**, built by Vercel from
+`main` with both `VITE_SUPABASE_*` variables stored as Project Environment Variables (Production + Preview).
+
+Sign-ups depend on the project's email settings: with **Confirm email** enabled, Supabase must be able to deliver the
+confirmation link, which needs a custom SMTP provider (Project → Settings → Auth → SMTP). Until then, either keep
+confirmation disabled or expect new accounts to stall at "check your inbox".
+
 ### Netlify (alternative)
 
 ```bash
@@ -176,7 +183,9 @@ netlify deploy --build --prod
 `netlify.toml` contains the build command, publish directory, SPA redirect and headers.
 
 After deploying, add the production origin to Supabase Auth → URL Configuration (Site URL + redirect URLs), otherwise
-Google/email links will bounce to localhost.
+confirmation, recovery and Google links will bounce to localhost. For this deployment that means Site URL
+`https://focusforge-ashen-five.vercel.app` and redirect URLs `https://focusforge-ashen-five.vercel.app/**` plus
+`http://127.0.0.1:5173/**`.
 
 ---
 
@@ -215,7 +224,7 @@ Not verified:
   callback handling are in place, but completing it needs a Google OAuth client (see the setup section).
 - Password-reset email delivery — sending to a real inbox was not exercised.
 - Cross-device sync on two physical devices (the same session was exercised through one browser profile).
-- A public deployment URL.
+
 - Browser notification delivery after the tab/browser is closed (impossible for a web app; see limitations).
 
 ---
