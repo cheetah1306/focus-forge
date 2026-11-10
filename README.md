@@ -79,7 +79,9 @@ npm run typecheck  # tsc --noEmit -p tsconfig.app.json
    Then run `npm run verify:supabase` — it checks the URL, the key type, the Auth service, every table
    from the migration and that anonymous reads return no rows. It never prints the key.
 4. **Authentication → Providers**: Email is enabled by default. For Google sign-in, enable Google, add your OAuth
-   client ID/secret, and register the callback `https://<project-ref>.supabase.co/auth/v1/callback`.
+   client ID/secret, and register the callback `https://<project-ref>.supabase.co/auth/v1/callback`. The app reads the
+   project's provider settings on load, so the "Continue with Google" button only appears once the provider is live —
+   an unconfigured provider never renders a dead control.
 5. **Authentication → URL Configuration**:
    - Site URL: your deployed origin (or `http://127.0.0.1:5173` while developing)
    - Redirect URLs: `http://127.0.0.1:5173/**`, `https://your-domain/**`
@@ -209,8 +211,8 @@ Verified on this machine against the real running app (Chromium, 747×768 mobile
 
 Not verified:
 
-- Google OAuth — the provider is still disabled on the project. The button and redirect handling exist, but the
-  consent screen needs the owner's Google account.
+- Google OAuth — the provider is still disabled on the project, so the button is hidden by design. The redirect and
+  callback handling are in place, but completing it needs a Google OAuth client (see the setup section).
 - Password-reset email delivery — sending to a real inbox was not exercised.
 - Cross-device sync on two physical devices (the same session was exercised through one browser profile).
 - A public deployment URL.

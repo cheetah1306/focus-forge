@@ -21,7 +21,7 @@ import type {
 } from './types'
 import { ACHIEVEMENT_CATALOG } from './achievements'
 import { DEFAULT_PREFS } from './metrics'
-import { supabase, isSupabaseConfigured } from './supabase'
+import { supabase, isSupabaseConfigured, SUPABASE_URL } from './supabase'
 import { todayKey, uid } from './utils'
 
 export type BackendMode = 'supabase' | 'local'
@@ -36,6 +36,7 @@ export interface Backend {
   sendPasswordReset(email: string): Promise<{ error?: string }>
   updatePassword(password: string): Promise<{ error?: string }>
   signInWithGoogle(): Promise<{ error?: string }>
+  socialProviders(): Promise<{ google: boolean }>
   loadDataset(userId: string): Promise<Dataset>
   insert<T extends { id: string }>(table: string, row: T): Promise<T>
   update<T extends { id: string }>(table: string, id: string, patch: Record<string, unknown>): Promise<T>
@@ -198,6 +199,20 @@ export const supabaseBackend: Backend = {
       options: { redirectTo: `${window.location.origin}/` },
     })
     return error ? { error: describeError(error) } : {}
+  },
+
+  async socialProviders() {
+    if (!isSupabaseConfigured) return { google: false }
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/settings`, {
+        headers: { apikey: import.meta.env.VITE_SUPABASE_ANON_KEY as string },
+      })
+      if (!res.ok) return { google: false }
+      const settings = (await res.json()) as { external?: Record<string, boolean> }
+      return { google: Boolean(settings.external?.google) }
+    } catch {
+      return { google: false }
+    }
   },
 
   async loadDataset(userId) {
@@ -392,6 +407,10 @@ export const localBackend: Backend = {
 
   async signInWithGoogle() {
     return { error: 'Google sign-in requires Supabase authentication.' }
+  },
+
+  async socialProviders() {
+    return { google: false }
   },
 
   async loadDataset(userId) {

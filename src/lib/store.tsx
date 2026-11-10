@@ -962,6 +962,7 @@ export function useAppStore() {
       signInAccount,
       signUpAccount,
       signInWithGoogle: backend.signInWithGoogle.bind(backend),
+      socialProviders: backend.socialProviders.bind(backend),
       sendPasswordReset: backend.sendPasswordReset.bind(backend),
       updatePassword: backend.updatePassword.bind(backend),
     },
