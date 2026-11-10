@@ -70,10 +70,14 @@ npm run typecheck  # tsc --noEmit -p tsconfig.app.json
 
    ```env
    VITE_SUPABASE_URL=https://<project-ref>.supabase.co
-   VITE_SUPABASE_ANON_KEY=<anon public key>
+   VITE_SUPABASE_ANON_KEY=<publishable key or legacy anon public key>
    ```
 
-   Only the **anon** key belongs in the browser. Never place a `service_role` key in a `VITE_` variable.
+   Either the new `sb_publishable_…` key or the legacy anon JWT works. Never place a secret or
+   `service_role` key in a `VITE_` variable.
+
+   Then run `npm run verify:supabase` — it checks the URL, the key type, the Auth service, every table
+   from the migration and that anonymous reads return no rows. It never prints the key.
 4. **Authentication → Providers**: Email is enabled by default. For Google sign-in, enable Google, add your OAuth
    client ID/secret, and register the callback `https://<project-ref>.supabase.co/auth/v1/callback`.
 5. **Authentication → URL Configuration**:

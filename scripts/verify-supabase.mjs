@@ -57,16 +57,25 @@ function decodeJwtPayload(token) {
   }
 }
 
-const payload = decodeJwtPayload(key)
-if (!payload) {
-  errors.push('The anon key is not a JWT. Copy the "anon public" key from Project Settings → API.')
-} else if (payload.role === 'service_role') {
-  errors.push('This is a service_role key. Never put it in a VITE_ variable or the browser; use the anon key.')
-} else if (payload.role !== 'anon') {
-  errors.push(`Expected an anon key, got role "${payload.role}".`)
+// Supabase now issues two key formats: legacy JWTs and the newer
+// sb_publishable_ / sb_secret_ keys. Only publishable/anon keys may ship
+// in a VITE_ variable.
+if (key.startsWith('sb_secret_')) {
+  errors.push('This is a secret key. Never put it in a VITE_ variable or the browser; use the publishable/anon key.')
+} else if (key.startsWith('sb_publishable_')) {
+  say('✓', 'Key type', 'publishable (safe for the browser)')
 } else {
-  say('✓', 'Key type', 'anon (safe for the browser)')
-  if (payload.ref && !url.includes(payload.ref)) errors.push('The key belongs to a different project than the URL.')
+  const payload = decodeJwtPayload(key)
+  if (!payload) {
+    errors.push('The key is neither a publishable key nor an anon JWT. Copy the publishable (or anon public) key from Project Settings → API.')
+  } else if (payload.role === 'service_role') {
+    errors.push('This is a service_role key. Never put it in a VITE_ variable or the browser; use the anon key.')
+  } else if (payload.role !== 'anon') {
+    errors.push(`Expected an anon key, got role "${payload.role}".`)
+  } else {
+    say('✓', 'Key type', 'anon (safe for the browser)')
+    if (payload.ref && !url.includes(payload.ref)) errors.push('The key belongs to a different project than the URL.')
+  }
 }
 
 const headers = { apikey: key, Authorization: `Bearer ${key}` }
