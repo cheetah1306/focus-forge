@@ -1,64 +1,94 @@
 <div align="center">
 
-# Focus Forge
+<img src="public/icon-512.png" alt="Focus Forge logo" width="112" />
 
-### Build focus. Protect your time. Forge your progress.
+# FOCUS FORGE
 
-A personal study workspace for focused sessions, academic planning, timetable management and measurable progress.
+### Your time. Your focus. Your progress.
 
-**[Open the Live App](https://focusforge-ashen-five.vercel.app)** · **[View on GitHub](https://github.com/cheetah1306/focus-forge)**
+**A personal study workspace that turns intentions into consistent action.**
 
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
+Plan smarter · Focus deeper · Track every step
+
+[![Live App](https://img.shields.io/badge/🚀_Launch_App-Focus_Forge-635BFF?style=for-the-badge)](https://focusforge-ashen-five.vercel.app)
+[![GitHub](https://img.shields.io/badge/GitHub-Source_Code-181717?style=for-the-badge&logo=github)](https://github.com/cheetah1306/focus-forge)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)](LICENSE)
+
+<br/>
+
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Backend-3FCF8E?logo=supabase&logoColor=white)
-![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000?logo=vercel&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?logo=vercel&logoColor=white)
 
 </div>
 
 ---
 
-## About Focus Forge
+## ✨ Explore
 
-Focus Forge helps students turn study plans into consistent action. It brings together what you plan to study, when you plan to study, and the time you actually spend studying—all in one workspace.
+| [Overview](#-why-focus-forge) | [Features](#-everything-in-one-workspace) | [How it works](#-how-focus-forge-works) | [Tech stack](#-technology-stack) | [Setup](#-get-started) | [License](#-license) |
+|:---:|:---:|:---:|:---:|:---:|:---:|
 
-It is more than a countdown timer: it combines a focus room, study planner, weekly timetable, exam preparation tools and progress analytics.
+## 🎯 Why Focus Forge?
 
-## What makes it different?
+Studying effectively is not only about spending more hours at a desk. It is about knowing **what to study, when to study, and whether the planned work is actually getting done.**
 
-- **Timestamp-driven focus sessions:** Session time is calculated from real timestamps, helping avoid timer drift when a browser tab sleeps or reloads.
-- **Planning connected to execution:** Link focus sessions to tasks and timetable blocks so planned work can be compared with completed work.
-- **A realistic 30-day challenge:** Missed days remain part of the history instead of resetting the entire challenge.
-- **Activity-based insights:** Focus scores, streaks, analytics and achievements are based on recorded study activity and topic progress.
-- **Flexible data modes:** Use browser-local storage to get started, or configure Supabase for authentication and cloud-backed, user-isolated data.
-- **Transparent accountability:** Focus Guardian records reported distractions and interruptions; it does not monitor or block other applications.
+Focus Forge brings those pieces together in one organised workspace. Build a study plan, schedule it, start a focused session, and use your activity data to understand your progress.
 
-## Features
+> **One workspace. A complete study routine. Progress you can measure.**
 
-| Feature | Description |
-| --- | --- |
-| **Dashboard** | Daily targets, focus score, upcoming exams, challenge progress, schedule and priority tasks. |
-| **Focus Room** | Five focus modes, custom duration, session objectives, linked tasks, pause/resume, extensions, breaks and interruption records. |
-| **Study Planner** | Organise tasks by subject, unit, topic, priority, category, estimated time and deadline. |
-| **Smart Timetable** | Recurring weekly blocks, day/week/month views, conflict detection, drag-to-reschedule and session launching. |
-| **Subject & Topic Tracking** | Organise units and topics; track not started, in progress, completed and needs revision. |
-| **Exam Preparation** | Add exam dates and types, view countdowns and track readiness through topic coverage. |
-| **30-Day Focus Challenge** | Set daily goals, review results and retain history when days are missed. |
-| **Analytics** | Daily, weekly and monthly trends, subject distribution, completion rates, distraction insights and CSV export. |
-| **Achievements** | 13 milestones earned through recorded activity. |
-| **Focus Guardian** | Distraction logs, interruptions, missed timetable blocks, overdue tasks and focus-score breakdown. |
-| **Personalisation** | Profile and avatar, themes, reduced motion, sounds, timer defaults, targets and notification preferences. |
+## 🚀 Everything in one workspace
 
-## The focus engine
+<details open>
+<summary><strong>🧠 Focus & productivity</strong></summary>
 
-The timer uses a timestamp-driven session model instead of relying only on a ticking counter. It records the session start, planned end, pause time, accumulated paused duration and current status. This allows remaining time to be reconstructed after a refresh and supports recovery from interrupted sessions.
+- **Focus Room** — Five focus modes, custom session durations, objectives and task linking.
+- **Session controls** — Pause, resume, extend sessions, record interruptions and manage breaks.
+- **Focus Guardian** — Review reported distractions, missed timetable blocks and overdue tasks.
+- **30-Day Focus Challenge** — Set daily goals and keep your challenge history, even when you miss a day.
 
-Break time is tracked separately from study time. A unique partial database index also prevents multiple active or paused sessions for the same user.
+</details>
 
-The focus score is a 100-point activity breakdown:
+<details>
+<summary><strong>📚 Academic planning</strong></summary>
+
+- **Study Planner** — Organise tasks by subject, unit, topic, priority, category, estimated duration and deadline.
+- **Smart Timetable** — Create recurring weekly blocks, switch between calendar views, detect conflicts and reschedule work.
+- **Subject & Topic Tracking** — Track topics as not started, in progress, completed or needing revision.
+- **Exam Preparation** — Add exam dates and types, view countdowns and follow topic-level preparation progress.
+
+</details>
+
+<details>
+<summary><strong>📊 Insights & personalisation</strong></summary>
+
+- **Dashboard** — See daily targets, upcoming exams, priority tasks, schedule and focus progress.
+- **Analytics** — Review daily, weekly and monthly trends, subject distribution and completion rates; export data as CSV.
+- **Achievements** — Unlock 13 milestones through recorded activity.
+- **Personalisation** — Configure profile, avatar, themes, reduced motion, sounds, timer defaults, targets and notification preferences.
+
+</details>
+
+## 💡 What makes it different?
+
+| Capability | Why it matters |
+|---|---|
+| **Timestamp-based timer** | Uses recorded timestamps instead of trusting a counter that can drift when a browser tab sleeps. |
+| **Session recovery** | Reconstructs remaining time after a refresh and handles interrupted sessions. |
+| **Plan-to-focus connection** | Links sessions with tasks and timetable blocks, connecting intention with execution. |
+| **Break-aware tracking** | Keeps break time separate from focused study time. |
+| **Challenge history** | Missed days do not erase the record or reset the challenge. |
+| **Two data modes** | Start with local browser storage or configure Supabase for authenticated, cloud-backed data. |
+
+### 📈 How the focus score is calculated
+
+The app uses a 100-point activity score to summarise study habits:
 
 | Dimension | Weight |
-| --- | ---: |
+|---|---:|
 | Study volume | 40 |
 | Session completion | 25 |
 | Academic tasks | 15 |
@@ -66,134 +96,271 @@ The focus score is a 100-point activity breakdown:
 | Focus discipline | 10 |
 | **Total** | **100** |
 
-The score is intended as a habit and activity indicator—not as a prediction of exam marks or academic results.
+*This is an activity and habit indicator, not a prediction of exam marks or academic performance.*
 
-## Technology stack
+## 🔄 How Focus Forge works
 
-| Layer | Technologies |
-| --- | --- |
+~~~mermaid
+flowchart TD
+    A["🎯 Set your study goals"] --> B["📚 Organise subjects and tasks"]
+    B --> C["🗓️ Build your timetable"]
+    C --> D["⏱️ Start a focused session"]
+    D --> E["📌 Record progress and interruptions"]
+    E --> F["📊 Review insights and achievements"]
+    F --> A
+~~~
+
+The cycle is simple: plan your work, follow your schedule, focus on one task, and use your progress data to improve the next study session.
+
+## 🛠️ Technology stack
+
+| Area | Technologies |
+|---|---|
 | Frontend | React 18, TypeScript 5, Vite 5 |
-| UI and styling | Tailwind CSS 3, CSS variables, Framer Motion, Lucide React |
-| Routing and charts | React Router 6, Recharts |
-| Backend | Supabase: PostgreSQL, Auth and Storage |
-| Offline experience | Web App Manifest, Service Worker and browser storage |
-| Deployment | Vercel; Netlify configuration is also included |
+| Styling & interaction | Tailwind CSS 3, CSS variables, Framer Motion, Lucide React |
+| Navigation & charts | React Router 6, Recharts |
+| Backend services | Supabase PostgreSQL, Auth and Storage |
+| Offline support | Web App Manifest, Service Worker, browser local storage |
+| Deployment | Vercel; Netlify configuration included |
 
-## Run locally
+## ⚡ Get started
 
-**Prerequisites:** Node.js and npm.
+### Requirements
 
-\`\`\`bash
+- Node.js (LTS recommended)
+- npm
+- Git
+
+### 1. Clone the repository
+
+~~~bash
 git clone https://github.com/cheetah1306/focus-forge.git
 cd focus-forge
+~~~
+
+### 2. Install dependencies
+
+~~~bash
 npm install
+~~~
+
+### 3. Start the development server
+
+~~~bash
 npm run dev
-\`\`\`
+~~~
 
-Open the local address printed by Vite (configured host: \`127.0.0.1:5173\`).
+Open the local URL printed by Vite in your terminal (the configured host is `127.0.0.1:5173`).
 
-### Useful commands
+<details>
+<summary><strong>More useful commands</strong></summary>
 
-\`\`\`bash
-npm run dev             # Start the development server
-npm run build           # Type-check and create the production build
-npm run preview         # Preview the production build
-npm run typecheck       # Run TypeScript checks
-npm run verify:supabase # Verify Supabase configuration and schema
-\`\`\`
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start the local development server |
+| `npm run build` | Run TypeScript project build and create production assets |
+| `npm run preview` | Preview the production build locally |
+| `npm run typecheck` | Run TypeScript checks |
+| `npm run verify:supabase` | Verify Supabase configuration and schema |
 
-## Data modes
+</details>
 
-### Local workspace
+## ☁️ Configure Supabase
 
-The app can run without Supabase environment variables. In this mode, workspace data is stored in the current browser's \`localStorage\`. This is useful for trying the app, but it does not provide account authentication or multi-device synchronisation. Clearing browser site data removes local workspace data. Local document uploads are limited to 1.5 MB.
+Focus Forge supports a browser-local mode and a Supabase-backed mode.
 
-### Supabase production mode
+### Option A — Local mode
+
+No Supabase environment variables are required. Data is stored in the current browser's `localStorage`.
+
+- Useful for trying the app without configuring a backend.
+- Does not provide account authentication or multi-device synchronisation.
+- Clearing browser site data removes locally stored workspace data.
+- Local document uploads are limited to 1.5 MB.
+
+### Option B — Supabase mode
 
 1. Create a project at [Supabase](https://supabase.com).
-2. Run \`supabase/migrations/0001_init.sql\` in the Supabase SQL Editor.
-3. Copy \`.env.example\` to \`.env\` and configure:
+2. Open the Supabase SQL Editor and run `supabase/migrations/0001_init.sql`.
+3. Copy `.env.example` to `.env`.
+4. Add your project URL and publishable (or legacy anon public) key:
 
-\`\`\`env
+~~~env
 VITE_SUPABASE_URL=https://<project-ref>.supabase.co
-VITE_SUPABASE_ANON_KEY=<publishable-or-anon-public-key>
-\`\`\`
+VITE_SUPABASE_ANON_KEY=<your-publishable-or-anon-public-key>
+~~~
 
-4. Run \`npm run verify:supabase\`.
-5. Configure authentication providers and Site URL / redirect URLs in Supabase Auth settings.
-6. Restart the development server.
+5. Run the configuration check:
 
-The migration defines the database schema, indexes, triggers, user-scoped Row Level Security (RLS) policies, achievement catalogue and storage policies.
+~~~bash
+npm run verify:supabase
+~~~
 
-**Security:** Never expose a Supabase \`service_role\` key or secret key through a \`VITE_\` variable. Frontend environment variables are visible in the browser. Use only the publishable key or legacy anon public key in client-side configuration.
+6. Configure authentication providers and the Site URL / redirect URLs in Supabase Auth settings.
+7. Restart the development server.
 
-## Live deployment
+**Security note:** Never put a Supabase `service_role` key or secret key in a `VITE_` environment variable. Frontend environment variables are exposed to the browser. Use only the publishable key or legacy anon public key in client-side configuration.
+
+## 🧱 Project structure
+
+The repository is organised by responsibility: application entry points, reusable UI, domain logic, page-level screens, deployment assets and database migrations.
+
+~~~text
+focus-forge/
+│
+├── public/                         # PWA assets and static files
+│   ├── icon-192.png
+│   ├── icon-512.png
+│   ├── icon.svg
+│   ├── manifest.webmanifest
+│   ├── sw.js
+│   └── _redirects
+│
+├── scripts/                        # Project utility and verification scripts
+│   ├── generate-icons.mjs
+│   └── verify-supabase.mjs
+│
+├── src/
+│   ├── components/                 # Shared interface components
+│   │   ├── layout.tsx
+│   │   ├── session-launcher.tsx
+│   │   └── ui.tsx
+│   │
+│   ├── lib/                        # Application logic and data services
+│   │   ├── achievements.ts
+│   │   ├── app-context.tsx
+│   │   ├── backend.ts
+│   │   ├── events.ts
+│   │   ├── focus.tsx
+│   │   ├── metrics.ts
+│   │   ├── notifications.ts
+│   │   ├── store.tsx
+│   │   ├── supabase.ts
+│   │   ├── types.ts
+│   │   └── utils.ts
+│   │
+│   ├── pages/                      # Main application screens
+│   │   ├── Achievements.tsx
+│   │   ├── Analytics.tsx
+│   │   ├── AuthPage.tsx
+│   │   ├── Challenge.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── Exams.tsx
+│   │   ├── FocusRoom.tsx
+│   │   ├── Guardian.tsx
+│   │   ├── Onboarding.tsx
+│   │   ├── Planner.tsx
+│   │   ├── Settings.tsx
+│   │   ├── Subjects.tsx
+│   │   └── Timetable.tsx
+│   │
+│   ├── App.tsx                     # App routes and composition
+│   ├── main.tsx                    # React entry point
+│   ├── styles.css                  # Global styles
+│   └── vite-env.d.ts               # Vite type declarations
+│
+├── supabase/
+│   └── migrations/
+│       └── 0001_init.sql           # Database schema and security policies
+│
+├── .env.example                    # Environment variable template
+├── .gitignore
+├── index.html
+├── LICENSE                         # MIT License
+├── netlify.toml
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+├── tsconfig.app.json
+├── vercel.json
+└── vite.config.ts
+~~~
+
+## 🚀 Production deployment
+
+The project includes Vercel configuration for a Vite single-page application.
+
+| Setting | Value |
+|---|---|
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Application routing | SPA rewrite to `index.html` |
+
+To deploy your own instance:
+
+1. Import this GitHub repository into [Vercel](https://vercel.com).
+2. Add the Supabase environment variables if you are using Supabase mode.
+3. Deploy the project.
+4. Add your deployed URL to the Supabase Auth Site URL and redirect URL settings.
+
+A Netlify configuration is also included in `netlify.toml`.
 
 <div align="center">
 
-### Focus Forge is live
+### 🌐 Try the deployed application
 
-**[https://focusforge-ashen-five.vercel.app](https://focusforge-ashen-five.vercel.app)**
-
-[**Launch the app**](https://focusforge-ashen-five.vercel.app)
+[![Open Focus Forge](https://img.shields.io/badge/OPEN_FOCUS_FORGE-Launch_Now-635BFF?style=for-the-badge&logo=vercel&logoColor=white)](https://focusforge-ashen-five.vercel.app)
 
 </div>
 
-The repository includes Vercel configuration for a Vite production build:
+## 🔐 Privacy & practical notes
 
-- Build command: \`npm run build\`
-- Output directory: \`dist\`
-- SPA rewrite to \`index.html\`
-- Service worker and manifest response headers
-- Immutable caching for generated assets
-
-To deploy your own copy, import the repository into Vercel, configure Supabase environment variables if using cloud mode, and deploy. Add the deployed origin to Supabase Auth URL configuration. A Netlify configuration is also included in \`netlify.toml\`.
-
-## Project structure
-
-\`\`\`text
-focus-forge/
-├── public/                    # PWA manifest, service worker and icons
-├── src/
-│   ├── components/            # Shared UI and session launcher
-│   ├── lib/
-│   │   ├── backend.ts         # Typed backend interface and adapters
-│   │   ├── store.tsx          # Workspace state and data operations
-│   │   ├── focus.tsx          # Timer engine and recovery
-│   │   ├── metrics.ts         # Focus score and analytics
-│   │   ├── notifications.ts   # Reminder handling
-│   │   └── types.ts           # Domain types
-│   └── pages/                 # Application screens
-├── supabase/
-│   └── migrations/
-│       └── 0001_init.sql      # Schema, RLS, triggers and storage policies
-├── vercel.json
-├── netlify.toml
-└── package.json
-\`\`\`
-
-## Privacy and practical limitations
-
-- Supabase mode uses user-scoped RLS policies for user-owned records. Local mode stays in the current browser.
-- Focus Guardian records reported distractions and timer interruptions; it does not monitor or block other applications.
+- Supabase mode uses user-scoped Row Level Security (RLS) policies for user-owned data.
+- Focus Guardian records reported distractions and interruptions; it does **not** monitor or block other applications.
 - Browser notifications require permission and browser support. Delivery is not guaranteed after the browser is fully closed.
 - Screen Wake Lock is requested where supported, but the operating system may still turn off the display.
-- Exam readiness is calculated from topic statuses entered in the app; it is not an external assessment of syllabus mastery.
-- Daily boundaries use the configured timezone (default: \`Asia/Kolkata\`).
+- Exam readiness reflects topic statuses entered in the app; it is not an external assessment of syllabus mastery.
+- The default timezone is `Asia/Kolkata`.
 
-## Verification notes
+## 🧪 Verification
 
-Project documentation records checks for TypeScript compilation and production builds, timer pause/resume and reload recovery, session completion and interruption logging, planner/timetable/subject/exam workflows, analytics consistency, responsive layouts, and Supabase RLS/storage isolation.
+The project includes a TypeScript check, production build and Supabase configuration verifier. The application documentation also describes checks for timer pause/resume and reload recovery, session completion and interruption logging, planner and timetable workflows, analytics consistency, responsive layouts and Supabase data isolation.
 
-Google OAuth and password-reset email delivery require provider configuration and are not documented as fully verified. Browser-closed notification delivery is not guaranteed.
+Google OAuth and password-reset email delivery require provider configuration. Browser-closed notification delivery is not guaranteed.
 
-## Contributing
+## 🤝 Contributing
 
-Ideas and improvements are welcome. Open an issue to report a bug or discuss a feature, or submit a pull request with a clear description and testing notes.
+Suggestions, bug reports and improvements are welcome.
 
-## License
+1. Fork the repository.
+2. Create a branch for your change.
+3. Make your changes and run the relevant checks.
+4. Open a pull request with a clear summary and testing notes.
 
-A license file is not currently documented in this repository. Please contact the repository owner before reusing or redistributing the code.
+## 📄 License
+
+Focus Forge is licensed under the **MIT License**. You are free to use, copy, modify, merge, publish, distribute, sublicense and sell copies of the software, subject to the license conditions.
+
+The full license is available in [`LICENSE`](LICENSE). The license text is also included below for convenience.
+
+<details>
+<summary><strong>Read the full MIT License</strong></summary>
+
+MIT License
+
+Copyright (c) 2026 Akshay R
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+</details>
 
 ---
 
@@ -201,6 +368,8 @@ A license file is not currently documented in this repository. Please contact th
 
 **Plan with intention. Focus with discipline. Forge your progress.**
 
-[Try Focus Forge](https://focusforge-ashen-five.vercel.app) · [Explore the GitHub repository](https://github.com/cheetah1306/focus-forge)
+[🌐 Live Application](https://focusforge-ashen-five.vercel.app) · [💻 GitHub Repository](https://github.com/cheetah1306/focus-forge) · [📄 MIT License](LICENSE)
+
+<sub>Made to help turn study goals into focused action.</sub>
 
 </div>
