@@ -1,8 +1,10 @@
 <div align="center">
 
-<img src="public/icon-512.png" alt="Focus Forge logo" width="112" />
+<div align="center">
 
-# FOCUS FORGE
+# ⏱️ FOCUS FORGE
+
+</div>
 
 ### Your time. Your focus. Your progress.
 
