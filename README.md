@@ -1,10 +1,6 @@
 <div align="center">
 
-<div align="center">
-
 # ⏱️ FOCUS FORGE
-
-</div>
 
 ### Your time. Your focus. Your progress.
 
