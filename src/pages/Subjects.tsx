@@ -220,7 +220,7 @@ export default function Subjects() {
         <Card className="mt-4 p-5">
           <SectionHeader title="Where your study time goes" subtitle="Subject-wise focused minutes from real session records" />
           <div className="mt-3 space-y-2.5">
-            {distribution
+            {[...distribution]
               .sort((a, b) => b.minutes - a.minutes)
               .map((row) => (
                 <div key={row.name}>

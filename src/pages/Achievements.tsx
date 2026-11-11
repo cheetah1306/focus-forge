@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 import { useApp } from '../lib/app-context'
 import { achievementState, sessionSeconds, computeBestStreak, computeStreak } from '../lib/metrics'
-import { cn, formatMinutes } from '../lib/utils'
+import { cn, formatMinutes, toDateKey } from '../lib/utils'
 import { PageHeader } from '../components/layout'
 import { Badge, Card, ProgressBar, SectionHeader } from '../components/ui'
 
@@ -56,7 +56,7 @@ export default function Achievements() {
   const completed = data.sessions.filter((s) => s.status === 'completed')
   const longestSession = completed.reduce((max, s) => Math.max(max, s.actual_seconds), 0)
   const bestDay = data.sessions.reduce<Record<string, number>>((acc, s) => {
-    const key = s.started_at.slice(0, 10)
+    const key = toDateKey(s.started_at, timezone)
     acc[key] = (acc[key] ?? 0) + sessionSeconds(s) / 60
     return acc
   }, {})

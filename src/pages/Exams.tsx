@@ -101,11 +101,18 @@ export default function Exams() {
     setModalOpen(false)
   }
 
+  // An exam stays "upcoming" until its start time today has passed, not just until midnight.
+  const examMoment = (exam: ExamSchedule) => new Date(`${exam.exam_date}T${exam.exam_time ?? '23:59'}:00`).getTime()
   const upcoming = useMemo(
-    () => data.exams.filter((e) => e.exam_date >= today).sort((a, b) => a.exam_date.localeCompare(b.exam_date)),
-    [data.exams, today],
+    () => data.exams.filter((e) => examMoment(e) >= now).sort((a, b) => a.exam_date.localeCompare(b.exam_date)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data.exams, now],
   )
-  const past = useMemo(() => data.exams.filter((e) => e.exam_date < today).sort((a, b) => b.exam_date.localeCompare(a.exam_date)), [data.exams, today])
+  const past = useMemo(
+    () => data.exams.filter((e) => examMoment(e) < now).sort((a, b) => b.exam_date.localeCompare(a.exam_date)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data.exams, now],
+  )
   const subjects = subjectStats(data, prefs)
   const atRisk = subjects.filter((s) => s.daysToExam !== null && s.daysToExam <= 14 && s.progress < 60)
   const avgReadiness = upcoming.length

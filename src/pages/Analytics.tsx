@@ -39,7 +39,7 @@ import {
   subjectStats,
   datasetSummary,
 } from '../lib/metrics'
-import { addDaysKey, cn, downloadFile, formatMinutes, todayKey } from '../lib/utils'
+import { addDaysKey, cn, downloadFile, formatMinutes, toDateKey, todayKey } from '../lib/utils'
 import { PageHeader } from '../components/layout'
 import { Badge, Button, Card, EmptyState, SegmentedControl, SectionHeader } from '../components/ui'
 
@@ -92,10 +92,10 @@ export default function Analytics() {
   const sessions = data.sessions.filter((s) => s.status !== 'active')
   const completedSessions = sessions.filter((s) => s.status === 'completed')
   const weekMinutes = sessions
-    .filter((s) => s.started_at.slice(0, 10) >= addDaysKey(today, -6))
+    .filter((s) => toDateKey(s.started_at, timezone) >= addDaysKey(today, -6))
     .reduce((sum, s) => sum + sessionSeconds(s) / 60, 0)
   const monthMinutes = sessions
-    .filter((s) => s.started_at.slice(0, 10) >= addDaysKey(today, -29))
+    .filter((s) => toDateKey(s.started_at, timezone) >= addDaysKey(today, -29))
     .reduce((sum, s) => sum + sessionSeconds(s) / 60, 0)
   const avgSession = completedSessions.length ? completedSessions.reduce((sum, s) => sum + s.actual_seconds / 60, 0) / completedSessions.length : 0
   const completionRate = sessions.length ? completedSessions.length / sessions.length : 0
@@ -109,7 +109,7 @@ export default function Analytics() {
       const start = addDaysKey(today, -(w * 7 + 6))
       const end = addDaysKey(today, -w * 7)
       const weekSessions = sessions.filter((s) => {
-        const key = s.started_at.slice(0, 10)
+        const key = toDateKey(s.started_at, timezone)
         return key >= start && key <= end
       })
       out.push({
@@ -120,13 +120,13 @@ export default function Analytics() {
       })
     }
     return out
-  }, [prefs?.daily_target_minutes, sessions, today])
+  }, [prefs?.daily_target_minutes, sessions, today, timezone])
 
   const exportCsv = () => {
     const rows = [
       ['date', 'subject', 'topic', 'mode', 'planned_minutes', 'actual_minutes', 'status'],
       ...sessions.map((s) => [
-        new Date(s.started_at).toISOString().slice(0, 10),
+        toDateKey(s.started_at, timezone),
         data.subjects.find((x) => x.id === s.subject_id)?.name ?? 'General',
         (s.topic ?? '').replace(/,/g, ' '),
         s.mode,
@@ -156,7 +156,7 @@ export default function Analytics() {
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">
         {[
-          { label: 'This week', value: formatMinutes(weekMinutes, true), hint: `${formatMinutes(prefs?.weekly_target_minutes ?? 1680, true)} target`, icon: <Clock className="h-4 w-4" />, tone: 'brand' },
+          { label: 'Last 7 days', value: formatMinutes(weekMinutes, true), hint: `${formatMinutes(prefs?.weekly_target_minutes ?? 1680, true)} weekly target`, icon: <Clock className="h-4 w-4" />, tone: 'brand' },
           { label: 'Last 30 days', value: formatMinutes(monthMinutes, true), hint: `${summary.totalSessions} completed sessions`, icon: <BarChart3 className="h-4 w-4" />, tone: 'violet' },
           { label: 'Avg session', value: formatMinutes(avgSession, true), hint: 'Completed sessions only', icon: <Timer className="h-4 w-4" />, tone: 'brand' },
           { label: 'Session completion', value: `${Math.round(completionRate * 100)}%`, hint: `${completedSessions.length}/${sessions.length} started`, icon: <CheckCircle2 className="h-4 w-4" />, tone: 'success' },

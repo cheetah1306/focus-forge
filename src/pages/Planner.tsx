@@ -20,7 +20,7 @@ import {
 import { useApp } from '../lib/app-context'
 import { useFocus } from '../lib/focus'
 import type { StudyTask, TaskCategory } from '../lib/types'
-import { addDaysKey, cn, formatMinutes, relativeDeadline, subjectColor, todayKey } from '../lib/utils'
+import { addDaysKey, cn, formatMinutes, relativeDeadline, subjectColor, toDateKey } from '../lib/utils'
 import { PageHeader } from '../components/layout'
 import { Badge, Button, Card, ConfirmDialog, EmptyState, Field, Input, Modal, NumberInput, ProgressBar, SectionHeader, Select, Textarea } from '../components/ui'
 import { SessionLauncher, type LaunchContext } from '../components/session-launcher'
@@ -45,7 +45,7 @@ function toLocalInput(iso: string | null): string {
 }
 
 export default function Planner() {
-  const { data, actions, today } = useApp()
+  const { data, actions, today, timezone } = useApp()
   const focus = useFocus()
   const [params, setParams] = useSearchParams()
   const [filter, setFilter] = useState<FilterKey>('all')
@@ -133,7 +133,7 @@ export default function Planner() {
       if (search && !`${task.title} ${task.description ?? ''}`.toLowerCase().includes(search.toLowerCase())) return false
       if (filter === 'completed') return task.status === 'completed'
       if (task.status === 'completed') return false
-      if (filter === 'overdue') return Boolean(task.deadline && task.deadline.slice(0, 10) < todayKey())
+      if (filter === 'overdue') return Boolean(task.deadline && toDateKey(task.deadline, timezone) < today)
       if (filter === 'all') return true
       if (filter === 'must_do') return task.category === 'must_do' || task.priority === 1
       if (filter === 'high') return task.priority === 2 || task.category === 'high'
@@ -141,15 +141,26 @@ export default function Planner() {
       if (filter === 'revision') return task.category === 'revision' || task.category === 'practice' || task.category === 'mock'
       return true
     })
-  }, [data.tasks, filter, search, subjectFilter])
+  }, [data.tasks, filter, search, subjectFilter, timezone, today])
 
   const pending = data.tasks.filter((t) => t.status === 'pending')
-  const overdue = pending.filter((t) => t.deadline && t.deadline.slice(0, 10) < today)
-  const dueToday = pending.filter((t) => t.deadline && t.deadline.slice(0, 10) === today)
-  const dueSoon = pending.filter((t) => t.deadline && t.deadline.slice(0, 10) > today && t.deadline.slice(0, 10) <= addDaysKey(today, 7))
+  const deadlineKey = (task: StudyTask) => (task.deadline ? toDateKey(task.deadline, timezone) : null)
+  const completedKey = (task: StudyTask) => (task.completed_at ? toDateKey(task.completed_at, timezone) : null)
+  const overdue = pending.filter((t) => {
+    const key = deadlineKey(t)
+    return Boolean(key && key < today)
+  })
+  const dueToday = pending.filter((t) => deadlineKey(t) === today)
+  const dueSoon = pending.filter((t) => {
+    const key = deadlineKey(t)
+    return Boolean(key && key > today && key <= addDaysKey(today, 7))
+  })
   const completionRate = data.tasks.length ? data.tasks.filter((t) => t.status === 'completed').length / data.tasks.length : 0
   const estimatedRemaining = pending.reduce((sum, t) => sum + t.estimated_minutes, 0)
-  const completedThisWeek = data.tasks.filter((t) => t.status === 'completed' && t.completed_at && t.completed_at.slice(0, 10) >= addDaysKey(today, -6)).length
+  const completedThisWeek = data.tasks.filter((t) => {
+    const key = completedKey(t)
+    return t.status === 'completed' && Boolean(key && key >= addDaysKey(today, -6))
+  }).length
 
   return (
     <div>
@@ -367,10 +378,10 @@ export default function Planner() {
                   <Target className="h-3 w-3" /> Today's task target
                 </p>
                 <p className="mt-1 text-sm font-semibold">
-                  {data.tasks.filter((t) => t
-                    .completed_at && t.completed_at.slice(0, 10) === today).length} / {Math.max(1, dueToday.length)}
+                  {data.tasks.filter((t) => completedKey(t) === today).length}
+                  {dueToday.length > 0 ? ` / ${dueToday.length}` : ''}
                 </p>
-                <p className="mt-0.5 text-[10px] muted">Completed vs due today</p>
+                <p className="mt-0.5 text-[10px] muted">{dueToday.length > 0 ? 'Completed vs due today' : 'Completed today · nothing due'}</p>
               </div>
               <div className="rounded-xl border border-[var(--border)] surface-1 p-3">
                 <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider soft">
