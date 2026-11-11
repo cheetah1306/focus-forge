@@ -16,21 +16,21 @@ export default {
           500: '#2a3452',
         },
         brand: {
-          50: '#eef4ff',
-          100: '#dbe7ff',
-          200: '#bcd3ff',
-          300: '#8fb5ff',
-          400: '#5b8cff',
-          500: '#3b6cff',
-          600: '#254ce6',
-          700: '#1d3cba',
-          800: '#1c3594',
-          900: '#1c3175',
+          50: '#fdf2f8',
+          100: '#fce7f3',
+          200: '#fbcfe8',
+          300: '#f9a8d4',
+          400: '#f472b6',
+          500: '#ec4899',
+          600: '#db2777',
+          700: '#be185d',
+          800: '#9d174d',
+          900: '#831843',
         },
         violet: {
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
+          400: '#c084fc',
+          500: '#a855f7',
+          600: '#9333ea',
         },
         mint: {
           400: '#4ade80',
@@ -59,15 +59,15 @@ export default {
       },
       boxShadow: {
         soft: '0 2px 8px -2px rgba(0,0,0,0.1), 0 12px 32px -8px rgba(0,0,0,0.25)',
-        glow: '0 0 0 1px rgba(91,140,255,0.24), 0 16px 40px -12px rgba(59,108,255,0.45)',
-        fab: '0 10px 25px -4px rgba(59,108,255,0.5), 0 4px 10px -2px rgba(0,0,0,0.2)',
+        glow: '0 0 0 1px rgba(244,114,182,0.24), 0 16px 40px -12px rgba(236,72,153,0.45)',
+        fab: '0 10px 25px -4px rgba(236,72,153,0.5), 0 4px 10px -2px rgba(0,0,0,0.2)',
         card: '0 1px 2px rgba(0,0,0,0.06), 0 16px 36px -16px rgba(0,0,0,0.35)',
         m3: '0 1px 3px 1px rgba(0,0,0,0.15), 0 1px 2px 0 rgba(0,0,0,0.3)',
         'm3-high': '0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px 0 rgba(0,0,0,0.3)',
       },
       backgroundImage: {
         'grid-fade':
-          'radial-gradient(circle at 20% 10%, rgba(59,108,255,0.14), transparent 45%), radial-gradient(circle at 85% 5%, rgba(139,92,246,0.12), transparent 40%)',
+          'radial-gradient(circle at 20% 10%, rgba(236,72,153,0.14), transparent 45%), radial-gradient(circle at 85% 5%, rgba(168,85,247,0.12), transparent 40%)',
       },
       keyframes: {
         shimmer: {

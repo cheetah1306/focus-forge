@@ -4,44 +4,44 @@
 
 @layer base {
   :root {
-    --bg: #f1f4f9;
+    --bg: #fbf7fb;
     --bg-elevated: #ffffff;
     --panel: #ffffff;
     --panel-solid: #ffffff;
-    --surface-1: #e9eef6;
-    --surface-2: #dfe6f2;
-    --surface-3: #d3deed;
-    --border: rgba(30, 41, 59, 0.08);
-    --border-strong: rgba(30, 41, 59, 0.16);
-    --text: #0f172a;
-    --text-muted: #475569;
-    --text-soft: #64748b;
-    --ring: rgba(37, 99, 235, 0.35);
-    --grid: rgba(30, 41, 59, 0.04);
-    --brand-primary: #2563eb;
-    --brand-container: #dbeafe;
-    --on-brand-container: #1e3a8a;
+    --surface-1: #f7eef6;
+    --surface-2: #efe0ee;
+    --surface-3: #e5d1e4;
+    --border: rgba(74, 20, 68, 0.08);
+    --border-strong: rgba(74, 20, 68, 0.16);
+    --text: #1a0b18;
+    --text-muted: #5e475b;
+    --text-soft: #7e637a;
+    --ring: rgba(217, 70, 239, 0.35);
+    --grid: rgba(74, 20, 68, 0.04);
+    --brand-primary: #d946ef;
+    --brand-container: #fae8ff;
+    --on-brand-container: #701a75;
     color-scheme: light;
   }
 
   .dark {
-    --bg: #0b0f19;
-    --bg-elevated: #111726;
-    --panel: rgba(18, 25, 41, 0.82);
-    --panel-solid: #131a2b;
-    --surface-1: #161e31;
-    --surface-2: #1c263e;
-    --surface-3: #24304d;
+    --bg: #0f0814;
+    --bg-elevated: #180d20;
+    --panel: rgba(27, 15, 36, 0.82);
+    --panel-solid: #1d1028;
+    --surface-1: #221230;
+    --surface-2: #2d1840;
+    --surface-3: #3b2053;
     --border: rgba(255, 255, 255, 0.08);
     --border-strong: rgba(255, 255, 255, 0.15);
-    --text: #f1f5f9;
-    --text-muted: #94a3b8;
-    --text-soft: #64748b;
-    --ring: rgba(96, 165, 250, 0.45);
+    --text: #faeff9;
+    --text-muted: #c4a9c1;
+    --text-soft: #8e738b;
+    --ring: rgba(232, 121, 249, 0.45);
     --grid: rgba(255, 255, 255, 0.025);
-    --brand-primary: #5b8cff;
-    --brand-container: #1e3264;
-    --on-brand-container: #c2d5ff;
+    --brand-primary: #e879f9;
+    --brand-container: #4a044e;
+    --on-brand-container: #f5d0fe;
     color-scheme: dark;
   }
 
@@ -76,7 +76,7 @@
   }
 
   ::selection {
-    background: rgba(91, 140, 255, 0.32);
+    background: rgba(217, 70, 239, 0.32);
   }
 
   :focus-visible {
@@ -140,8 +140,8 @@
   .app-bg {
     background-color: var(--bg);
     background-image:
-      radial-gradient(900px 500px at 12% -12%, rgba(59, 108, 255, 0.16), transparent 60%),
-      radial-gradient(760px 460px at 96% 0%, rgba(139, 92, 246, 0.13), transparent 62%);
+      radial-gradient(900px 500px at 12% -12%, rgba(217, 70, 239, 0.16), transparent 60%),
+      radial-gradient(760px 460px at 96% 0%, rgba(147, 51, 234, 0.15), transparent 62%);
   }
 
   .panel {
@@ -282,14 +282,14 @@
   }
 
   .gradient-text {
-    background: linear-gradient(100deg, #8fb5ff 0%, #b9a4ff 55%, #d8c7ff 100%);
+    background: linear-gradient(100deg, #ec4899 0%, #d946ef 55%, #a855f7 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .dark .gradient-text {
-    background: linear-gradient(100deg, #b5cdff 0%, #c4b5fd 55%, #e9d5ff 100%);
+    background: linear-gradient(100deg, #f472b6 0%, #e879f9 55%, #c084fc 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

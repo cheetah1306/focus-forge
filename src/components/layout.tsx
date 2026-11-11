@@ -378,67 +378,72 @@ function DesktopHeader() {
 
 function MobileNav({ onOpenMore }: { onOpenMore: () => void }) {
   return (
-    <nav className="safe-bottom fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--border)] bg-[var(--bg-elevated)]/95 px-3 pt-2 pb-1 backdrop-blur-2xl lg:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
-      <div className="grid grid-cols-5 items-end">
+    <nav className="safe-bottom fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--border)] bg-[var(--bg-elevated)]/95 px-2 pt-1.5 pb-2 backdrop-blur-2xl lg:hidden shadow-[0_-4px_24px_rgba(0,0,0,0.12)]">
+      <div className="mx-auto flex max-w-md items-center justify-around">
         {MOBILE_NAV.slice(0, 2).map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
               cn(
-                'flex flex-col items-center gap-1 py-1 text-[10px] font-semibold transition-colors active:scale-95',
+                'flex flex-1 flex-col items-center justify-center gap-0.5 py-1 text-[11px] font-semibold transition-all active:scale-95',
                 isActive ? 'text-brand-500 dark:text-brand-300' : 'muted',
               )
             }
           >
             {({ isActive }) => (
               <>
-                <span className={cn('flex h-8 w-13 items-center justify-center rounded-full transition-all duration-200', isActive ? 'bg-brand-500/15 text-brand-500 dark:text-brand-300 shadow-sm' : 'text-current')}>
+                <span className={cn('flex h-8 w-12 items-center justify-center rounded-full transition-all duration-200', isActive ? 'bg-brand-500/15 text-brand-500 dark:text-brand-300 shadow-sm' : 'text-current')}>
                   {item.icon}
                 </span>
-                <span>{item.label}</span>
+                <span className="truncate">{item.label}</span>
               </>
             )}
           </NavLink>
         ))}
-        <NavLink to="/focus" aria-label="Focus room" className="-mt-7 flex flex-col items-center group">
-          {({ isActive }) => (
-            <span
-              className={cn(
-                'flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 via-brand-600 to-violet-600 text-white shadow-fab shadow-brand-500/40 ring-4 ring-[var(--bg)] transition-transform duration-200 active:scale-90 group-hover:scale-105',
-                isActive && 'ring-brand-400/50',
-              )}
-            >
-              <Timer className="h-6 w-6" strokeWidth={2.4} />
-            </span>
-          )}
-        </NavLink>
+
+        <div className="flex flex-1 items-center justify-center -mt-6">
+          <NavLink to="/focus" aria-label="Focus room" className="group flex flex-col items-center">
+            {({ isActive }) => (
+              <span
+                className={cn(
+                  'flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 via-pink-500 to-purple-600 text-white shadow-fab shadow-pink-500/40 ring-4 ring-[var(--bg-elevated)] transition-all duration-200 active:scale-90 group-hover:scale-105',
+                  isActive && 'ring-brand-400/60 ring-offset-2',
+                )}
+              >
+                <Timer className="h-6 w-6" strokeWidth={2.4} />
+              </span>
+            )}
+          </NavLink>
+        </div>
+
         {MOBILE_NAV.slice(2).map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
               cn(
-                'flex flex-col items-center gap-1 py-1 text-[10px] font-semibold transition-colors active:scale-95',
+                'flex flex-1 flex-col items-center justify-center gap-0.5 py-1 text-[11px] font-semibold transition-all active:scale-95',
                 isActive ? 'text-brand-500 dark:text-brand-300' : 'muted',
               )
             }
           >
             {({ isActive }) => (
               <>
-                <span className={cn('flex h-8 w-13 items-center justify-center rounded-full transition-all duration-200', isActive ? 'bg-brand-500/15 text-brand-500 dark:text-brand-300 shadow-sm' : 'text-current')}>
+                <span className={cn('flex h-8 w-12 items-center justify-center rounded-full transition-all duration-200', isActive ? 'bg-brand-500/15 text-brand-500 dark:text-brand-300 shadow-sm' : 'text-current')}>
                   {item.icon}
                 </span>
-                <span>{item.label}</span>
+                <span className="truncate">{item.label}</span>
               </>
             )}
           </NavLink>
         ))}
-        <button onClick={onOpenMore} className="flex flex-col items-center gap-1 py-1 text-[10px] font-semibold muted transition-colors active:scale-95">
-          <span className="flex h-8 w-13 items-center justify-center rounded-full transition-all duration-200">
+
+        <button onClick={onOpenMore} className="flex flex-1 flex-col items-center justify-center gap-0.5 py-1 text-[11px] font-semibold muted transition-all active:scale-95">
+          <span className="flex h-8 w-12 items-center justify-center rounded-full transition-all duration-200">
             <Menu className="h-[20px] w-[20px]" />
           </span>
-          <span>More</span>
+          <span className="truncate">More</span>
         </button>
       </div>
     </nav>
