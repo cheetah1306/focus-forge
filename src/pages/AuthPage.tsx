@@ -5,6 +5,7 @@ import { ArrowRight, Check, Flame, Mail, ShieldCheck, Sparkles, Timer, TrendingU
 import { useApp } from '../lib/app-context'
 import { isSupabaseConfigured } from '../lib/supabase'
 import { Button, Field, Input, Ring } from '../components/ui'
+import { DoodleBackground } from '../components/DoodleBackground'
 import { toast } from '../lib/events'
 import { cn } from '../lib/utils'
 
@@ -50,7 +51,7 @@ function AuthBrandPanel() {
               transition={{ delay: 0.15 + i * 0.1 }}
               className="flex gap-3"
             >
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-brand-300">{f.icon}</span>
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-brand-300">{f.icon}</span>
               <div>
                 <p className="text-[13px] font-medium">{f.title}</p>
                 <p className="mt-0.5 text-[11.5px] leading-relaxed text-white/45">{f.body}</p>
@@ -207,7 +208,8 @@ export default function AuthPage({ initialMode = 'login' }: { initialMode?: Mode
   }
 
   return (
-    <div className="grid min-h-screen grid-cols-1 bg-[var(--bg)] lg:grid-cols-[1.05fr_1fr]">
+    <div className="relative grid min-h-screen grid-cols-1 bg-[var(--bg)] lg:grid-cols-[1.05fr_1fr]">
+      <DoodleBackground />
       <AuthBrandPanel />
       <div className="relative flex items-center justify-center px-5 py-10 sm:px-10">
         <div className="pointer-events-none absolute inset-0 bg-grid-fade opacity-60 lg:hidden" />
@@ -257,9 +259,9 @@ export default function AuthPage({ initialMode = 'login' }: { initialMode?: Mode
               </Field>
             )}
 
-            {error && <p className="rounded-lg border border-rose-500/25 bg-rose-500/10 px-3 py-2 text-[12px] text-rose-400">{error}</p>}
+            {error && <p className="rounded-2xl border border-rose-500/25 bg-rose-500/10 px-3 py-2 text-[12px] text-rose-400">{error}</p>}
             {message && (
-              <p className="flex items-start gap-2 rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-3 py-2 text-[12px] text-emerald-500 dark:text-emerald-300">
+              <p className="flex items-start gap-2 rounded-2xl border border-emerald-500/25 bg-emerald-500/10 px-3 py-2 text-[12px] text-emerald-500 dark:text-emerald-300">
                 <Check className="mt-0.5 h-3.5 w-3.5 shrink-0" /> {message}
               </p>
             )}

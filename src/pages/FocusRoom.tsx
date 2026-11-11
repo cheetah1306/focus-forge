@@ -36,14 +36,14 @@ const MODE_ICONS: Record<FocusMode, React.ReactNode> = {
 function AnimatedDigits({ seconds }: { seconds: number }) {
   const text = formatSeconds(seconds)
   return (
-    <span className="inline-flex items-baseline font-mono text-[54px] font-medium tabular-nums tracking-tight sm:text-[68px]">
+    <span className="inline-flex items-baseline font-display text-[58px] sm:text-[76px] md:text-[88px] font-bold tabular-nums tracking-tighter text-[var(--text)] drop-shadow-sm select-none">
       {text.split('').map((ch, i) => (
         <motion.span
           key={`${i}-${ch}`}
-          initial={{ y: 6, opacity: 0.4 }}
+          initial={{ y: 8, opacity: 0.3 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.18 }}
-          className={ch === ':' ? 'px-0.5 opacity-60' : ''}
+          transition={{ type: 'spring', stiffness: 450, damping: 30 }}
+          className={ch === ':' ? 'px-1 opacity-40 animate-pulse text-brand-500' : ''}
         >
           {ch}
         </motion.span>
@@ -117,69 +117,98 @@ function SetupPanel() {
         }
       />
 
-      <div className="grid gap-4 xl:grid-cols-[1.5fr_1fr]">
+      <div className="grid gap-5 xl:grid-cols-[1.5fr_1fr]">
         <div className="space-y-4">
-          <Card className="p-5">
-            <SectionHeader title="Focus mode" subtitle="Each mode changes the timer defaults, break rhythm and copy." />
-            <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          <Card className="p-6 rounded-[28px]">
+            <SectionHeader title="Focus mode" subtitle="Each mode configures timer defaults, break rhythms and protocol rules." />
+            <div className="mt-4 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
               {FOCUS_MODES.map((m) => (
                 <button
                   key={m.id}
                   onClick={() => setMode(m.id)}
                   className={cn(
-                    'relative overflow-hidden rounded-xl border p-3 text-left transition-all',
-                    mode === m.id ? 'border-brand-400/50 bg-brand-500/[0.09] shadow-[0_0_0_1px_rgba(91,140,255,0.25)]' : 'border-[var(--border)] surface-1 hover:surface-2',
+                    'calculator-key relative overflow-hidden rounded-[22px] border p-4 text-left transition-all duration-150',
+                    mode === m.id
+                      ? 'border-brand-500/60 bg-brand-500/12 shadow-[0_0_0_1px_rgba(91,140,255,0.35)]'
+                      : 'border-[var(--border)] surface-1 hover:surface-2',
                   )}
                 >
-                  <span className={cn('flex h-7 w-7 items-center justify-center rounded-lg', mode === m.id ? 'bg-brand-500/20 text-brand-300' : 'surface-2 muted')}>{MODE_ICONS[m.id]}</span>
-                  <p className="mt-2 text-xs font-semibold">{m.label}</p>
-                  <p className="mt-0.5 line-clamp-2 text-[10px] leading-relaxed muted">{m.description}</p>
-                  {mode === m.id && <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-brand-400" />}
+                  <div className="flex items-center justify-between">
+                    <span className={cn('flex h-8 w-8 items-center justify-center rounded-xl', mode === m.id ? 'bg-brand-500 text-white shadow-sm' : 'surface-2 muted')}>
+                      {MODE_ICONS[m.id]}
+                    </span>
+                    <Badge tone={mode === m.id ? 'brand' : 'neutral'}>{m.focus}m</Badge>
+                  </div>
+                  <p className="mt-3 text-sm font-bold tracking-tight">{m.label}</p>
+                  <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed muted">{m.description}</p>
+                  {mode === m.id && <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-brand-500 ring-4 ring-brand-500/20" />}
                 </button>
               ))}
             </div>
           </Card>
 
-          <Card className="relative overflow-hidden p-5 sm:p-6">
-            <div className="pointer-events-none absolute -right-20 -top-24 h-56 w-56 rounded-full bg-brand-500/10 blur-3xl" />
-            <div className="relative grid gap-6 md:grid-cols-[220px_1fr] md:items-center">
+          <Card className="relative overflow-hidden p-6 sm:p-8 rounded-[28px]">
+            <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-brand-500/15 blur-3xl" />
+            <div className="relative grid gap-7 md:grid-cols-[240px_1fr] md:items-center">
               <div className="flex justify-center">
-                <Ring progress={0} size={200} stroke={10}>
-                  <span className="text-[9.5px] font-semibold uppercase tracking-[0.16em] soft">Planned block</span>
-                  <span className="mt-1 font-display text-3xl font-semibold">{minutes}</span>
-                  <span className="text-[10px] muted">minutes</span>
-                  <span className="mt-2 text-[9.5px] soft">{modeInfo.break}m break after</span>
+                <Ring progress={0} size={220} stroke={12}>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] soft">Session Block</span>
+                  <span className="mt-1 font-display text-5xl font-extrabold tracking-tight text-brand-500 dark:text-brand-300">{minutes}</span>
+                  <span className="text-xs font-semibold muted">minutes</span>
+                  <span className="mt-2 text-[10px] font-bold text-emerald-500 dark:text-emerald-300 surface-1 px-3 py-0.5 rounded-full border border-[var(--border)]">
+                    {modeInfo.break}m break
+                  </span>
                 </Ring>
               </div>
-              <div>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {[15, 25, 30, 45, 50, 60, 90].map((d) => (
-                    <button
-                      key={d}
-                      onClick={() => setMinutes(d)}
-                      className={cn(
-                        'rounded-lg border px-2.5 py-1.5 text-[11px] font-semibold transition',
-                        minutes === d ? 'border-brand-400/50 bg-brand-500/15 text-brand-200' : 'border-[var(--border)] surface-1 muted hover:surface-2',
-                      )}
-                    >
-                      {d}m
-                    </button>
-                  ))}
-                  <div className="flex items-center gap-1">
-                    <NumberInput
-                      min={1}
-                      max={300}
-                      value={minutes}
-                      onValueChange={setMinutes}
-                      className="field-sm w-[74px] text-center"
-                    />
-                    <span className="text-[10px] soft">custom</span>
+              <div className="space-y-4">
+                <div>
+                  <label className="label mb-2">Duration Selector</label>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {[15, 25, 30, 45, 50, 60, 90].map((d) => (
+                      <button
+                        key={d}
+                        onClick={() => setMinutes(d)}
+                        className={cn(
+                          'calculator-key rounded-full px-4 py-2 text-xs sm:text-sm font-bold border transition-all duration-150',
+                          minutes === d
+                            ? 'border-brand-500 bg-brand-500 text-white shadow-fab shadow-brand-500/30'
+                            : 'border-[var(--border)] surface-1 muted hover:surface-2 hover:text-[var(--text)]',
+                        )}
+                      >
+                        {d}m
+                      </button>
+                    ))}
+                    <div className="flex items-center gap-1 surface-1 border border-[var(--border-strong)] rounded-full p-1 shadow-sm">
+                      <button
+                        type="button"
+                        onClick={() => setMinutes((m) => Math.max(1, m - 5))}
+                        className="calculator-key h-7 w-7 flex items-center justify-center rounded-full surface-2 text-xs font-bold hover:surface-3 text-[var(--text)]"
+                        title="Decrease 5 minutes"
+                      >
+                        -5
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setMinutes((m) => Math.min(300, m + 5))}
+                        className="calculator-key h-7 w-7 flex items-center justify-center rounded-full surface-2 text-xs font-bold hover:surface-3 text-[var(--text)]"
+                        title="Increase 5 minutes"
+                      >
+                        +5
+                      </button>
+                      <NumberInput
+                        min={1}
+                        max={300}
+                        value={minutes}
+                        onValueChange={setMinutes}
+                        className="field-sm w-[64px] text-center rounded-full font-bold border-0 bg-transparent py-0 h-7"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <Field label="Subject">
-                    <Select value={subjectId} onChange={(e) => { setSubjectId(e.target.value); setTaskId('') }}>
+                    <Select value={subjectId} onChange={(e) => { setSubjectId(e.target.value); setTaskId('') }} className="rounded-2xl">
                       <option value="">General study</option>
                       {data.subjects.map((s) => (
                         <option key={s.id} value={s.id}>
@@ -189,7 +218,7 @@ function SetupPanel() {
                     </Select>
                   </Field>
                   <Field label="Linked task (optional)">
-                    <Select value={taskId} onChange={(e) => setTaskId(e.target.value)}>
+                    <Select value={taskId} onChange={(e) => setTaskId(e.target.value)} className="rounded-2xl">
                       <option value="">No task</option>
                       {tasks.slice(0, 20).map((t) => (
                         <option key={t.id} value={t.id}>
@@ -199,27 +228,29 @@ function SetupPanel() {
                     </Select>
                   </Field>
                 </div>
-                <Field label="Session objective" className="mt-3" hint="Vague objectives invite distractions. Be specific.">
-                  <Input value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. Solve 12 integration problems from Unit 3" />
+                <Field label="Session objective" hint="Vague objectives invite distractions. Be specific.">
+                  <Input value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. Solve 12 integration problems from Unit 3" className="rounded-2xl" />
                 </Field>
 
-                <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-brand-400/25 bg-brand-500/[0.06] p-3">
-                  <input type="checkbox" checked={committed} onChange={(e) => setCommitted(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[#5b8cff]" />
+                <label className="flex cursor-pointer items-start gap-3.5 rounded-2xl border border-brand-500/30 bg-brand-500/[0.08] p-4 transition hover:bg-brand-500/12">
+                  <input type="checkbox" checked={committed} onChange={(e) => setCommitted(e.target.checked)} className="mt-0.5 h-4 w-4 rounded accent-brand-500" />
                   <span>
-                    <span className="flex items-center gap-1.5 text-[11.5px] font-semibold">
-                      <ShieldCheck className="h-3.5 w-3.5 text-brand-300" /> I commit to focusing on this task until the session ends.
+                    <span className="flex items-center gap-1.5 text-xs font-bold text-[var(--text)]">
+                      <ShieldCheck className="h-4 w-4 text-brand-500 dark:text-brand-300" /> I commit to focusing on this task until the session ends.
                     </span>
-                    <span className="mt-0.5 block text-[10.5px] leading-relaxed muted">
+                    <span className="mt-0.5 block text-[11px] leading-relaxed muted font-medium">
                       Ending early is allowed and never blocked — it is simply recorded as an interruption, not a completed session.
                     </span>
                   </span>
                 </label>
 
-                <div className="mt-4 flex items-center gap-2">
-                  <Button onClick={() => void start()} loading={starting} disabled={!committed} icon={<Play className="h-4 w-4" />} className="flex-1 sm:flex-none">
+                <div className="flex flex-wrap items-center gap-3 pt-1">
+                  <Button onClick={() => void start()} loading={starting} disabled={!committed} icon={<Play className="h-5 w-5" />} size="lg" className="h-14 px-8 text-base shadow-fab font-bold">
                     Start {minutes}-minute session
                   </Button>
-                  <span className="text-[10px] soft">Ends ≈ {new Date(Date.now() + minutes * 60000).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' })}</span>
+                  <span className="text-xs font-medium soft surface-1 px-3.5 py-2 rounded-full border border-[var(--border)]">
+                    Target completion ≈ {new Date(Date.now() + minutes * 60000).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' })}
+                  </span>
                 </div>
               </div>
             </div>
@@ -344,56 +375,93 @@ function ActiveSession() {
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr]">
-          <Card className="relative overflow-hidden p-5 sm:p-8">
+        <div className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
+          <Card className="relative overflow-hidden p-6 sm:p-10 rounded-[32px] shadow-lg">
             <div className="flex flex-col items-center">
-              <Ring progress={focus.progress} size={Math.min(340, typeof window !== 'undefined' ? window.innerWidth - 110 : 300)} stroke={12}>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] soft">{focus.paused ? 'Paused' : 'Remaining'}</p>
-                <AnimatedDigits seconds={focus.remainingSeconds} />
-                <p className="mt-1 text-[11px] muted">
-                  {formatSeconds(focus.elapsedSeconds)} elapsed · {pct}%
-                </p>
-                <div className="mt-3 flex items-center gap-1.5 rounded-full border border-[var(--border)] surface-1 px-2.5 py-1 text-[9.5px] muted">
-                  <span className={cn('h-1.5 w-1.5 rounded-full', focus.paused ? 'bg-amber-400' : 'bg-emerald-400')} />
-                  {focus.paused ? 'Timer paused — pause time excluded' : 'Timestamp engine live'}
-                </div>
-              </Ring>
+              <div className="relative my-2">
+                <Ring progress={focus.progress} size={Math.min(360, typeof window !== 'undefined' ? window.innerWidth - 60 : 320)} stroke={14}>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-brand-500 dark:text-brand-300">
+                    {focus.paused ? 'Timer Paused' : 'Focus Time'}
+                  </p>
+                  <div className="my-1">
+                    <AnimatedDigits seconds={focus.remainingSeconds} />
+                  </div>
+                  <p className="text-xs font-semibold muted">
+                    {formatSeconds(focus.elapsedSeconds)} elapsed · {pct}% completed
+                  </p>
+                  <div className="mt-3 flex items-center gap-2 rounded-full border border-[var(--border)] surface-1 px-3.5 py-1 text-[10px] font-semibold text-[var(--text)] shadow-sm">
+                    <span className={cn('h-2 w-2 rounded-full', focus.paused ? 'bg-amber-400' : 'bg-emerald-400 animate-pulse')} />
+                    {focus.paused ? 'Timer paused — pause excluded' : 'Timestamp engine live'}
+                  </div>
+                </Ring>
+              </div>
 
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              {/* Android Clock & Calculator Inspired Primary Controls */}
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                 {focus.paused ? (
-                  <Button size="lg" onClick={() => void focus.resume()} icon={<Play className="h-4 w-4" />}>
+                  <Button
+                    size="lg"
+                    onClick={() => void focus.resume()}
+                    icon={<Play className="h-5 w-5" />}
+                    className="h-16 px-8 sm:h-18 sm:px-10 rounded-full font-bold text-base shadow-fab bg-gradient-to-r from-brand-500 to-violet-600 active:scale-95 transition-transform"
+                  >
                     Resume focus
                   </Button>
                 ) : (
-                  <Button size="lg" variant="secondary" onClick={() => void focus.pause()} icon={<Pause className="h-4 w-4" />}>
-                    Pause
+                  <Button
+                    size="lg"
+                    variant="primary"
+                    onClick={() => void focus.pause()}
+                    icon={<Pause className="h-5 w-5" />}
+                    className="h-16 px-8 sm:h-18 sm:px-10 rounded-full font-bold text-base shadow-fab bg-gradient-to-r from-brand-500 to-violet-600 active:scale-95 transition-transform"
+                  >
+                    Pause session
                   </Button>
                 )}
-                <Button size="lg" variant="secondary" onClick={authorizedBreak} icon={<Coffee className="h-4 w-4" />} disabled={focus.paused}>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  onClick={authorizedBreak}
+                  icon={<Coffee className="h-4.5 w-4.5" />}
+                  disabled={focus.paused}
+                  className="h-14 px-6 rounded-full font-semibold active:scale-95"
+                >
                   Break
                 </Button>
-                <div className="flex items-center gap-1 rounded-xl border border-[var(--border-strong)] surface-1 p-1">
-                  <span className="px-2 text-[10px] soft">Extend</span>
-                  {[5, 10, 15].map((m) => (
-                    <button key={m} onClick={() => void focus.extend(m)} className="rounded-lg px-2 py-1.5 text-[11px] font-semibold transition hover:surface-2">
-                      +{m}
-                    </button>
-                  ))}
-                </div>
-                <Button size="lg" variant="danger" onClick={() => setEndOpen(true)} icon={<Square className="h-4 w-4" />}>
+                <Button
+                  size="lg"
+                  variant="danger"
+                  onClick={() => setEndOpen(true)}
+                  icon={<Square className="h-4.5 w-4.5" />}
+                  className="h-14 px-6 rounded-full font-semibold active:scale-95"
+                >
                   End session
                 </Button>
               </div>
 
-              <div className="mt-5 grid w-full max-w-md grid-cols-3 gap-2">
+              {/* Calculator-inspired quick time extender buttons */}
+              <div className="mt-5 flex items-center gap-1.5 rounded-full border border-[var(--border)] surface-1 p-1.5 shadow-sm">
+                <span className="px-3 text-[11px] font-bold uppercase tracking-wider soft">Extend</span>
+                {[5, 10, 15, 30].map((m) => (
+                  <button
+                    key={m}
+                    onClick={() => void focus.extend(m)}
+                    className="calculator-key rounded-full px-3.5 py-1.5 text-xs font-bold border border-transparent surface-2 hover:surface-3 text-[var(--text)] transition-colors"
+                  >
+                    +{m}m
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-6 grid w-full max-w-md grid-cols-3 gap-2.5">
                 {[
                   { label: 'Planned', value: formatMinutes(session.planned_minutes, true) },
                   { label: 'Elapsed', value: formatMinutes(focus.elapsedSeconds / 60, true) },
                   { label: 'Pauses', value: `${session.pauses.filter((p) => p.ended_at).length + (focus.paused ? 1 : 0)}` },
                 ].map((s) => (
-                  <div key={s.label} className="rounded-xl border border-[var(--border)] surface-1 px-2.5 py-2 text-center">
-                    <p className="text-[9px] uppercase tracking-wider soft">{s.label}</p>
-                    <p className="mt-0.5 text-xs font-semibold">{s.value}</p>
+                  <div key={s.label} className="rounded-2xl border border-[var(--border)] surface-1 px-3 py-2.5 text-center shadow-sm">
+                    <p className="text-[10px] font-bold uppercase tracking-wider soft">{s.label}</p>
+                    <p className="mt-1 font-display text-sm font-bold">{s.value}</p>
                   </div>
                 ))}
               </div>
@@ -480,7 +548,7 @@ function ActiveSession() {
           </div>
           <div>
             <span className="label">Reason for interruption</span>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {[
                 ['distraction', 'Distraction'],
                 ['instagram', 'Instagram'],
@@ -493,7 +561,12 @@ function ActiveSession() {
                 <button
                   key={value}
                   onClick={() => setReason(value)}
-                  className={cn('rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition', reason === value ? 'border-rose-400/40 bg-rose-500/15 text-rose-300' : 'border-[var(--border)] surface-1 muted hover:surface-2')}
+                  className={cn(
+                    'calculator-key rounded-full px-4 py-2 text-xs font-bold border transition-all duration-150',
+                    reason === value
+                      ? 'border-rose-500/60 bg-rose-500/20 text-rose-500 dark:text-rose-300 shadow-sm'
+                      : 'border-[var(--border)] surface-1 muted hover:surface-2 hover:text-[var(--text)]',
+                  )}
                 >
                   {label}
                 </button>
@@ -501,7 +574,7 @@ function ActiveSession() {
             </div>
           </div>
           <Field label="Note (optional)">
-            <Input value={note} onChange={(e) => setNote(e.target.value)} placeholder="What pulled you away?" />
+            <Input value={note} onChange={(e) => setNote(e.target.value)} placeholder="What pulled you away?" className="rounded-2xl" />
           </Field>
         </div>
       </Modal>
@@ -522,48 +595,50 @@ export default function FocusRoom() {
       ) : (
         <>
           <SetupPanel />
-          <div className="mt-4 grid gap-4 lg:grid-cols-2">
-            <Card className="p-5">
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            <Card className="p-6 rounded-[28px]">
               <SectionHeader title="Recent sessions" subtitle="Completed and interrupted blocks" action={<Badge tone="neutral">{stats.completedSessions} today</Badge>} />
               {recent.length === 0 ? (
-                <p className="mt-4 rounded-xl border border-dashed border-[var(--border-strong)] px-3 py-6 text-center text-[11px] muted">
+                <p className="mt-4 rounded-2xl border border-dashed border-[var(--border-strong)] px-4 py-8 text-center text-xs muted">
                   No sessions yet. Your first completed block will appear here with its exact duration.
                 </p>
               ) : (
-                <div className="mt-3 space-y-1.5">
+                <div className="mt-4 space-y-2">
                   {recent.map((s) => {
                     const subject = data.subjects.find((x) => x.id === s.subject_id)
                     return (
-                      <div key={s.id} className="flex items-center gap-2.5 rounded-lg border border-[var(--border)] surface-1 px-2.5 py-2">
-                        <span className={cn('h-1.5 w-1.5 rounded-full', s.status === 'completed' ? 'bg-emerald-400' : 'bg-rose-400')} />
+                      <div key={s.id} className="flex items-center gap-3 rounded-2xl border border-[var(--border)] surface-1 px-3.5 py-2.5 shadow-sm">
+                        <span className={cn('h-2.5 w-2.5 rounded-full shrink-0', s.status === 'completed' ? 'bg-emerald-500' : 'bg-rose-500')} />
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-[11px] font-medium">{s.topic ?? subject?.name ?? 'Focus session'}</p>
-                          <p className="text-[9.5px] muted">
+                          <p className="truncate text-xs font-bold">{s.topic ?? subject?.name ?? 'Focus session'}</p>
+                          <p className="text-[10px] muted">
                             {new Date(s.started_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })} · {s.status}
                           </p>
                         </div>
-                        <span className="text-[10.5px] font-semibold">{formatMinutes(sessionSeconds(s) / 60, true)}</span>
+                        <span className="text-xs font-bold text-brand-500 dark:text-brand-300 surface-2 px-2.5 py-1 rounded-full">
+                          {formatMinutes(sessionSeconds(s) / 60, true)}
+                        </span>
                       </div>
                     )
                   })}
                 </div>
               )}
             </Card>
-            <Card className="p-5">
+            <Card className="p-6 rounded-[28px]">
               <SectionHeader title="Focus score breakdown" subtitle="Transparent by design — no hidden formulas" />
-              <div className="mt-3 space-y-2.5">
+              <div className="mt-4 space-y-3">
                 {stats.scoreParts.map((p) => (
-                  <div key={p.label}>
-                    <div className="flex items-center justify-between text-[10.5px]">
-                      <span className="muted">{p.label}</span>
-                      <span className="font-medium">
+                  <div key={p.label} className="surface-1 border border-[var(--border)] rounded-2xl p-3 shadow-sm">
+                    <div className="flex items-center justify-between text-xs font-semibold">
+                      <span>{p.label}</span>
+                      <span className="text-brand-500 dark:text-brand-300">
                         {p.earned}/{p.max}
                       </span>
                     </div>
-                    <div className="mt-1 h-1 overflow-hidden rounded-full surface-2">
-                      <div className="h-full rounded-full bg-gradient-to-r from-brand-400 to-violet-400" style={{ width: `${(p.earned / p.max) * 100}%` }} />
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full surface-2">
+                      <div className="h-full rounded-full bg-gradient-to-r from-brand-500 to-violet-500" style={{ width: `${(p.earned / p.max) * 100}%` }} />
                     </div>
-                    <p className="mt-0.5 text-[9.5px] soft">{p.detail}</p>
+                    <p className="mt-1 text-[10px] soft">{p.detail}</p>
                   </div>
                 ))}
               </div>

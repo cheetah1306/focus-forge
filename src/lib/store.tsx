@@ -98,7 +98,7 @@ export function useAppStore() {
   const today = todayKey(timezone)
 
   const patchDataset = useCallback((fn: (d: Dataset) => Dataset) => {
-    setState((s) => ({ ...s, data: sortDataset(fn(s.data)) }))
+    setState((s) => ({ ...s, data: fn(s.data) }))
   }, [])
 
   /* ---------------------------- generic helpers --------------------------- */

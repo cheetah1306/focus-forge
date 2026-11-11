@@ -77,16 +77,27 @@ function ThemeSync() {
   const { prefs } = useApp()
   useEffect(() => {
     const root = document.documentElement
-    const theme = prefs?.theme ?? 'dark'
-    const apply = () => {
-      const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-      root.classList.toggle('dark', isDark)
-      root.classList.toggle('reduce-motion', Boolean(prefs?.reduced_motion))
+    const themeMode = prefs?.theme ?? 'dark'
+
+    const applyTheme = (isDark: boolean) => {
+      if (isDark) {
+        root.classList.add('dark')
+      } else {
+        root.classList.remove('dark')
+      }
     }
-    apply()
-    const media = window.matchMedia('(prefers-color-scheme: dark)')
-    media.addEventListener('change', apply)
-    return () => media.removeEventListener('change', apply)
+
+    if (themeMode === 'system') {
+      const media = window.matchMedia('(prefers-color-scheme: dark)')
+      applyTheme(media.matches)
+      const handler = (e: MediaQueryListEvent) => applyTheme(e.matches)
+      media.addEventListener('change', handler)
+      return () => media.removeEventListener('change', handler)
+    } else {
+      applyTheme(themeMode === 'dark')
+    }
+
+    root.classList.toggle('reduce-motion', Boolean(prefs?.reduced_motion))
   }, [prefs?.theme, prefs?.reduced_motion])
   return null
 }

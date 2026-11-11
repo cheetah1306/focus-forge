@@ -271,7 +271,7 @@ export default function Subjects() {
       >
         {selected && (
           <div className="space-y-5">
-            <div className="flex flex-wrap items-center gap-3 rounded-xl border border-[var(--border)] surface-1 p-3">
+            <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-[var(--border)] surface-1 p-3">
               <Ring progress={(currentStats?.progress ?? 0) / 100} size={64} stroke={5}>
                 <span className="text-[11px] font-semibold">{currentStats?.progress ?? 0}%</span>
               </Ring>
@@ -313,7 +313,7 @@ export default function Subjects() {
             </div>
 
             {units.length === 0 ? (
-              <p className="rounded-xl border border-dashed border-[var(--border-strong)] px-4 py-6 text-center text-[11px] muted">
+              <p className="rounded-2xl border border-dashed border-[var(--border-strong)] px-4 py-6 text-center text-[11px] muted">
                 No units yet. Add unit names above — topics can be added inline as you go.
               </p>
             ) : (
@@ -322,7 +322,7 @@ export default function Subjects() {
                   const topics = data.topics.filter((t) => t.unit_id === unit.id)
                   const done = topics.filter((t) => t.status === 'completed').length
                   return (
-                    <div key={unit.id} className="rounded-xl border border-[var(--border)] surface-1">
+                    <div key={unit.id} className="rounded-2xl border border-[var(--border)] surface-1">
                       <div className="flex items-center gap-2 border-b border-[var(--border)] px-3 py-2.5">
                         <Layers className="h-3.5 w-3.5 text-brand-300" />
                         <p className="min-w-0 flex-1 truncate text-[12px] font-semibold">{unit.name}</p>
@@ -388,7 +388,7 @@ export default function Subjects() {
               </div>
             )}
 
-            <div className="rounded-xl border border-[var(--border)] p-3">
+            <div className="rounded-2xl border border-[var(--border)] p-3">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="flex items-center gap-1.5 text-[11.5px] font-semibold">
@@ -418,7 +418,7 @@ export default function Subjects() {
               {resources.length > 0 && (
                 <div className="mt-2 space-y-1">
                   {resources.map((r) => (
-                    <div key={r.id} className="flex items-center gap-2 rounded-lg border border-[var(--border)] px-2.5 py-1.5">
+                    <div key={r.id} className="flex items-center gap-2 rounded-xl border border-[var(--border)] px-2.5 py-1.5">
                       <FileText className="h-3.5 w-3.5 text-brand-300" />
                       <a href={r.url} target="_blank" rel="noreferrer" className="min-w-0 flex-1 truncate text-[11px] hover:underline">
                         {r.name}
@@ -433,7 +433,7 @@ export default function Subjects() {
               )}
             </div>
 
-            <div className="rounded-xl border border-brand-400/20 bg-brand-500/[0.06] p-3 text-[10.5px] leading-relaxed muted">
+            <div className="rounded-2xl border border-brand-400/20 bg-brand-500/[0.06] p-3 text-[10.5px] leading-relaxed muted">
               <p className="flex items-center gap-1.5 font-semibold text-brand-300">
                 <CheckCircle2 className="h-3.5 w-3.5" /> How progress is calculated
               </p>

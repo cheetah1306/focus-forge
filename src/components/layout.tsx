@@ -55,16 +55,24 @@ const NAV: NavItem[] = [
 
 const GROUP_ORDER = ['Study', 'Academics', 'Insight']
 
+// 4 nav items for the mobile bottom bar (excluding the central Focus FAB)
+const MOBILE_NAV: NavItem[] = [
+  { to: '/', label: 'Home', short: 'Home', icon: <LayoutDashboard className="h-[18px] w-[18px]" />, group: 'Study' },
+  { to: '/timetable', label: 'Plan', short: 'Plan', icon: <CalendarDays className="h-[18px] w-[18px]" />, group: 'Study' },
+  { to: '/analytics', label: 'Stats', short: 'Stats', icon: <BarChart3 className="h-[18px] w-[18px]" />, group: 'Insight' },
+  { to: '/planner', label: 'Tasks', short: 'Tasks', icon: <ListChecks className="h-[18px] w-[18px]" />, group: 'Study' },
+]
+
 function Logo({ compact }: { compact?: boolean }) {
   return (
-    <Link to="/" className="flex items-center gap-2.5">
-      <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-400 via-brand-500 to-violet-500 shadow-glow">
-        <Flame className="h-4.5 w-4.5 text-white" strokeWidth={2.4} />
+    <Link to="/" className="flex items-center gap-3 group">
+      <span className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 via-brand-600 to-violet-600 shadow-fab shadow-brand-500/30 transition-transform duration-200 group-hover:scale-105 active:scale-95">
+        <Flame className="h-5 w-5 text-white" strokeWidth={2.4} />
       </span>
       {!compact && (
         <span className="flex flex-col leading-none">
-          <span className="font-display text-[15px] font-bold tracking-[0.14em]">FOCUSFORGE</span>
-          <span className="mt-1 text-[9px] font-medium uppercase tracking-[0.22em] soft">Study OS</span>
+          <span className="font-display text-[16px] font-bold tracking-[0.12em]">FOCUSFORGE</span>
+          <span className="mt-1 text-[9.5px] font-bold uppercase tracking-[0.24em] text-brand-500 dark:text-brand-300">Study OS</span>
         </span>
       )}
     </Link>
@@ -83,10 +91,10 @@ export function PageHeader({
   eyebrow?: string
 }) {
   return (
-    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
       <div className="min-w-0">
-        {eyebrow && <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-300">{eyebrow}</p>}
-        <h1 className="font-display text-[22px] font-semibold tracking-tight sm:text-2xl">{title}</h1>
+        {eyebrow && <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-300">{eyebrow}</p>}
+        <h1 className="font-display text-[20px] font-semibold tracking-tight sm:text-2xl sm:tracking-tighter">{title}</h1>
         {description && <p className="mt-1 max-w-2xl text-[13px] muted leading-relaxed">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
@@ -115,12 +123,12 @@ function NotificationBell() {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--border)] surface-1 muted transition hover:text-[var(--text)]"
+        className="relative flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] surface-1 muted transition hover:text-[var(--text)] active:scale-95 shadow-sm"
         aria-label="Notifications"
       >
-        <Bell className="h-4 w-4" />
+        <Bell className="h-4.5 w-4.5" />
         {unread > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[9px] font-bold text-white">
+          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[9px] font-bold text-white shadow-sm">
             {unread > 9 ? '9+' : unread}
           </span>
         )}
@@ -128,23 +136,23 @@ function NotificationBell() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98 }}
-            transition={{ duration: 0.16 }}
-            className="absolute right-0 top-11 z-50 w-[330px] overflow-hidden rounded-2xl border border-[var(--border-strong)] bg-[var(--panel-solid)] shadow-2xl"
+            exit={{ opacity: 0, y: -6, scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+            className="absolute right-0 top-12 z-50 w-[340px] overflow-hidden rounded-[28px] border border-[var(--border-strong)] bg-[var(--panel-solid)] shadow-2xl"
           >
-            <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
-              <span className="text-xs font-semibold uppercase tracking-wider soft">Notifications</span>
+            <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-3.5 surface-1">
+              <span className="text-xs font-bold uppercase tracking-wider soft">Notifications</span>
               {unread > 0 && (
-                <button onClick={() => void actions.markAllNotificationsRead()} className="text-[11px] font-medium text-brand-300 hover:underline">
+                <button onClick={() => void actions.markAllNotificationsRead()} className="text-[11px] font-semibold text-brand-400 hover:underline">
                   Mark all read
                 </button>
               )}
             </div>
             <div className="max-h-80 overflow-y-auto">
               {data.notifications.length === 0 ? (
-                <p className="px-4 py-8 text-center text-xs muted">No notifications yet. Completed sessions, deadlines and achievements appear here.</p>
+                <p className="px-5 py-8 text-center text-xs muted">No notifications yet. Completed sessions, deadlines and achievements appear here.</p>
               ) : (
                 data.notifications.slice(0, 12).map((n) => (
                   <button
@@ -154,11 +162,11 @@ function NotificationBell() {
                       if (n.link) navigate(n.link)
                       setOpen(false)
                     }}
-                    className={cn('flex w-full gap-3 border-b border-[var(--border)] px-4 py-3 text-left transition hover:surface-1', !n.read && 'bg-brand-500/[0.06]')}
+                    className={cn('flex w-full gap-3 border-b border-[var(--border)] px-5 py-3.5 text-left transition hover:surface-1', !n.read && 'bg-brand-500/[0.08]')}
                   >
-                    <span className={cn('mt-1 h-1.5 w-1.5 shrink-0 rounded-full', n.read ? 'bg-transparent' : 'bg-brand-400')} />
+                    <span className={cn('mt-1.5 h-2 w-2 shrink-0 rounded-full', n.read ? 'bg-transparent' : 'bg-brand-500')} />
                     <span className="min-w-0">
-                      <span className="block text-xs font-medium leading-snug">{n.title}</span>
+                      <span className="block text-xs font-semibold leading-snug">{n.title}</span>
                       <span className="mt-0.5 block text-[11px] muted leading-snug">{n.body}</span>
                       <span className="mt-1 block text-[10px] soft">
                         {new Date(n.created_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}
@@ -199,7 +207,7 @@ function AccountMenu() {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border border-[var(--border-strong)] bg-gradient-to-br from-brand-500/30 to-violet-500/30 text-[11px] font-bold tracking-wide"
+        className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-[var(--border-strong)] bg-gradient-to-br from-brand-500/20 to-violet-500/20 text-xs font-bold tracking-wide active:scale-95 transition-transform shadow-sm"
         aria-label="Account menu"
       >
         {data.profile?.avatar_url ? <img src={data.profile.avatar_url} alt="" className="h-full w-full object-cover" /> : initials || 'FF'}
@@ -207,22 +215,22 @@ function AccountMenu() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98 }}
-            transition={{ duration: 0.16 }}
-            className="absolute right-0 top-11 z-50 w-60 overflow-hidden rounded-2xl border border-[var(--border-strong)] bg-[var(--panel-solid)] shadow-2xl"
+            exit={{ opacity: 0, y: -6, scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+            className="absolute right-0 top-12 z-50 w-64 overflow-hidden rounded-[28px] border border-[var(--border-strong)] bg-[var(--panel-solid)] shadow-2xl"
           >
-            <div className="border-b border-[var(--border)] px-4 py-3">
-              <p className="truncate text-sm font-semibold">{name}</p>
+            <div className="border-b border-[var(--border)] px-5 py-4 surface-1">
+              <p className="truncate text-sm font-bold tracking-tight">{name}</p>
               <p className="truncate text-[11px] muted">{user?.email ?? 'Local workspace'}</p>
             </div>
-            <Link to="/settings" onClick={() => setOpen(false)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs muted transition hover:surface-1 hover:text-[var(--text)]">
+            <Link to="/settings" onClick={() => setOpen(false)} className="flex items-center gap-3 px-5 py-3 text-xs font-medium muted transition hover:surface-1 hover:text-[var(--text)]">
               <SettingsIcon className="h-4 w-4" /> Settings & profile
             </Link>
             <button
               onClick={() => void actions.signOut()}
-              className="flex w-full items-center gap-2.5 border-t border-[var(--border)] px-4 py-2.5 text-left text-xs text-rose-400 transition hover:bg-rose-500/10"
+              className="flex w-full items-center gap-3 border-t border-[var(--border)] px-5 py-3 text-left text-xs font-semibold text-rose-500 dark:text-rose-400 transition hover:bg-rose-500/10"
             >
               <LogOut className="h-4 w-4" /> Sign out
             </button>
@@ -238,30 +246,31 @@ function Sidebar({ onOpenMore }: { onOpenMore: () => void }) {
   const today = dayStats(data, new Date().toISOString().slice(0, 10), prefs)
   const challenge = challengeMetrics(data, prefs)
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-[248px] flex-col border-r border-[var(--border)] bg-[var(--bg-elevated)]/70 px-3 backdrop-blur-xl lg:flex">
-      <div className="flex h-16 items-center px-2">
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-[256px] flex-col border-r border-[var(--border)] bg-[var(--bg-elevated)]/80 px-3.5 backdrop-blur-xl lg:flex">
+      <div className="flex h-18 items-center px-2">
         <Logo />
       </div>
-      <nav className="no-scrollbar mt-2 flex-1 overflow-y-auto pb-4">
+      <nav className="no-scrollbar mt-3 flex-1 overflow-y-auto pb-4 space-y-5">
         {GROUP_ORDER.map((group) => (
-          <div key={group} className="mb-5">
-            <p className="mb-1.5 px-2.5 text-[9px] font-semibold uppercase tracking-[0.2em] soft">{group}</p>
-            <div className="space-y-0.5">
+          <div key={group}>
+            <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-500 dark:text-brand-300">{group}</p>
+            <div className="space-y-1">
               {NAV.filter((n) => n.group === group).map((item) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
                     cn(
-                      'group relative flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-medium transition-all',
-                      isActive ? 'bg-brand-500/[0.12] text-[var(--text)]' : 'muted hover:surface-1 hover:text-[var(--text)]',
+                      'group relative flex items-center gap-3 rounded-full px-3.5 py-2.5 text-[13px] font-semibold transition-all duration-150 active:scale-[0.98]',
+                      isActive
+                        ? 'bg-brand-500/15 text-brand-600 dark:text-brand-300 border border-brand-500/25 shadow-sm'
+                        : 'muted hover:surface-1 hover:text-[var(--text)]',
                     )
                   }
                 >
                   {({ isActive }) => (
                     <>
-                      {isActive && <motion.span layoutId="nav-active" className="absolute left-0 top-1/2 h-5 w-[2.5px] -translate-y-1/2 rounded-full bg-brand-400" />}
-                      <span className={cn('transition-colors', isActive ? 'text-brand-300' : 'soft group-hover:text-[var(--text-muted)]')}>{item.icon}</span>
+                      <span className={cn('transition-colors', isActive ? 'text-brand-500 dark:text-brand-300' : 'soft group-hover:text-[var(--text)]')}>{item.icon}</span>
                       {item.label}
                     </>
                   )}
@@ -270,48 +279,54 @@ function Sidebar({ onOpenMore }: { onOpenMore: () => void }) {
             </div>
           </div>
         ))}
-        <div className="mb-1.5 px-2.5 text-[9px] font-semibold uppercase tracking-[0.2em] soft">System</div>
-        <NavLink
-          to="/settings"
-          className={({ isActive }) =>
-            cn(
-              'flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-medium transition-all',
-              isActive ? 'bg-brand-500/[0.12] text-[var(--text)]' : 'muted hover:surface-1 hover:text-[var(--text)]',
-            )
-          }
-        >
-          <SettingsIcon className="h-[18px] w-[18px]" /> Settings
-        </NavLink>
-        <button onClick={onOpenMore} className="mt-1 flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-medium muted transition hover:surface-1 hover:text-[var(--text)]">
-          <Menu className="h-[18px] w-[18px]" /> All sections
-        </button>
+        <div>
+          <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-500 dark:text-brand-300">System</p>
+          <div className="space-y-1">
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                cn(
+                  'flex items-center gap-3 rounded-full px-3.5 py-2.5 text-[13px] font-semibold transition-all duration-150 active:scale-[0.98]',
+                  isActive
+                    ? 'bg-brand-500/15 text-brand-600 dark:text-brand-300 border border-brand-500/25 shadow-sm'
+                    : 'muted hover:surface-1 hover:text-[var(--text)]',
+                )
+              }
+            >
+              <SettingsIcon className="h-[18px] w-[18px]" /> Settings
+            </NavLink>
+            <button onClick={onOpenMore} className="flex w-full items-center gap-3 rounded-full px-3.5 py-2.5 text-[13px] font-semibold muted transition hover:surface-1 hover:text-[var(--text)] active:scale-[0.98]">
+              <Menu className="h-[18px] w-[18px]" /> All sections
+            </button>
+          </div>
+        </div>
       </nav>
 
-      <div className="mb-3 rounded-2xl border border-[var(--border)] surface-1 p-3">
+      <div className="mb-3 rounded-[28px] border border-[var(--border)] surface-1 p-4 shadow-sm">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-semibold uppercase tracking-wider soft">Today</span>
+          <span className="text-[10.5px] font-bold uppercase tracking-wider soft">Today's Focus</span>
           <Badge tone={today.minutes >= today.targetMinutes ? 'success' : 'neutral'}>{Math.round((today.minutes / Math.max(1, today.targetMinutes)) * 100)}%</Badge>
         </div>
-        <div className="mt-2 flex items-end justify-between">
-          <span className="font-display text-lg font-semibold">{formatMinutes(today.minutes, true)}</span>
-          <span className="text-[10px] muted">/ {formatMinutes(today.targetMinutes, true)}</span>
+        <div className="mt-2.5 flex items-baseline justify-between">
+          <span className="font-display text-xl font-bold tracking-tight">{formatMinutes(today.minutes, true)}</span>
+          <span className="text-[11px] font-medium muted">/ {formatMinutes(today.targetMinutes, true)}</span>
         </div>
-        <ProgressBar value={today.minutes / Math.max(1, today.targetMinutes)} height="h-1.5" className="mt-2" />
-        <div className="mt-3 flex items-center justify-between text-[10px] muted">
-          <span className="flex items-center gap-1">
-            <Flame className="h-3 w-3 text-amber-400" /> {challenge.streak} day streak
+        <ProgressBar value={today.minutes / Math.max(1, today.targetMinutes)} height="h-2" className="mt-2.5" />
+        <div className="mt-3 flex items-center justify-between text-[11px] font-medium muted">
+          <span className="flex items-center gap-1.5">
+            <Flame className="h-3.5 w-3.5 text-amber-500 dark:text-amber-400" /> {challenge.streak}d streak
           </span>
           <span>Day {challenge.currentDay}/{challenge.totalDays || 30}</span>
         </div>
       </div>
 
-      <div className="mb-3 flex items-center gap-2 rounded-xl border border-[var(--border)] px-2.5 py-2">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500/30 to-violet-500/30 text-[10px] font-bold">
+      <div className="mb-3 flex items-center gap-2.5 rounded-full border border-[var(--border)] surface-1 px-3 py-2 shadow-sm">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-violet-600 text-[11px] font-bold text-white shadow-sm">
           {(data.profile?.full_name ?? 'S')[0]?.toUpperCase()}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[11px] font-medium">{data.profile?.full_name ?? 'Student'}</p>
-          <p className="truncate text-[9px] soft">{data.profile?.semester ? `Sem ${data.profile.semester}` : 'Semester not set'}</p>
+          <p className="truncate text-xs font-semibold leading-tight">{data.profile?.full_name ?? 'Student'}</p>
+          <p className="truncate text-[10px] soft">{data.profile?.semester ? `Semester ${data.profile.semester}` : 'Semester not set'}</p>
         </div>
       </div>
     </aside>
@@ -320,7 +335,7 @@ function Sidebar({ onOpenMore }: { onOpenMore: () => void }) {
 
 function MobileHeader() {
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--border)] bg-[var(--bg)]/85 px-4 backdrop-blur-xl lg:hidden">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-elevated)]/90 px-4 backdrop-blur-xl lg:hidden">
       <Logo />
       <div className="flex items-center gap-2">
         <NotificationBell />
@@ -338,20 +353,20 @@ function DesktopHeader() {
   const title = current?.label ?? (location.pathname === '/settings' ? 'Settings' : 'FOCUSFORGE')
   const today = dayStats(data, new Date().toISOString().slice(0, 10), prefs)
   return (
-    <header className="sticky top-0 z-30 hidden h-16 items-center justify-between gap-4 border-b border-[var(--border)] bg-[var(--bg)]/80 px-6 backdrop-blur-xl lg:flex">
-      <div className="flex items-center gap-2 text-sm">
-        <span className="soft">{greetingForHour(new Date().getHours())}</span>
-        <ChevronRight className="h-3.5 w-3.5 soft" />
-        <span className="font-medium">{title}</span>
+    <header className="sticky top-0 z-30 hidden h-16 items-center justify-between gap-4 border-b border-[var(--border)] bg-[var(--bg-elevated)]/85 px-6 backdrop-blur-xl lg:flex">
+      <div className="flex items-center gap-2.5 text-sm font-semibold">
+        <span className="soft font-medium">{greetingForHour(new Date().getHours())}</span>
+        <ChevronRight className="h-4 w-4 soft" />
+        <span className="font-bold tracking-tight">{title}</span>
       </div>
-      <div className="flex items-center gap-2.5">
-        <div className="hidden items-center gap-2 rounded-xl border border-[var(--border)] surface-1 px-3 py-1.5 xl:flex">
-          <Target className="h-3.5 w-3.5 text-brand-300" />
-          <span className="text-[11px] muted">Today</span>
-          <span className="text-[11px] font-semibold">{formatMinutes(today.minutes, true)}</span>
-          <span className="text-[11px] soft">/ {formatMinutes(today.targetMinutes, true)}</span>
+      <div className="flex items-center gap-3">
+        <div className="hidden items-center gap-2 rounded-full border border-[var(--border)] surface-1 px-4 py-2 xl:flex shadow-sm">
+          <Target className="h-4 w-4 text-brand-500 dark:text-brand-300" />
+          <span className="text-xs muted">Today</span>
+          <span className="text-xs font-bold">{formatMinutes(today.minutes, true)}</span>
+          <span className="text-xs soft">/ {formatMinutes(today.targetMinutes, true)}</span>
         </div>
-        <Button size="sm" icon={<Plus className="h-3.5 w-3.5" />} onClick={() => navigate('/focus')} className="h-9 rounded-xl px-3.5">
+        <Button size="md" icon={<Plus className="h-4 w-4" />} onClick={() => navigate('/focus')}>
           New session
         </Button>
         <NotificationBell />
@@ -361,35 +376,40 @@ function DesktopHeader() {
   )
 }
 
-const MOBILE_NAV = [
-  { to: '/', label: 'Home', icon: <LayoutDashboard className="h-[19px] w-[19px]" /> },
-  { to: '/timetable', label: 'Plan', icon: <CalendarDays className="h-[19px] w-[19px]" /> },
-  { to: '/analytics', label: 'Stats', icon: <BarChart3 className="h-[19px] w-[19px]" /> },
-]
-
 function MobileNav({ onOpenMore }: { onOpenMore: () => void }) {
   return (
-    <nav className="safe-bottom fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--border)] bg-[var(--bg-elevated)]/92 px-2 pt-1.5 backdrop-blur-xl lg:hidden">
+    <nav className="safe-bottom fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--border)] bg-[var(--bg-elevated)]/95 px-3 pt-2 pb-1 backdrop-blur-2xl lg:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
       <div className="grid grid-cols-5 items-end">
         {MOBILE_NAV.slice(0, 2).map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
-            className={({ isActive }) => cn('flex flex-col items-center gap-1 py-1 text-[9.5px] font-medium', isActive ? 'text-brand-300' : 'muted')}
+            className={({ isActive }) =>
+              cn(
+                'flex flex-col items-center gap-1 py-1 text-[10px] font-semibold transition-colors active:scale-95',
+                isActive ? 'text-brand-500 dark:text-brand-300' : 'muted',
+              )
+            }
           >
-            {item.icon}
-            {item.label}
+            {({ isActive }) => (
+              <>
+                <span className={cn('flex h-8 w-13 items-center justify-center rounded-full transition-all duration-200', isActive ? 'bg-brand-500/15 text-brand-500 dark:text-brand-300 shadow-sm' : 'text-current')}>
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+              </>
+            )}
           </NavLink>
         ))}
-        <NavLink to="/focus" aria-label="Focus room" className="-mt-6 flex flex-col items-center">
+        <NavLink to="/focus" aria-label="Focus room" className="-mt-7 flex flex-col items-center group">
           {({ isActive }) => (
             <span
               className={cn(
-                'flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-br from-brand-400 to-violet-500 text-white shadow-[0_10px_30px_-8px_rgba(59,108,255,0.8)] transition-transform active:scale-95',
-                isActive && 'ring-2 ring-brand-300/50',
+                'flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 via-brand-600 to-violet-600 text-white shadow-fab shadow-brand-500/40 ring-4 ring-[var(--bg)] transition-transform duration-200 active:scale-90 group-hover:scale-105',
+                isActive && 'ring-brand-400/50',
               )}
             >
-              <Timer className="h-5 w-5" />
+              <Timer className="h-6 w-6" strokeWidth={2.4} />
             </span>
           )}
         </NavLink>
@@ -397,15 +417,28 @@ function MobileNav({ onOpenMore }: { onOpenMore: () => void }) {
           <NavLink
             key={item.to}
             to={item.to}
-            className={({ isActive }) => cn('flex flex-col items-center gap-1 py-1 text-[9.5px] font-medium', isActive ? 'text-brand-300' : 'muted')}
+            className={({ isActive }) =>
+              cn(
+                'flex flex-col items-center gap-1 py-1 text-[10px] font-semibold transition-colors active:scale-95',
+                isActive ? 'text-brand-500 dark:text-brand-300' : 'muted',
+              )
+            }
           >
-            {item.icon}
-            {item.label}
+            {({ isActive }) => (
+              <>
+                <span className={cn('flex h-8 w-13 items-center justify-center rounded-full transition-all duration-200', isActive ? 'bg-brand-500/15 text-brand-500 dark:text-brand-300 shadow-sm' : 'text-current')}>
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+              </>
+            )}
           </NavLink>
         ))}
-        <button onClick={onOpenMore} className="flex flex-col items-center gap-1 py-1 text-[9.5px] font-medium muted">
-          <Menu className="h-[19px] w-[19px]" />
-          More
+        <button onClick={onOpenMore} className="flex flex-col items-center gap-1 py-1 text-[10px] font-semibold muted transition-colors active:scale-95">
+          <span className="flex h-8 w-13 items-center justify-center rounded-full transition-all duration-200">
+            <Menu className="h-[20px] w-[20px]" />
+          </span>
+          <span>More</span>
         </button>
       </div>
     </nav>
@@ -445,37 +478,37 @@ export function ActiveSessionDock() {
   if (location.pathname === '/focus') return null
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="fixed bottom-[74px] left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 lg:bottom-5 lg:left-auto lg:right-6 lg:translate-x-0"
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      className="fixed bottom-[84px] left-1/2 z-40 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 lg:bottom-6 lg:left-auto lg:right-6 lg:translate-x-0"
     >
-      <div className="flex items-center gap-3 rounded-2xl border border-brand-400/25 bg-[var(--panel-solid)]/95 p-2.5 shadow-glow backdrop-blur-xl">
-        <button onClick={() => navigate('/focus')} className="relative flex h-11 w-11 items-center justify-center">
+      <div className="flex items-center gap-3 rounded-full border border-brand-500/30 bg-[var(--panel-solid)]/95 p-2 px-3 shadow-glow backdrop-blur-2xl">
+        <button onClick={() => navigate('/focus')} className="relative flex h-11 w-11 shrink-0 items-center justify-center">
           <svg className="absolute inset-0 -rotate-90" viewBox="0 0 44 44">
-            <circle cx="22" cy="22" r="19" fill="none" stroke="currentColor" strokeOpacity={0.12} strokeWidth={3} />
+            <circle cx="22" cy="22" r="19" fill="none" stroke="currentColor" strokeOpacity={0.12} strokeWidth={3.5} />
             <circle
               cx="22"
               cy="22"
               r="19"
               fill="none"
-              stroke="#5b8cff"
-              strokeWidth={3}
+              stroke="var(--brand-primary)"
+              strokeWidth={3.5}
               strokeLinecap="round"
               strokeDasharray={2 * Math.PI * 19}
               strokeDashoffset={2 * Math.PI * 19 * (1 - progress)}
             />
           </svg>
-          <Timer className="h-4 w-4 text-brand-300" />
+          <Timer className="h-4.5 w-4.5 text-brand-500 dark:text-brand-300" />
         </button>
         <button onClick={() => navigate('/focus')} className="min-w-0 flex-1 text-left">
-          <p className="truncate text-[11px] font-semibold">{paused ? 'Paused' : 'Focus session active'}</p>
-          <p className="truncate text-[10px] muted">
-            {formatSeconds(remainingSeconds)} left · {percent}% · {mins} min remaining
+          <p className="truncate text-xs font-bold leading-tight">{paused ? 'Paused' : 'Focus session active'}</p>
+          <p className="truncate text-[10.5px] muted">
+            {formatSeconds(remainingSeconds)} left · {percent}% · {mins}m left
           </p>
         </button>
         <button
           onClick={() => (paused ? void resume() : void pause())}
-          className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--border-strong)] surface-2 transition hover:surface-3"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] surface-2 transition hover:surface-3 active:scale-90"
           aria-label={paused ? 'Resume focus session' : 'Pause focus session'}
         >
           {paused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
@@ -489,16 +522,16 @@ export function BreakDock() {
   const { breakRemaining, breakTotal, endBreak } = useFocus()
   if (!breakTotal) return null
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="fixed bottom-[74px] left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-sm -translate-x-1/2 lg:bottom-5 lg:left-6 lg:translate-x-0">
-      <div className="flex items-center gap-3 rounded-2xl border border-emerald-400/25 bg-[var(--panel-solid)]/95 p-3 shadow-2xl backdrop-blur-xl">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/12 text-emerald-400">
-          <Coffee className="h-4 w-4" />
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="fixed bottom-[84px] left-1/2 z-40 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 lg:bottom-6 lg:left-6 lg:translate-x-0">
+      <div className="flex items-center gap-3 rounded-full border border-emerald-500/30 bg-[var(--panel-solid)]/95 p-2 px-3.5 shadow-2xl backdrop-blur-2xl">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-500 dark:text-emerald-300">
+          <Coffee className="h-4.5 w-4.5" />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-semibold">Authorized break</p>
-          <p className="text-[10px] muted">{formatSeconds(breakRemaining)} remaining</p>
+          <p className="text-xs font-bold leading-tight">Authorized break</p>
+          <p className="text-[10.5px] muted">{formatSeconds(breakRemaining)} remaining</p>
         </div>
-        <Button size="sm" variant="ghost" onClick={endBreak}>
+        <Button size="sm" variant="ghost" onClick={endBreak} className="rounded-full">
           End break
         </Button>
       </div>
@@ -729,7 +762,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="lg:pl-[248px]">
         <MobileHeader />
         <DesktopHeader />
-        <main className="mx-auto w-full max-w-[1400px] px-4 pb-28 pt-5 sm:px-6 lg:pb-10 lg:pt-6">
+        <main className="mx-auto w-full max-w-[1400px] px-4 pb-28 pt-5 sm:px-6 lg:pb-10 lg:pt-6" style={{ contain: 'layout style' }}>
           <LocalModeBanner />
           {children}
         </main>

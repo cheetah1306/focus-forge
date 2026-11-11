@@ -29,19 +29,19 @@ type ButtonSize = 'sm' | 'md' | 'lg' | 'icon'
 
 const buttonVariants: Record<ButtonVariant, string> = {
   primary:
-    'bg-gradient-to-b from-brand-400 to-brand-600 text-white shadow-[0_10px_30px_-12px_rgba(59,108,255,0.9)] hover:from-brand-300 hover:to-brand-500 active:from-brand-500 active:to-brand-600',
-  secondary: 'surface-2 border border-[var(--border-strong)] text-[var(--text)] hover:surface-3',
-  ghost: 'text-[var(--text-muted)] hover:text-[var(--text)] hover:surface-2',
-  danger: 'bg-rose-500/16 text-rose-300 border border-rose-500/30 hover:bg-rose-500/26 dark:text-rose-300',
-  success: 'bg-emerald-500/16 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/26',
-  outline: 'border border-[var(--border-strong)] text-[var(--text)] hover:surface-1',
+    'bg-gradient-to-r from-brand-500 to-brand-600 text-white shadow-fab shadow-brand-500/25 hover:from-brand-400 hover:to-brand-500 active:from-brand-600 active:to-brand-700 border border-brand-300/20 font-semibold',
+  secondary: 'surface-2 border border-[var(--border-strong)] text-[var(--text)] hover:surface-3 font-medium',
+  ghost: 'text-[var(--text-muted)] hover:text-[var(--text)] hover:surface-2 font-medium',
+  danger: 'bg-rose-500/16 text-rose-500 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/26 font-semibold',
+  success: 'bg-emerald-500/16 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/26 font-semibold',
+  outline: 'border border-[var(--border-strong)] text-[var(--text)] hover:surface-1 font-medium',
 }
 
 const buttonSizes: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3 text-xs gap-1.5 rounded-lg',
-  md: 'h-10 px-4 text-sm gap-2 rounded-xl',
-  lg: 'h-12 px-6 text-[0.95rem] gap-2.5 rounded-xl',
-  icon: 'h-9 w-9 rounded-lg justify-center',
+  sm: 'h-8 px-3.5 text-xs gap-1.5 rounded-full',
+  md: 'h-11 px-5 text-sm gap-2 rounded-full',
+  lg: 'h-13 px-7 text-[0.95rem] gap-2.5 rounded-full font-semibold',
+  icon: 'h-10 w-10 rounded-full justify-center',
 }
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -61,8 +61,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ref={ref}
       disabled={disabled || loading}
       className={cn(
-        'inline-flex select-none items-center justify-center font-medium tracking-tight transition-all duration-200',
-        'active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50',
+        'inline-flex select-none items-center justify-center font-medium tracking-tight transition-transform transition-opacity duration-150',
+        'active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 touch-manipulation',
+        'focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--bg)]',
         buttonVariants[variant],
         buttonSizes[size],
         className,
@@ -86,7 +87,7 @@ export function Card({
 }: { className?: string; children: ReactNode; as?: 'div' | 'section' } & HTMLMotionProps<'div'>) {
   const Comp = motion[as] as typeof motion.div
   return (
-    <Comp className={cn('panel', className)} {...props}>
+    <Comp className={cn('panel rounded-[26px] sm:rounded-[30px] hover:border-[var(--border-strong)] transition-all duration-200', className)} style={{ willChange: 'transform, opacity' }} {...props}>
       {children}
     </Comp>
   )
@@ -104,10 +105,10 @@ export function SectionHeader({
   className?: string
 }) {
   return (
-    <div className={cn('flex items-start justify-between gap-4', className)}>
+    <div className={cn('flex items-start justify-between gap-3', className)}>
       <div className="min-w-0">
-        <h2 className="text-[15px] font-semibold tracking-tight">{title}</h2>
-        {subtitle && <p className="mt-0.5 text-xs muted leading-relaxed">{subtitle}</p>}
+        <h2 className="text-[14px] font-semibold tracking-tight text-[var(--text)]">{title}</h2>
+        {subtitle && <p className="mt-0.5 text-[11.5px] muted leading-relaxed">{subtitle}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>
@@ -246,7 +247,7 @@ export function Switch({
   return (
     <div className="flex items-start justify-between gap-4 py-3">
       <div className="min-w-0">
-        <label htmlFor={id} className="text-sm font-medium">
+        <label htmlFor={id} className="text-sm font-semibold tracking-tight cursor-pointer">
           {label}
         </label>
         {description && <p className="mt-0.5 text-xs muted leading-relaxed">{description}</p>}
@@ -259,14 +260,17 @@ export function Switch({
         disabled={disabled}
         onClick={() => onChange(!checked)}
         className={cn(
-          'relative h-6 w-11 shrink-0 rounded-full border transition-colors duration-300 disabled:opacity-40',
-          checked ? 'border-brand-400/40 bg-brand-500/80' : 'border-[var(--border-strong)] surface-2',
+          'relative h-7 w-12 shrink-0 rounded-full border-2 transition-colors duration-250 disabled:opacity-40 focus-visible:ring-2 focus-visible:ring-[var(--ring)]',
+          checked ? 'border-brand-500 bg-brand-500' : 'border-[var(--border-strong)] surface-2',
         )}
       >
         <motion.span
           layout
-          transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-          className={cn('absolute top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow', checked ? 'left-[23px]' : 'left-[3px]')}
+          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+          className={cn(
+            'absolute top-[3px] h-[18px] w-[18px] rounded-full shadow-sm',
+            checked ? 'left-[22px] bg-white' : 'left-[3px] bg-[var(--text-soft)]',
+          )}
         />
       </button>
     </div>
@@ -287,25 +291,25 @@ export function Badge({
   dot?: boolean
 }) {
   const tones = {
-    neutral: 'border-[var(--border-strong)] text-[var(--text-muted)]',
-    brand: 'border-brand-400/30 bg-brand-500/12 text-brand-300',
-    success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-500 dark:text-emerald-300',
-    warning: 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-300',
-    danger: 'border-rose-500/30 bg-rose-500/10 text-rose-500 dark:text-rose-300',
-    violet: 'border-violet-400/30 bg-violet-500/12 text-violet-400',
+    neutral: 'border-[var(--border-strong)] surface-1 text-[var(--text-muted)]',
+    brand: 'border-brand-400/30 bg-brand-500/12 text-brand-400 dark:text-brand-300',
+    success: 'border-emerald-500/30 bg-emerald-500/12 text-emerald-600 dark:text-emerald-300',
+    warning: 'border-amber-500/30 bg-amber-500/12 text-amber-600 dark:text-amber-300',
+    danger: 'border-rose-500/30 bg-rose-500/12 text-rose-600 dark:text-rose-300',
+    violet: 'border-violet-400/30 bg-violet-500/12 text-violet-500 dark:text-violet-300',
   }
   const dots = {
     neutral: 'bg-[var(--text-muted)]',
-    brand: 'bg-brand-400',
-    success: 'bg-emerald-400',
-    warning: 'bg-amber-400',
-    danger: 'bg-rose-400',
-    violet: 'bg-violet-400',
+    brand: 'bg-brand-500',
+    success: 'bg-emerald-500',
+    warning: 'bg-amber-500',
+    danger: 'bg-rose-500',
+    violet: 'bg-violet-500',
   }
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2 py-0.5 text-[10.5px] font-semibold uppercase tracking-wider',
+        'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[10.5px] font-semibold tracking-wide',
         tones[tone],
         className,
       )}
@@ -390,8 +394,8 @@ export function Ring({
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="currentColor"
-          strokeOpacity={trailOpacity}
+          stroke="var(--border-strong)"
+          strokeOpacity={trailOpacity > 0.2 ? trailOpacity : 0.4}
           strokeWidth={stroke}
         />
         <motion.circle
@@ -504,35 +508,39 @@ export function Modal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-[#04060c]/70 backdrop-blur-md"
+            className="absolute inset-0 bg-[#04060c]/60 backdrop-blur-sm"
             onClick={() => dismissible && onClose()}
           />
           <motion.div
             role="dialog"
             aria-modal="true"
             aria-label={title}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 32, scale: 0.98 }}
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.985 }}
-            transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.99 }}
+            transition={{ type: 'spring', stiffness: 420, damping: 36 }}
             className={cn(
-              'relative w-full overflow-hidden rounded-t-3xl border border-[var(--border-strong)] bg-[var(--panel-solid)] shadow-2xl sm:rounded-2xl',
+              'relative w-full overflow-hidden rounded-t-[36px] border border-[var(--border-strong)] bg-[var(--panel-solid)] shadow-2xl sm:rounded-[32px]',
               sizes[size],
             )}
           >
-            <div className="flex items-start justify-between gap-4 border-b border-[var(--border)] px-5 py-4">
+            {/* Native Android bottom sheet drag handle */}
+            <div className="flex justify-center pt-2.5 pb-1 sm:hidden">
+              <span className="h-1.5 w-12 rounded-full bg-[var(--text-soft)]/30" />
+            </div>
+            <div className="flex items-start justify-between gap-4 border-b border-[var(--border)] px-6 py-4">
               <div>
-                <h3 className="text-base font-semibold">{title}</h3>
+                <h3 className="font-display text-lg font-bold tracking-tight">{title}</h3>
                 {description && <p className="mt-1 text-xs muted leading-relaxed">{description}</p>}
               </div>
               {dismissible && (
-                <button onClick={onClose} aria-label="Close dialog" className="rounded-lg p-1.5 muted transition hover:surface-2 hover:text-[var(--text)]">
+                <button onClick={onClose} aria-label="Close dialog" className="rounded-full p-2 muted transition hover:surface-2 hover:text-[var(--text)] active:scale-90">
                   <X className="h-4 w-4" />
                 </button>
               )}
             </div>
-            <div className="max-h-[70vh] overflow-y-auto px-5 py-5">{children}</div>
-            {footer && <div className="flex flex-wrap items-center justify-end gap-2 border-t border-[var(--border)] px-5 py-4">{footer}</div>}
+            <div className="max-h-[70vh] overflow-y-auto px-6 py-5">{children}</div>
+            {footer && <div className="flex flex-wrap items-center justify-end gap-2.5 border-t border-[var(--border)] px-6 py-4 surface-1">{footer}</div>}
           </motion.div>
         </div>
       )}
@@ -627,11 +635,11 @@ export function EmptyState({
   className?: string
 }) {
   return (
-    <div className={cn('flex flex-col items-center justify-center rounded-2xl border border-dashed border-[var(--border-strong)] px-6 py-12 text-center', className)}>
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl surface-2 text-[var(--text-muted)]">{icon}</div>
-      <h3 className="text-sm font-semibold">{title}</h3>
-      <p className="mt-1 max-w-sm text-xs muted leading-relaxed">{description}</p>
-      {action && <div className="mt-5">{action}</div>}
+    <div className={cn('flex flex-col items-center justify-center rounded-xl border border-dashed border-[var(--border-strong)] bg-[color-mix(in_srgb,var(--text)_2%,transparent)] px-6 py-10 text-center', className)}>
+      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl surface-2 text-[var(--text-muted)]">{icon}</div>
+      <h3 className="text-sm font-semibold tracking-tight">{title}</h3>
+      <p className="mt-1 max-w-xs text-xs muted leading-relaxed">{description}</p>
+      {action && <div className="mt-4">{action}</div>}
     </div>
   )
 }
@@ -674,21 +682,21 @@ export function SegmentedControl<T extends string>({
 }) {
   const groupId = useId()
   return (
-    <div className={cn('inline-flex items-center gap-1 rounded-xl border border-[var(--border)] surface-1 p-1', className)}>
+    <div className={cn('inline-flex items-center gap-1 rounded-full border border-[var(--border)] surface-1 p-1.5 shadow-sm', className)}>
       {options.map((opt) => (
         <button
           key={opt.value}
           onClick={() => onChange(opt.value)}
           className={cn(
-            'relative inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+            'relative inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-150 active:scale-95',
             value === opt.value ? 'text-white' : 'muted hover:text-[var(--text)]',
           )}
         >
           {value === opt.value && (
             <motion.span
               layoutId={`seg-${groupId}`}
-              className="absolute inset-0 rounded-lg bg-gradient-to-b from-brand-400 to-brand-600"
-              transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+              className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 shadow-md"
+              transition={{ type: 'spring', stiffness: 450, damping: 35 }}
             />
           )}
           <span className="relative z-10 flex items-center gap-1.5">
@@ -723,29 +731,29 @@ export function StatCard({
   delay?: number
 }) {
   const tones = {
-    brand: 'text-brand-300 bg-brand-500/10 border-brand-400/20',
-    violet: 'text-violet-400 bg-violet-500/10 border-violet-400/20',
-    success: 'text-emerald-500 dark:text-emerald-300 bg-emerald-500/10 border-emerald-400/20',
-    warning: 'text-amber-500 dark:text-amber-300 bg-amber-500/10 border-amber-400/20',
-    danger: 'text-rose-400 bg-rose-500/10 border-rose-400/20',
+    brand: 'text-brand-400 dark:text-brand-300 bg-brand-500/12 border-brand-400/25',
+    violet: 'text-violet-500 dark:text-violet-300 bg-violet-500/12 border-violet-400/25',
+    success: 'text-emerald-600 dark:text-emerald-300 bg-emerald-500/12 border-emerald-400/25',
+    warning: 'text-amber-600 dark:text-amber-300 bg-amber-500/12 border-amber-400/25',
+    danger: 'text-rose-500 dark:text-rose-300 bg-rose-500/12 border-rose-400/25',
   }
   return (
     <Card
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay }}
-      className="hover-lift p-4"
+      transition={{ duration: 0.35, delay }}
+      className="hover-lift rounded-[28px] p-5 shadow-sm"
     >
       <div className="flex items-start justify-between gap-3">
-        <p className="text-[11px] font-medium uppercase tracking-[0.08em] soft">{label}</p>
-        <span className={cn('flex h-8 w-8 items-center justify-center rounded-lg border', tones[tone])}>{icon}</span>
+        <p className="text-[11px] font-bold uppercase tracking-[0.1em] soft">{label}</p>
+        <span className={cn('flex h-10 w-10 items-center justify-center rounded-2xl border', tones[tone])}>{icon}</span>
       </div>
-      <div className="mt-2 flex items-baseline gap-1">
-        <span className="font-display text-2xl font-semibold tracking-tight">{value}</span>
-        {suffix && <span className="text-xs muted">{suffix}</span>}
+      <div className="mt-3 flex items-baseline gap-1">
+        <span className="font-display text-3xl font-bold tracking-tight">{value}</span>
+        {suffix && <span className="text-xs font-semibold muted">{suffix}</span>}
       </div>
-      {typeof progress === 'number' && <ProgressBar value={progress} height="h-1" className="mt-3" tone={tone === 'danger' ? 'danger' : tone === 'warning' ? 'warning' : tone === 'success' ? 'success' : 'brand'} />}
-      {hint && <p className="mt-2 text-[11px] muted leading-snug">{hint}</p>}
+      {typeof progress === 'number' && <ProgressBar value={progress} height="h-1.5" className="mt-3.5" tone={tone === 'danger' ? 'danger' : tone === 'warning' ? 'warning' : tone === 'success' ? 'success' : 'brand'} />}
+      {hint && <p className="mt-2.5 text-[11px] muted leading-snug">{hint}</p>}
     </Card>
   )
 }

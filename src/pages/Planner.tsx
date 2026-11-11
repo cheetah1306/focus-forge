@@ -231,7 +231,7 @@ export default function Planner() {
               key={key}
               onClick={() => setFilter(key)}
               className={cn(
-                'whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition',
+                'whitespace-nowrap rounded-full border px-3 py-1.5 text-[11px] font-medium transition',
                 filter === key ? 'border-brand-400/50 bg-brand-500/12 text-brand-200' : 'border-[var(--border)] surface-1 muted hover:surface-2',
               )}
             >
@@ -273,7 +273,7 @@ export default function Planner() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, height: 0 }}
                       className={cn(
-                        'group rounded-xl border p-3 transition',
+                        'group rounded-2xl border p-3 transition',
                         done ? 'border-emerald-500/20 bg-emerald-500/[0.04]' : deadline.tone === 'overdue' ? 'border-rose-500/25 bg-rose-500/[0.04]' : 'border-[var(--border)] surface-1 hover:border-[var(--border-strong)]',
                       )}
                     >
@@ -351,7 +351,7 @@ export default function Planner() {
                   <button
                     key={task.id}
                     onClick={() => openEdit(task)}
-                    className="flex w-full items-center gap-2 rounded-lg border border-[var(--border)] surface-1 px-2.5 py-2 text-left transition hover:surface-2"
+                    className="flex w-full items-center gap-2 rounded-2xl border border-[var(--border)] surface-1 px-2.5 py-2 text-left transition hover:surface-2"
                   >
                     <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', dl.tone === 'overdue' ? 'bg-rose-400' : dl.tone === 'soon' ? 'bg-amber-400' : 'bg-brand-400')} />
                     <span className="min-w-0 flex-1">
@@ -363,7 +363,7 @@ export default function Planner() {
                 )
               })}
               {overdue.length + dueToday.length + dueSoon.length === 0 && (
-                <p className="rounded-lg border border-dashed border-[var(--border-strong)] px-3 py-5 text-center text-[10.5px] muted">
+                <p className="rounded-2xl border border-dashed border-[var(--border-strong)] px-3 py-5 text-center text-[10.5px] muted">
                   No deadlines in the next week. That is either excellent planning or missing data.
                 </p>
               )}
@@ -373,7 +373,7 @@ export default function Planner() {
           <Card className="p-5">
             <SectionHeader title="Planner discipline" />
             <div className="mt-3 space-y-3">
-              <div className="rounded-xl border border-[var(--border)] surface-1 p-3">
+              <div className="rounded-2xl border border-[var(--border)] surface-1 p-3">
                 <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider soft">
                   <Target className="h-3 w-3" /> Today's task target
                 </p>
@@ -383,14 +383,14 @@ export default function Planner() {
                 </p>
                 <p className="mt-0.5 text-[10px] muted">{dueToday.length > 0 ? 'Completed vs due today' : 'Completed today · nothing due'}</p>
               </div>
-              <div className="rounded-xl border border-[var(--border)] surface-1 p-3">
+              <div className="rounded-2xl border border-[var(--border)] surface-1 p-3">
                 <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider soft">
                   <Clock className="h-3 w-3" /> Estimated remaining
                 </p>
                 <p className="mt-1 text-sm font-semibold">{formatMinutes(estimatedRemaining)}</p>
                 <p className="mt-0.5 text-[10px] muted">Across {pending.length} open tasks</p>
               </div>
-              <div className="flex items-start gap-2 rounded-xl border border-brand-400/20 bg-brand-500/[0.06] p-3 text-[10.5px] leading-relaxed muted">
+              <div className="flex items-start gap-2 rounded-2xl border border-brand-400/20 bg-brand-500/[0.06] p-3 text-[10.5px] leading-relaxed muted">
                 <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-400" />
                 Overdue tasks are highlighted, never auto-deleted. Reschedule them honestly instead of pretending they do not exist.
               </div>

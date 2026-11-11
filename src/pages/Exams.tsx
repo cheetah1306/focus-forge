@@ -158,7 +158,7 @@ export default function Exams() {
                 <Badge tone="neutral">Completed</Badge>
               ) : (
                 <>
-                  <p className={cn('font-display text-3xl font-semibold leading-none tracking-tight', countdown.days <= 3 && 'text-rose-400', countdown.days <= 7 && countdown.days > 3 && 'text-amber-400')}>
+                  <p className={cn('font-display text-4xl font-bold leading-none tracking-tight', countdown.days <= 3 && 'text-rose-400', countdown.days <= 7 && countdown.days > 3 && 'text-amber-400')}>
                     {countdown.days}
                   </p>
                   <p className="mt-0.5 text-[9px] uppercase tracking-wider soft">days left</p>
@@ -177,19 +177,19 @@ export default function Exams() {
         </div>
 
         <div className="mt-3 grid grid-cols-2 gap-2 text-[10px] sm:grid-cols-4">
-          <div className="rounded-lg border border-[var(--border)] surface-1 px-2 py-1.5">
+          <div className="rounded-2xl border border-[var(--border)] surface-1 px-2 py-1.5">
             <p className="soft">Hours left</p>
             <p className="font-semibold">{pastExam ? '—' : `${countdown.hours}h ${countdown.minutes}m`}</p>
           </div>
-          <div className="rounded-lg border border-[var(--border)] surface-1 px-2 py-1.5">
+          <div className="rounded-2xl border border-[var(--border)] surface-1 px-2 py-1.5">
             <p className="soft">Readiness</p>
             <p className="font-semibold">{readiness.progress}%</p>
           </div>
-          <div className="rounded-lg border border-[var(--border)] surface-1 px-2 py-1.5">
+          <div className="rounded-2xl border border-[var(--border)] surface-1 px-2 py-1.5">
             <p className="soft">Pending chapters</p>
             <p className="font-semibold">{readiness.pendingTopics}</p>
           </div>
-          <div className="rounded-lg border border-[var(--border)] surface-1 px-2 py-1.5">
+          <div className="rounded-2xl border border-[var(--border)] surface-1 px-2 py-1.5">
             <p className="soft">Need revision</p>
             <p className="font-semibold">{readiness.revision}</p>
           </div>
@@ -204,7 +204,7 @@ export default function Exams() {
         </div>
 
         {risky && (
-          <p className="mt-2 flex items-start gap-1.5 rounded-lg border border-amber-500/25 bg-amber-500/[0.07] px-2.5 py-2 text-[10px] leading-relaxed text-amber-600 dark:text-amber-200">
+          <p className="mt-2 flex items-start gap-1.5 rounded-2xl border border-amber-500/25 bg-amber-500/[0.07] px-2.5 py-2 text-[10px] leading-relaxed text-amber-600 dark:text-amber-200">
             <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
             Low preparation with {countdown.days} days remaining. Prioritise unfinished chapters in your next focus blocks.
           </p>
@@ -330,12 +330,12 @@ export default function Exams() {
               <SectionHeader title="Preparation focus" subtitle="Automatically highlighted risks" />
               <div className="mt-3 space-y-2">
                 {atRisk.length === 0 ? (
-                  <p className="rounded-lg border border-dashed border-[var(--border-strong)] px-3 py-4 text-[10.5px] muted">
+                  <p className="rounded-2xl border border-dashed border-[var(--border-strong)] px-3 py-4 text-[10.5px] muted">
                     No subjects currently at risk. Keep topic statuses updated for accurate readiness.
                   </p>
                 ) : (
                   atRisk.map((s) => (
-                    <div key={s.subject.id} className="rounded-lg border border-rose-500/20 bg-rose-500/[0.05] p-2.5">
+                    <div key={s.subject.id} className="rounded-2xl border border-rose-500/20 bg-rose-500/[0.05] p-2.5">
                       <p className="text-[11px] font-semibold">{s.subject.name}</p>
                       <p className="mt-0.5 text-[10px] muted">
                         {s.progress}% coverage · exam in {s.daysToExam} days · {s.pendingTasks} tasks pending
@@ -343,7 +343,7 @@ export default function Exams() {
                     </div>
                   ))
                 )}
-                <div className="flex items-start gap-2 rounded-xl border border-brand-400/20 bg-brand-500/[0.06] p-3 text-[10px] leading-relaxed muted">
+                <div className="flex items-start gap-2 rounded-2xl border border-brand-400/20 bg-brand-500/[0.06] p-3 text-[10px] leading-relaxed muted">
                   <CalendarClock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-300" />
                   Readiness = topics completed or marked for revision, divided by total topics for the subject. Nothing is estimated or fabricated.
                 </div>

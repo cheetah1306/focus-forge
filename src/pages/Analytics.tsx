@@ -56,7 +56,7 @@ function ChartTooltip({
 }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="rounded-lg border border-[var(--border-strong)] bg-[var(--panel-solid)] px-2.5 py-2 text-[10px] shadow-xl">
+    <div className="rounded-2xl border border-[var(--border-strong)] bg-[var(--panel-solid)] px-2.5 py-2 text-[10px] shadow-xl">
       {label && <p className="mb-1 font-semibold">{label}</p>}
       {payload.map((p, i) => (
         <p key={i} className="flex items-center gap-1.5 muted">
@@ -174,9 +174,9 @@ export default function Analytics() {
             <Card key={s.label} className="p-4">
               <div className="flex items-start justify-between">
                 <p className="text-[10px] uppercase tracking-wider soft">{s.label}</p>
-                <span className={cn('flex h-6 w-6 items-center justify-center rounded-md border', tones[s.tone])}>{s.icon}</span>
+                <span className={cn('flex h-7 w-7 items-center justify-center rounded-xl border', tones[s.tone])}>{s.icon}</span>
               </div>
-              <p className="mt-1.5 font-display text-lg font-semibold">{s.value}</p>
+              <p className="mt-1.5 font-display text-xl font-bold">{s.value}</p>
               <p className="mt-0.5 text-[9.5px] muted">{s.hint}</p>
             </Card>
           )

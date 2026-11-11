@@ -145,15 +145,15 @@ export default function Dashboard() {
         }
       />
 
-      <div className="grid gap-4 xl:grid-cols-[1.55fr_1fr]">
-        <Card initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="relative overflow-hidden p-5 sm:p-6">
+      <div className="grid gap-5 xl:grid-cols-[1.55fr_1fr]">
+        <Card initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="relative overflow-hidden p-6 sm:p-8 rounded-[32px] shadow-sm">
           <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-500/10 blur-3xl" />
-          <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center">
-            <Ring progress={targetPct} size={190} stroke={12}>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] soft">Focused today</span>
-              <span className="mt-1 font-display text-[28px] font-semibold leading-none tracking-tight">{formatMinutes(stats.minutes, true)}</span>
-              <span className="mt-1.5 text-[10.5px] muted">of {formatMinutes(stats.targetMinutes, true)} target</span>
-              <span className={cn('mt-2 rounded-full px-2 py-0.5 text-[9.5px] font-semibold', targetPct >= 1 ? 'bg-emerald-500/15 text-emerald-400' : 'surface-2 muted')}>
+          <div className="relative flex flex-col gap-7 sm:flex-row sm:items-center">
+            <Ring progress={targetPct} size={200} stroke={12}>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] soft">Focused Today</span>
+              <span className="mt-1 font-display text-[32px] font-extrabold leading-none tracking-tight text-brand-500 dark:text-brand-300">{formatMinutes(stats.minutes, true)}</span>
+              <span className="mt-1.5 text-[11px] font-medium muted">of {formatMinutes(stats.targetMinutes, true)} target</span>
+              <span className={cn('mt-2 rounded-full px-2.5 py-0.5 text-[10px] font-bold border', targetPct >= 1 ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-500 dark:text-emerald-300' : 'border-[var(--border)] surface-2 muted')}>
                 {Math.round(targetPct * 100)}% complete
               </span>
             </Ring>
@@ -170,45 +170,45 @@ export default function Dashboard() {
                   <Badge tone="neutral">No active session</Badge>
                 )}
               </div>
-              <h2 className="mt-3 font-display text-lg font-semibold tracking-tight">
+              <h2 className="mt-3 font-display text-xl font-bold tracking-tight">
                 {stats.minutes >= stats.targetMinutes && stats.minutes > 0 ? 'Target met. Now widen the gap.' : 'Your next block is the only thing that matters.'}
               </h2>
-              <p className="mt-1 text-xs muted leading-relaxed">{motivation.body}</p>
-              <div className="mt-4 grid grid-cols-3 gap-2">
+              <p className="mt-1 text-xs muted leading-relaxed font-medium">{motivation.body}</p>
+              <div className="mt-4 grid grid-cols-3 gap-2.5">
                 {[
                   { label: 'Sessions', value: `${stats.completedSessions}`, hint: `${stats.startedSessions} started` },
                   { label: 'Remaining', value: formatMinutes(Math.max(0, stats.targetMinutes - stats.minutes), true), hint: 'to target' },
                   { label: 'Streak', value: `${stats.streak}d`, hint: `best ${challenge.bestStreak}d` },
                 ].map((s) => (
-                  <div key={s.label} className="rounded-xl border border-[var(--border)] surface-1 px-2.5 py-2">
-                    <p className="text-[9px] uppercase tracking-wider soft">{s.label}</p>
-                    <p className="mt-0.5 font-display text-sm font-semibold">{s.value}</p>
-                    <p className="text-[9px] soft">{s.hint}</p>
+                  <div key={s.label} className="rounded-2xl border border-[var(--border)] surface-1 px-3 py-2.5 shadow-sm">
+                    <p className="text-[9.5px] font-bold uppercase tracking-wider soft">{s.label}</p>
+                    <p className="mt-1 font-display text-base font-bold">{s.value}</p>
+                    <p className="text-[9.5px] soft font-medium">{s.hint}</p>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Button size="sm" icon={<Play className="h-3.5 w-3.5" />} onClick={() => setLaunch({ mode: 'pomodoro', minutes: 25 })}>
-                  25-minute sprint
+              <div className="mt-5 flex flex-wrap items-center gap-2.5">
+                <Button size="md" icon={<Play className="h-4 w-4" />} onClick={() => setLaunch({ mode: 'pomodoro', minutes: 25 })}>
+                  25m Sprint
                 </Button>
-                <Button size="sm" variant="secondary" icon={<Timer className="h-3.5 w-3.5" />} onClick={() => setLaunch({ mode: 'deep', minutes: 50 })}>
-                  50-minute deep work
+                <Button size="md" variant="secondary" icon={<Timer className="h-4 w-4" />} onClick={() => setLaunch({ mode: 'deep', minutes: 50 })}>
+                  50m Deep Work
                 </Button>
-                <Link to="/focus" className="inline-flex h-8 items-center gap-1 rounded-lg px-2 text-[11px] font-medium text-brand-300 hover:underline">
-                  Open focus room <ArrowUpRight className="h-3 w-3" />
+                <Link to="/focus" className="inline-flex h-10 items-center gap-1.5 rounded-full px-4 text-xs font-semibold text-brand-500 dark:text-brand-300 surface-1 border border-[var(--border)] hover:surface-2 transition">
+                  Open focus room <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
             </div>
           </div>
         </Card>
 
-        <div className="grid gap-4">
-          <Card className="relative overflow-hidden p-5">
+        <div className="grid gap-5">
+          <Card className="relative overflow-hidden p-6 rounded-[28px] shadow-sm">
             <SectionHeader
               title="Next examination"
               action={
-                <Link to="/exams" className="text-[11px] font-medium text-brand-300 hover:underline">
-                  All exams
+                <Link to="/exams" className="text-xs font-semibold text-brand-500 dark:text-brand-300 hover:underline">
+                  All exams →
                 </Link>
               }
             />
@@ -216,37 +216,37 @@ export default function Dashboard() {
               <>
                 <div className="mt-4 flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold">{nextExam.name}</p>
-                    <p className="mt-0.5 text-[11px] muted">
+                    <p className="truncate text-base font-bold">{nextExam.name}</p>
+                    <p className="mt-0.5 text-xs muted font-medium">
                       {examSubject?.name ?? 'General'} · {formatClock12(nextExam.exam_time)}
                     </p>
-                    <p className="mt-0.5 text-[10px] soft">{new Date(`${nextExam.exam_date}T12:00:00`).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+                    <p className="mt-0.5 text-[11px] soft font-medium">{new Date(`${nextExam.exam_date}T12:00:00`).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
                   </div>
-                  <div className="shrink-0 text-right">
-                    <p className="font-display text-3xl font-semibold leading-none tracking-tight">
+                  <div className="shrink-0 text-right surface-1 border border-[var(--border)] px-3.5 py-2 rounded-2xl shadow-sm">
+                    <p className="font-display text-3xl font-extrabold leading-none tracking-tight text-brand-500 dark:text-brand-300">
                       <AnimatedNumber value={examInfo.days} />
                     </p>
-                    <p className="mt-1 text-[9px] uppercase tracking-wider soft">days left</p>
+                    <p className="mt-1 text-[9.5px] font-bold uppercase tracking-wider soft">days left</p>
                   </div>
                 </div>
                 <div className="mt-4">
-                  <div className="flex items-center justify-between text-[10.5px] muted">
+                  <div className="flex items-center justify-between text-xs font-semibold muted">
                     <span>Preparation readiness</span>
-                    <span className="font-semibold">{readiness?.progress ?? 0}%</span>
+                    <span className="text-brand-500 dark:text-brand-300">{readiness?.progress ?? 0}%</span>
                   </div>
-                  <div className="mt-1.5 h-1.5 overflow-hidden rounded-full surface-2">
+                  <div className="mt-2 h-2 overflow-hidden rounded-full surface-2">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-brand-400 to-violet-400"
+                      className="h-full rounded-full bg-gradient-to-r from-brand-500 to-violet-500"
                       style={{ width: `${readiness?.progress ?? 0}%` }}
                     />
                   </div>
-                  <div className="mt-2 flex items-center justify-between text-[10px] soft">
+                  <div className="mt-2 flex items-center justify-between text-[10.5px] soft font-medium">
                     <span>{readiness?.pendingTopics ?? 0} chapters pending</span>
                     <span>{readiness?.revision ?? 0} need revision</span>
                   </div>
                 </div>
-                <div className="mt-4 flex items-center gap-2 rounded-xl border border-[var(--border)] surface-1 px-3 py-2 text-[10.5px] muted">
-                  <Clock className="h-3 w-3" /> {examInfo.hours}h {examInfo.minutes}m remaining in the countdown
+                <div className="mt-4 flex items-center gap-2 rounded-full border border-[var(--border)] surface-1 px-3.5 py-2 text-xs font-medium muted">
+                  <Clock className="h-3.5 w-3.5 text-brand-500 dark:text-brand-300" /> {examInfo.hours}h {examInfo.minutes}m remaining in the countdown
                 </div>
               </>
             ) : (
@@ -266,18 +266,18 @@ export default function Dashboard() {
             )}
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] soft">30-day challenge</p>
-                <p className="mt-1 text-sm font-semibold">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] soft">30-day challenge</p>
+                <p className="mt-1 text-base font-bold">
                   Day {challenge.currentDay || 0}
-                  <span className="muted"> / {challenge.totalDays || 30}</span>
+                  <span className="muted font-medium"> / {challenge.totalDays || 30}</span>
                 </p>
               </div>
               <Badge tone={challenge.consistency >= 70 ? 'success' : challenge.consistency >= 40 ? 'warning' : 'neutral'}>{challenge.consistency}% consistent</Badge>
             </div>
-            <div className="mt-3 grid grid-cols-10 gap-1">
+            <div className="mt-3 grid grid-cols-10 gap-1.5">
               {Array.from({ length: 30 }).map((_, i) => {
                 const day = challenge.days[i]
                 const status = day?.status ?? 'future'
@@ -286,23 +286,23 @@ export default function Dashboard() {
                     key={i}
                     title={day ? `Day ${i + 1} · ${status} · ${formatMinutes(day.minutes, true)}` : `Day ${i + 1}`}
                     className={cn(
-                      'aspect-square rounded-[4px] border',
-                      status === 'completed' && 'border-emerald-400/30 bg-emerald-400/70',
+                      'aspect-square rounded-[6px] border transition-transform active:scale-95',
+                      status === 'completed' && 'border-emerald-500/40 bg-emerald-500 shadow-sm shadow-emerald-500/30',
                       status === 'missed' && 'border-rose-400/30 bg-rose-500/25',
-                      status === 'pending' && 'border-brand-400/50 bg-brand-500/30',
+                      status === 'pending' && 'border-brand-500/60 bg-brand-500/40',
                       status === 'future' && 'border-[var(--border)] surface-1',
                     )}
                   />
                 )
               })}
             </div>
-            <div className="mt-3 flex items-center justify-between text-[10px] muted">
+            <div className="mt-3 flex items-center justify-between text-[11px] font-medium muted">
               <span>{challenge.completedDays} days hit target</span>
               <span>{challenge.missedDays} missed</span>
             </div>
             {challenge.challenge ? (
-              <Link to="/challenge" className="mt-3 flex items-center justify-between rounded-lg border border-[var(--border)] surface-1 px-3 py-2 text-[11px] font-medium transition hover:surface-2">
-                View challenge dashboard <ChevronRight className="h-3.5 w-3.5" />
+              <Link to="/challenge" className="mt-3 flex items-center justify-between rounded-full border border-[var(--border)] surface-1 px-4 py-2 text-xs font-semibold transition hover:surface-2">
+                View challenge dashboard <ChevronRight className="h-4 w-4" />
               </Link>
             ) : (
               <Button size="sm" className="mt-3 w-full" variant="secondary" onClick={() => navigate('/challenge')}>
@@ -633,23 +633,23 @@ function StatTile({
   delay: number
 }) {
   const tones = {
-    brand: 'text-brand-300 bg-brand-500/10 border-brand-400/20',
-    violet: 'text-violet-400 bg-violet-500/10 border-violet-400/20',
-    success: 'text-emerald-500 dark:text-emerald-300 bg-emerald-500/10 border-emerald-400/20',
-    warning: 'text-amber-500 dark:text-amber-300 bg-amber-500/10 border-amber-400/20',
-    danger: 'text-rose-400 bg-rose-500/10 border-rose-400/20',
+    brand: 'text-brand-500 dark:text-brand-300 bg-brand-500/12 border-brand-400/25',
+    violet: 'text-violet-500 dark:text-violet-300 bg-violet-500/12 border-violet-400/25',
+    success: 'text-emerald-600 dark:text-emerald-300 bg-emerald-500/12 border-emerald-400/25',
+    warning: 'text-amber-600 dark:text-amber-300 bg-amber-500/12 border-amber-400/25',
+    danger: 'text-rose-500 dark:text-rose-300 bg-rose-500/12 border-rose-400/25',
   }
   return (
-    <Card initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.35 }} className="hover-lift p-4">
+    <Card initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay, duration: 0.35 }} className="hover-lift rounded-[26px] p-4 shadow-sm">
       <div className="flex items-start justify-between">
-        <p className="text-[10px] font-medium uppercase tracking-[0.08em] soft">{label}</p>
-        <span className={cn('flex h-7 w-7 items-center justify-center rounded-lg border', tones[tone])}>{icon}</span>
+        <p className="text-[10px] font-bold uppercase tracking-[0.1em] soft">{label}</p>
+        <span className={cn('flex h-8 w-8 items-center justify-center rounded-xl border', tones[tone])}>{icon}</span>
       </div>
-      <p className="mt-2 font-display text-xl font-semibold tracking-tight">
+      <p className="mt-2.5 font-display text-2xl font-bold tracking-tight">
         {value}
-        {suffix && <span className="ml-0.5 text-xs font-medium muted">{suffix}</span>}
+        {suffix && <span className="ml-0.5 text-xs font-semibold muted">{suffix}</span>}
       </p>
-      <p className="mt-1 text-[10px] muted">{hint}</p>
+      <p className="mt-1 text-[10.5px] font-medium muted line-clamp-1">{hint}</p>
     </Card>
   )
 }

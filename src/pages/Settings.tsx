@@ -6,8 +6,8 @@ import {
   Database,
   Download,
   KeyRound,
+  Laptop,
   LogOut,
-  Monitor,
   Moon,
   Palette,
   ShieldCheck,
@@ -20,10 +20,10 @@ import { useApp } from '../lib/app-context'
 import { isSupabaseConfigured } from '../lib/supabase'
 import { cn, downloadFile, formatMinutes, todayKey } from '../lib/utils'
 import { PageHeader } from '../components/layout'
-import { Badge, Button, Card, ConfirmDialog, Field, Input, Modal, NumberInput, SectionHeader, SegmentedControl, Select, Switch } from '../components/ui'
+import { Badge, Button, Card, ConfirmDialog, Field, Input, Modal, NumberInput, SectionHeader, Select, Switch } from '../components/ui'
 import { toast } from '../lib/events'
 import { notificationPermission, requestNotificationPermission, showBrowserNotification } from '../lib/notifications'
-import type { ThemeMode, UserPreferences } from '../lib/types'
+import type { UserPreferences } from '../lib/types'
 
 const TIMEZONES = (() => {
   try {
@@ -97,9 +97,9 @@ export default function Settings() {
         actions={<Badge tone={mode === 'supabase' ? 'success' : 'warning'}>{mode === 'supabase' ? 'Supabase connected' : 'Local workspace'}</Badge>}
       />
 
-      <div className="grid gap-4 xl:grid-cols-[1.4fr_1fr]">
-        <div className="space-y-4">
-          <Card className="p-5">
+      <div className="grid gap-5 xl:grid-cols-[1.4fr_1fr]">
+        <div className="space-y-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <SectionHeader title="Profile" subtitle="Used across greetings, reports and your academic context" />
             <div className="mt-4 flex items-center gap-3">
               <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border border-[var(--border-strong)] bg-gradient-to-br from-brand-500/25 to-violet-500/25 text-sm font-bold">
@@ -172,21 +172,37 @@ export default function Settings() {
             </div>
           </Card>
 
-          <Card className="p-5">
-            <SectionHeader title="Appearance" subtitle="Dark mode is the default. Light mode is fully supported." />
-            <div className="mt-4">
-              <span className="label">Theme</span>
-              <SegmentedControl<ThemeMode>
-                value={prefs?.theme ?? 'dark'}
-                onChange={(theme) => void actions.updatePreferences({ theme })}
-                options={[
-                  { value: 'dark', label: 'Dark', icon: <Moon className="h-3.5 w-3.5" /> },
-                  { value: 'light', label: 'Light', icon: <Sun className="h-3.5 w-3.5" /> },
-                  { value: 'system', label: 'System', icon: <Monitor className="h-3.5 w-3.5" /> },
-                ]}
-              />
+          <Card className="p-6 rounded-[28px] shadow-sm">
+            <SectionHeader title="Appearance & Theme" subtitle="Material Design Android 17 color system with dark, light and system modes." />
+            <div className="grid grid-cols-3 gap-2.5 mt-4">
+              {[
+                { id: 'dark', label: 'Dark', desc: 'Deep navy charcoal', icon: <Moon className="h-4 w-4" /> },
+                { id: 'light', label: 'Light', desc: 'Warm neutral stone', icon: <Sun className="h-4 w-4" /> },
+                { id: 'system', label: 'System', desc: 'Match device mode', icon: <Laptop className="h-4 w-4" /> },
+              ].map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => {
+                    void actions.updatePreferences({ theme: t.id as 'dark' | 'light' | 'system' })
+                    toast.success(`Theme set to ${t.label}`)
+                  }}
+                  className={cn(
+                    'calculator-key flex flex-col items-center justify-center p-3.5 rounded-[22px] border text-center transition-all duration-150',
+                    (prefs?.theme ?? 'dark') === t.id
+                      ? 'border-brand-500 bg-brand-500/15 text-brand-500 dark:text-brand-300 shadow-sm ring-1 ring-brand-500/30'
+                      : 'border-[var(--border)] surface-1 muted hover:surface-2 hover:text-[var(--text)]',
+                  )}
+                >
+                  <span className={cn('flex h-9 w-9 items-center justify-center rounded-full mb-1.5', (prefs?.theme ?? 'dark') === t.id ? 'bg-brand-500 text-white shadow-sm' : 'surface-2')}>
+                    {t.icon}
+                  </span>
+                  <span className="text-xs font-bold text-[var(--text)]">{t.label}</span>
+                  <span className="text-[10px] soft mt-0.5">{t.desc}</span>
+                </button>
+              ))}
             </div>
-            <div className="mt-2 divide-y divide-[var(--border)]">
+            <div className="mt-4 divide-y divide-[var(--border)]">
               <Switch
                 checked={prefs?.reduced_motion ?? false}
                 onChange={(reduced_motion) => void actions.updatePreferences({ reduced_motion })}
@@ -202,7 +218,7 @@ export default function Settings() {
             </div>
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <SectionHeader title="Focus defaults" subtitle="Applied when you start a new session" />
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <Field label="Default focus minutes">
@@ -229,7 +245,7 @@ export default function Settings() {
             </p>
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <SectionHeader title="Targets & timezone" subtitle="Challenge targets and analytics use these values" />
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               <Field label="Daily target (hours)" hint={formatMinutes((prefs?.daily_target_minutes ?? 240), true)}>
@@ -268,7 +284,7 @@ export default function Settings() {
             </div>
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <SectionHeader
               title="Notifications"
               subtitle="Browser notifications only while the app or service worker can run"
@@ -325,7 +341,7 @@ export default function Settings() {
             </div>
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <SectionHeader title="Data & account" subtitle="Export everything or remove your data permanently" />
             <div className="mt-3 flex flex-wrap gap-2">
               <Button
@@ -339,25 +355,25 @@ export default function Settings() {
                 Sign out
               </Button>
             </div>
-            <div className="mt-4 rounded-xl border border-rose-500/25 bg-rose-500/[0.05] p-3">
-              <p className="flex items-center gap-1.5 text-[11px] font-semibold text-rose-400">
-                <Trash2 className="h-3.5 w-3.5" /> Delete account & data
+            <div className="mt-4 rounded-2xl border border-rose-500/25 bg-rose-500/[0.05] p-4">
+              <p className="flex items-center gap-1.5 text-xs font-bold text-rose-500 dark:text-rose-400">
+                <Trash2 className="h-4 w-4" /> Delete account & data
               </p>
-              <p className="mt-1 text-[10px] leading-relaxed muted">
+              <p className="mt-1 text-xs leading-relaxed muted">
                 Removes every study record owned by this account. In Supabase mode your auth record remains unless the project owner enables the deletion function; the
                 service-role key can never be safely used in the browser.
               </p>
-              <Button variant="danger" size="sm" className="mt-2" onClick={() => setDeleteOpen(true)}>
+              <Button variant="danger" size="sm" className="mt-3" onClick={() => setDeleteOpen(true)}>
                 Delete my data
               </Button>
             </div>
           </Card>
         </div>
 
-        <div className="space-y-4">
-          <Card className="p-5">
+        <div className="space-y-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <SectionHeader title="Workspace status" subtitle="Where your data actually lives" action={<Database className="h-4 w-4 soft" />} />
-            <div className="mt-3 space-y-2 text-[10.5px]">
+            <div className="mt-3 space-y-2 text-xs">
               {[
                 ['Mode', mode === 'supabase' ? 'Supabase (cloud)' : 'Local browser workspace'],
                 ['User ID', user?.id?.slice(0, 12) ?? '—'],
@@ -367,78 +383,78 @@ export default function Settings() {
                 ['Tasks', `${data.tasks.length}`],
                 ['Documents', `${data.resources.length}`],
               ].map(([k, v]) => (
-                <div key={k} className="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-1.5">
-                  <span className="muted">{k}</span>
-                  <span className="truncate font-medium">{v}</span>
+                <div key={k} className="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+                  <span className="muted font-medium">{k}</span>
+                  <span className="truncate font-bold">{v}</span>
                 </div>
               ))}
             </div>
           </Card>
 
-          <Card className={cn('p-5', mode === 'local' && 'border-amber-500/30')}>
+          <Card className={cn('p-6 rounded-[28px] shadow-sm', mode === 'local' && 'border-amber-500/30')}>
             <SectionHeader
               title={isSupabaseConfigured ? 'Supabase connected' : 'Connect Supabase'}
               subtitle={isSupabaseConfigured ? 'Cloud accounts, RLS and multi-device sync are active.' : 'Required for secure accounts and real data isolation.'}
-              action={<ShieldCheck className={cn('h-4 w-4', isSupabaseConfigured ? 'text-emerald-400' : 'text-amber-400')} />}
+              action={<ShieldCheck className={cn('h-5 w-5', isSupabaseConfigured ? 'text-emerald-400' : 'text-amber-400')} />}
             />
             {isSupabaseConfigured ? (
-              <ul className="mt-3 space-y-1.5 text-[10.5px] muted">
-                <li className="flex items-center gap-1.5"><Check className="h-3 w-3 text-emerald-400" /> Email/password and Google authentication</li>
-                <li className="flex items-center gap-1.5"><Check className="h-3 w-3 text-emerald-400" /> Row Level Security on every table</li>
-                <li className="flex items-center gap-1.5"><Check className="h-3 w-3 text-emerald-400" /> Storage buckets for avatars and study documents</li>
-                <li className="flex items-center gap-1.5"><Check className="h-3 w-3 text-emerald-400" /> Password recovery enabled</li>
+              <ul className="mt-3 space-y-2 text-xs muted font-medium">
+                <li className="flex items-center gap-2"><Check className="h-4 w-4 text-emerald-400" /> Email/password and Google authentication</li>
+                <li className="flex items-center gap-2"><Check className="h-4 w-4 text-emerald-400" /> Row Level Security on every table</li>
+                <li className="flex items-center gap-2"><Check className="h-4 w-4 text-emerald-400" /> Storage buckets for avatars and study documents</li>
+                <li className="flex items-center gap-2"><Check className="h-4 w-4 text-emerald-400" /> Password recovery enabled</li>
               </ul>
             ) : (
-              <div className="mt-3 space-y-2 text-[10.5px] leading-relaxed muted">
+              <div className="mt-3 space-y-2 text-xs leading-relaxed muted">
                 <p>Your current data lives in this browser only. To go live:</p>
                 <ol className="ml-3 list-decimal space-y-1">
                   <li>Create a Supabase project.</li>
-                  <li>Run <code className="rounded bg-black/20 px-1">supabase/migrations/0001_init.sql</code> in the SQL editor.</li>
-                  <li>Create the <code className="rounded bg-black/20 px-1">avatars</code> and <code className="rounded bg-black/20 px-1">study-documents</code> storage buckets.</li>
-                  <li>Copy <code className="rounded bg-black/20 px-1">.env.example</code> to <code className="rounded bg-black/20 px-1">.env</code> and set the two values below.</li>
+                  <li>Run <code className="rounded bg-black/20 px-1 font-mono">supabase/migrations/0001_init.sql</code> in the SQL editor.</li>
+                  <li>Create the <code className="rounded bg-black/20 px-1 font-mono">avatars</code> and <code className="rounded bg-black/20 px-1 font-mono">study-documents</code> storage buckets.</li>
+                  <li>Copy <code className="rounded bg-black/20 px-1 font-mono">.env.example</code> to <code className="rounded bg-black/20 px-1 font-mono">.env</code> and set the two values below.</li>
                   <li>Restart the dev server and sign up.</li>
                 </ol>
-                <pre className="overflow-x-auto rounded-lg border border-[var(--border)] surface-1 p-2 text-[9.5px] leading-relaxed">
+                <pre className="overflow-x-auto rounded-xl border border-[var(--border)] surface-1 p-2.5 text-[10px] font-mono leading-relaxed">
 {`VITE_SUPABASE_URL=https://YOUR-PROJECT.supabase.co
 VITE_SUPABASE_ANON_KEY=YOUR-ANON-KEY`}
                 </pre>
-                <p className="text-[9.5px] soft">
+                <p className="text-[10px] soft">
                   Never place a service-role key in frontend environment variables. The anon key is safe only when RLS policies are in place — the migration includes them.
                 </p>
               </div>
             )}
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <SectionHeader title="Keyboard & shortcuts" />
-            <div className="mt-3 space-y-1.5 text-[10.5px]">
+            <div className="mt-3 space-y-2 text-xs">
               {[
                 ['Ctrl / ⌘ + K', 'Jump to any section'],
                 ['Space', 'Pause or resume an active timer'],
                 ['Enter', 'Confirm the open dialog'],
                 ['Esc', 'Close dialogs without ending sessions'],
               ].map(([k, v]) => (
-                <div key={k} className="flex items-center justify-between gap-2">
-                  <kbd className="rounded border border-[var(--border-strong)] surface-1 px-1.5 py-0.5 font-mono text-[9.5px]">{k}</kbd>
-                  <span className="muted">{v}</span>
+                <div key={k} className="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-1.5">
+                  <kbd className="rounded-full border border-[var(--border-strong)] surface-1 px-2.5 py-0.5 font-mono text-[10px] font-semibold">{k}</kbd>
+                  <span className="muted font-medium">{v}</span>
                 </div>
               ))}
             </div>
-            <p className="mt-2 text-[9px] soft">Shortcuts are additive; every action also has a visible control.</p>
+            <p className="mt-3 text-[10px] soft">Shortcuts are additive; every action also has a visible control.</p>
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6 rounded-[28px] shadow-sm">
             <SectionHeader title="About FOCUSFORGE" />
-            <p className="mt-2 text-[10.5px] leading-relaxed muted">
+            <p className="mt-2 text-xs leading-relaxed muted">
               A personal study operating system built for exam season. Timestamp-accurate sessions, honest accountability and analytics derived only from your persisted records.
             </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
+            <div className="mt-3 flex flex-wrap gap-2">
               <Badge tone="brand">v1.0.0</Badge>
               <Badge tone="neutral">PWA</Badge>
               <Badge tone="success">RLS ready</Badge>
               <Badge tone="violet">Timestamp engine</Badge>
             </div>
-            <p className="mt-2 text-[9.5px] soft">Built with React, TypeScript, Vite, Tailwind, Framer Motion, Recharts and Supabase.</p>
+            <p className="mt-3 text-[10px] soft">Built with React, TypeScript, Vite, Tailwind, Framer Motion, Recharts and Supabase.</p>
           </Card>
         </div>
       </div>

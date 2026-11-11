@@ -4,32 +4,44 @@
 
 @layer base {
   :root {
-    --bg: #f6f7fb;
+    --bg: #f1f4f9;
     --bg-elevated: #ffffff;
-    --panel: rgba(255, 255, 255, 0.86);
+    --panel: #ffffff;
     --panel-solid: #ffffff;
-    --border: rgba(15, 23, 42, 0.09);
-    --border-strong: rgba(15, 23, 42, 0.16);
-    --text: #0b1020;
-    --text-muted: #5a6478;
-    --text-soft: #7b869c;
-    --ring: rgba(59, 108, 255, 0.35);
-    --grid: rgba(15, 23, 42, 0.055);
+    --surface-1: #e9eef6;
+    --surface-2: #dfe6f2;
+    --surface-3: #d3deed;
+    --border: rgba(30, 41, 59, 0.08);
+    --border-strong: rgba(30, 41, 59, 0.16);
+    --text: #0f172a;
+    --text-muted: #475569;
+    --text-soft: #64748b;
+    --ring: rgba(37, 99, 235, 0.35);
+    --grid: rgba(30, 41, 59, 0.04);
+    --brand-primary: #2563eb;
+    --brand-container: #dbeafe;
+    --on-brand-container: #1e3a8a;
     color-scheme: light;
   }
 
   .dark {
-    --bg: #07090f;
-    --bg-elevated: #0b0f19;
-    --panel: rgba(17, 22, 36, 0.72);
-    --panel-solid: #0e1320;
-    --border: rgba(255, 255, 255, 0.075);
-    --border-strong: rgba(255, 255, 255, 0.14);
-    --text: #eef2ff;
-    --text-muted: #97a1bb;
-    --text-soft: #6c7794;
-    --ring: rgba(91, 140, 255, 0.45);
-    --grid: rgba(255, 255, 255, 0.035);
+    --bg: #0b0f19;
+    --bg-elevated: #111726;
+    --panel: rgba(18, 25, 41, 0.82);
+    --panel-solid: #131a2b;
+    --surface-1: #161e31;
+    --surface-2: #1c263e;
+    --surface-3: #24304d;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.15);
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-soft: #64748b;
+    --ring: rgba(96, 165, 250, 0.45);
+    --grid: rgba(255, 255, 255, 0.025);
+    --brand-primary: #5b8cff;
+    --brand-container: #1e3264;
+    --on-brand-container: #c2d5ff;
     color-scheme: dark;
   }
 
@@ -41,6 +53,15 @@
   body,
   #root {
     height: 100%;
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    html,
+    body,
+    #root {
+      font-size: 18px;
+    }
   }
 
   body {
@@ -48,8 +69,10 @@
     color: var(--text);
     font-family: theme('fontFamily.sans');
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     overscroll-behavior-y: none;
+    line-height: 1.5;
   }
 
   ::selection {
@@ -62,17 +85,18 @@
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-thumb {
     background: var(--border-strong);
     border-radius: 999px;
-    border: 3px solid transparent;
-    background-clip: content-box;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-soft);
   }
 
   h1,
@@ -88,6 +112,7 @@
   select,
   button {
     font: inherit;
+    touch-action: manipulation;
   }
 
   .reduce-motion *,
@@ -122,15 +147,20 @@
   .panel {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 1.25rem;
-    backdrop-filter: blur(18px) saturate(130%);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 22px 48px -34px rgba(0, 0, 0, 0.85);
+    border-radius: 1.625rem;
+    backdrop-filter: blur(12px) saturate(120%);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 8px 24px -12px rgba(0, 0, 0, 0.25);
+    contain: layout style paint;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+  .panel:hover {
+    border-color: var(--border-strong);
   }
 
   .panel-solid {
     background: var(--panel-solid);
     border: 1px solid var(--border);
-    border-radius: 1.25rem;
+    border-radius: 1.75rem;
   }
 
   .hairline {
@@ -147,89 +177,82 @@
 
   .field {
     width: 100%;
-    border-radius: 0.75rem;
+    border-radius: 1rem;
     border: 1px solid var(--border-strong);
-    background: color-mix(in srgb, var(--panel-solid) 75%, transparent);
-    padding: 0.6rem 0.75rem;
-    font-size: 0.875rem;
+    background: var(--surface-1);
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
     color: var(--text);
-    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    line-height: 1.4;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px var(--ring);
+    background: var(--surface-2);
   }
   .field::placeholder {
     color: var(--text-soft);
   }
   .field:hover {
-    border-color: color-mix(in srgb, var(--text-soft) 60%, transparent);
-  }
-  .field:focus {
-    outline: none;
-    border-color: rgba(91, 140, 255, 0.7);
-    box-shadow: 0 0 0 3px rgba(59, 108, 255, 0.16);
+    border-color: var(--text-soft);
   }
   .field-sm {
-    padding: 0.4rem 0.55rem;
-    font-size: 0.8rem;
-    border-radius: 0.6rem;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.82rem;
+    border-radius: 0.75rem;
   }
 
   .label {
     display: block;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-soft);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.45rem;
   }
 
   .chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    border-radius: 999px;
+    gap: 0.4rem;
+    border-radius: 9999px;
     border: 1px solid var(--border-strong);
-    padding: 0.18rem 0.55rem;
-    font-size: 0.7rem;
-    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
     color: var(--text-muted);
     white-space: nowrap;
-  }
-
-  .gradient-text {
-    background: linear-gradient(100deg, #8fb5ff 0%, #b9a4ff 55%, #d8c7ff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .dark .gradient-text {
-    background: linear-gradient(100deg, #b5cdff 0%, #c4b5fd 55%, #e9d5ff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-
-  .tile-grid {
-    background-image: linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(ellipse at 50% 0%, black 10%, transparent 78%);
+    transition: all 0.15s ease;
   }
 
   .surface-1 {
-    background: color-mix(in srgb, var(--text) 4%, transparent);
+    background: var(--surface-1);
   }
   .surface-2 {
-    background: color-mix(in srgb, var(--text) 7%, transparent);
+    background: var(--surface-2);
   }
   .surface-3 {
-    background: color-mix(in srgb, var(--text) 11%, transparent);
+    background: var(--surface-3);
+  }
+
+  .calculator-key {
+    touch-action: manipulation;
+    user-select: none;
+    transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease, box-shadow 0.15s ease;
+    will-change: transform;
+  }
+  .calculator-key:active {
+    transform: scale(0.94);
   }
   .hover-lift {
-    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
   }
   .hover-lift:hover {
     transform: translateY(-2px);
-    border-color: var(--border-strong);
   }
   .skeleton {
     position: relative;
@@ -257,10 +280,50 @@
   .ring-track {
     stroke: color-mix(in srgb, var(--text) 10%, transparent);
   }
+
+  .gradient-text {
+    background: linear-gradient(100deg, #8fb5ff 0%, #b9a4ff 55%, #d8c7ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .dark .gradient-text {
+    background: linear-gradient(100deg, #b5cdff 0%, #c4b5fd 55%, #e9d5ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .tile-grid {
+    background-image: 
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(to right, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .bg-grid-fade {
+    background-image: radial-gradient(ellipse at center, transparent 60%, var(--bg) 100%);
+  }
 }
 
 @layer utilities {
   .safe-bottom {
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+  }
+
+  @media (max-width: 768px) {
+    .text-\[9px\],
+    .text-\[9\.5px\] {
+      font-size: 11px !important;
+    }
+    .text-\[10px\],
+    .text-\[10\.5px\] {
+      font-size: 12.5px !important;
+    }
+    .text-\[11px\],
+    .text-\[11\.5px\] {
+      font-size: 13.5px !important;
+    }
   }
 }

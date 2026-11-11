@@ -46,14 +46,24 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter var', 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
-        display: ['Sora', 'Inter var', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+        display: ['Outfit', 'Plus Jakarta Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
+      borderRadius: {
+        '2xl': '1.25rem', // 20px
+        '3xl': '1.75rem', // 28px
+        '4xl': '2.25rem', // 36px
+        '5xl': '3rem',    // 48px
+        'pill': '9999px',
+      },
       boxShadow: {
-        soft: '0 1px 2px rgba(0,0,0,0.25), 0 12px 32px -12px rgba(0,0,0,0.6)',
-        glow: '0 0 0 1px rgba(59,108,255,0.28), 0 18px 50px -18px rgba(59,108,255,0.55)',
-        card: '0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 50px -30px rgba(0,0,0,0.9)',
+        soft: '0 2px 8px -2px rgba(0,0,0,0.1), 0 12px 32px -8px rgba(0,0,0,0.25)',
+        glow: '0 0 0 1px rgba(91,140,255,0.24), 0 16px 40px -12px rgba(59,108,255,0.45)',
+        fab: '0 10px 25px -4px rgba(59,108,255,0.5), 0 4px 10px -2px rgba(0,0,0,0.2)',
+        card: '0 1px 2px rgba(0,0,0,0.06), 0 16px 36px -16px rgba(0,0,0,0.35)',
+        m3: '0 1px 3px 1px rgba(0,0,0,0.15), 0 1px 2px 0 rgba(0,0,0,0.3)',
+        'm3-high': '0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px 0 rgba(0,0,0,0.3)',
       },
       backgroundImage: {
         'grid-fade':

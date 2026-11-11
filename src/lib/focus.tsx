@@ -132,7 +132,7 @@ export function FocusProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!session && !breakState) return
     setNow(Date.now())
-    const id = window.setInterval(() => setNow(Date.now()), 500)
+    const id = window.setInterval(() => setNow(Date.now()), 1000)
     return () => window.clearInterval(id)
   }, [session?.id, session, breakState])
 

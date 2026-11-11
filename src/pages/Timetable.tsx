@@ -218,7 +218,7 @@ export default function Timetable() {
         onDragStart={() => setDragging(entry.id)}
         onDragEnd={() => setDragging(null)}
         className={cn(
-          'group relative cursor-grab rounded-xl border px-2.5 py-2 transition active:cursor-grabbing',
+          'group relative cursor-grab rounded-2xl border px-2.5 py-2 transition active:cursor-grabbing',
           dragging === entry.id ? 'opacity-40' : '',
           entry.status === 'completed'
             ? 'border-emerald-500/20 bg-emerald-500/[0.05]'
@@ -349,7 +349,7 @@ export default function Timetable() {
                     }
                   }}
                   className={cn(
-                    'min-h-[220px] rounded-xl border p-2 transition',
+                    'min-h-[220px] rounded-2xl border p-2.5 transition',
                     isToday ? 'border-brand-400/35 bg-brand-500/[0.05]' : 'border-[var(--border)] surface-1',
                     dragging && 'border-dashed border-brand-400/40',
                   )}
@@ -382,14 +382,14 @@ export default function Timetable() {
           <Card className="p-5">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-1">
-                <button onClick={() => setSelectedDay((d) => (d + 6) % 7)} className="rounded-lg border border-[var(--border)] p-1.5 transition hover:surface-2" aria-label="Previous day">
+                <button onClick={() => setSelectedDay((d) => (d + 6) % 7)} className="rounded-full border border-[var(--border)] p-1.5 transition hover:surface-2" aria-label="Previous day">
                   <ChevronLeft className="h-3.5 w-3.5" />
                 </button>
                 <h2 className="min-w-[130px] px-2 text-sm font-semibold">
                   {WEEKDAYS[selectedDay]}
                   {selectedDay === weekdayOfKey(today) && <span className="ml-1.5 text-[10px] font-medium text-brand-300">today</span>}
                 </h2>
-                <button onClick={() => setSelectedDay((d) => (d + 1) % 7)} className="rounded-lg border border-[var(--border)] p-1.5 transition hover:surface-2" aria-label="Next day">
+                <button onClick={() => setSelectedDay((d) => (d + 1) % 7)} className="rounded-full border border-[var(--border)] p-1.5 transition hover:surface-2" aria-label="Next day">
                   <ChevronRight className="h-3.5 w-3.5" />
                 </button>
               </div>
@@ -417,7 +417,7 @@ export default function Timetable() {
                         <span className="absolute left-1/2 top-3 h-1.5 w-1.5 -translate-x-1/2 rounded-full" style={{ backgroundColor: color.hex }} />
                         <span className="absolute left-1/2 top-5 h-[calc(100%-12px)] w-px -translate-x-1/2" style={{ backgroundColor: `${color.hex}33` }} />
                       </div>
-                      <div className="min-w-0 flex-1 rounded-xl border border-[var(--border)] surface-1 p-3">
+                      <div className="min-w-0 flex-1 rounded-2xl border border-[var(--border)] surface-1 p-3">
                         <div className="flex flex-wrap items-start justify-between gap-2">
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
@@ -450,13 +450,13 @@ export default function Timetable() {
                             >
                               Start
                             </Button>
-                            <button onClick={() => openEdit(entry)} className="rounded-lg border border-[var(--border)] p-2 transition hover:surface-2" aria-label="Edit">
+                            <button onClick={() => openEdit(entry)} className="rounded-full border border-[var(--border)] p-2 transition hover:surface-2" aria-label="Edit">
                               <Pencil className="h-3 w-3" />
                             </button>
-                            <button onClick={() => void actions.updateEntry(entry.id, { status: 'missed' })} className="rounded-lg border border-[var(--border)] p-2 soft transition hover:text-rose-400" aria-label="Mark missed">
+                            <button onClick={() => void actions.updateEntry(entry.id, { status: 'missed' })} className="rounded-full border border-[var(--border)] p-2 soft transition hover:text-rose-400" aria-label="Mark missed">
                               <AlertTriangle className="h-3 w-3" />
                             </button>
-                            <button onClick={() => setDeleteTarget(entry)} className="rounded-lg border border-[var(--border)] p-2 soft transition hover:text-rose-400" aria-label="Delete">
+                            <button onClick={() => setDeleteTarget(entry)} className="rounded-full border border-[var(--border)] p-2 soft transition hover:text-rose-400" aria-label="Delete">
                               <Trash2 className="h-3 w-3" />
                             </button>
                           </div>
@@ -512,7 +512,7 @@ export default function Timetable() {
           <div className="mb-4 flex items-center justify-between">
             <button
               onClick={() => setMonthCursor((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1))}
-              className="rounded-lg border border-[var(--border)] p-1.5 transition hover:surface-2"
+              className="rounded-full border border-[var(--border)] p-1.5 transition hover:surface-2"
               aria-label="Previous month"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -523,7 +523,7 @@ export default function Timetable() {
             </div>
             <button
               onClick={() => setMonthCursor((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))}
-              className="rounded-lg border border-[var(--border)] p-1.5 transition hover:surface-2"
+              className="rounded-full border border-[var(--border)] p-1.5 transition hover:surface-2"
               aria-label="Next month"
             >
               <ChevronRight className="h-4 w-4" />
@@ -536,7 +536,7 @@ export default function Timetable() {
               </div>
             ))}
             {monthDays.map((cell, i) => {
-              if (!cell.date || !cell.key) return <div key={`empty-${i}`} className="min-h-[64px] rounded-lg" />
+              if (!cell.date || !cell.key) return <div key={`empty-${i}`} className="min-h-[64px] rounded-xl" />
               const weekday = cell.date.getDay()
               const entries = weekdayEntries(weekday)
               const minutes = entries.reduce((s, e) => s + minutesBetweenTimes(e.start_time, e.end_time), 0)
@@ -550,7 +550,7 @@ export default function Timetable() {
                     setView('day')
                   }}
                   className={cn(
-                    'min-h-[64px] rounded-lg border p-1.5 text-left transition hover:border-brand-400/40',
+                    'min-h-[64px] rounded-xl border p-1.5 text-left transition hover:border-brand-400/40',
                     isToday ? 'border-brand-400/50 bg-brand-500/[0.08]' : isPast ? 'border-[var(--border)] opacity-70' : 'border-[var(--border)] surface-1',
                   )}
                 >
@@ -659,7 +659,7 @@ export default function Timetable() {
       >
         <div className="space-y-3">
           {conflict && (
-            <div className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/[0.08] p-3 text-[11px] leading-relaxed text-amber-600 dark:text-amber-200">
+            <div className="flex items-start gap-2 rounded-2xl border border-amber-500/30 bg-amber-500/[0.08] p-3 text-[11px] leading-relaxed text-amber-600 dark:text-amber-200">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
               <div>
                 <p className="font-semibold">Schedule conflict detected</p>

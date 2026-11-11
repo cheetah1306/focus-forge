@@ -108,7 +108,7 @@ export default function Challenge() {
                 { title: 'Honest tracking', body: 'Missed days are recorded, not reset. Recovery is planned, not pretended.' },
                 { title: 'Performance reports', body: 'Each day produces a report from your actual sessions and tasks.' },
               ].map((f) => (
-                <div key={f.title} className="rounded-xl border border-[var(--border)] surface-1 p-3">
+                <div key={f.title} className="rounded-2xl border border-[var(--border)] surface-1 p-3">
                   <p className="flex items-center gap-1.5 text-[11px] font-semibold">
                     <Check className="h-3 w-3 text-brand-300" /> {f.title}
                   </p>
@@ -190,7 +190,7 @@ export default function Challenge() {
                           prioritySubjects: activeSubject ? f.prioritySubjects.filter((id) => id !== s.id) : [...f.prioritySubjects, s.id].slice(0, 3),
                         }))
                       }
-                      className={cn('rounded-lg border px-2 py-1 text-[11px] transition', activeSubject ? 'border-brand-400/50 bg-brand-500/15' : 'border-[var(--border)] surface-1 muted')}
+                      className={cn('rounded-full border px-3 py-1 text-[11px] transition', activeSubject ? 'border-brand-400/50 bg-brand-500/15' : 'border-[var(--border)] surface-1 muted')}
                     >
                       {s.name}
                     </button>
@@ -199,7 +199,7 @@ export default function Challenge() {
                 {data.subjects.length === 0 && <p className="text-[10.5px] muted">Add subjects first to prioritise them.</p>}
               </div>
             </Field>
-            <p className="rounded-xl border border-brand-400/20 bg-brand-500/[0.06] p-3 text-[10.5px] leading-relaxed muted">
+            <p className="rounded-2xl border border-brand-400/20 bg-brand-500/[0.06] p-3 text-[10.5px] leading-relaxed muted">
               Day 1 starts on {form.startDate}. Targets apply immediately. Missing a day never resets the challenge — it is tracked as a missed day with a recovery plan.
             </p>
           </div>
@@ -261,15 +261,15 @@ export default function Challenge() {
                 <ProgressBar value={todayStats.minutes / Math.max(1, todayStats.targetMinutes)} className="mt-1" />
               </div>
               <div className="mt-3 grid grid-cols-3 gap-2 text-[10px]">
-                <div className="rounded-lg border border-[var(--border)] surface-1 px-2 py-1.5">
+                <div className="rounded-2xl border border-[var(--border)] surface-1 px-2 py-1.5">
                   <p className="soft">Consistency</p>
                   <p className="text-sm font-semibold">{metrics.consistency}%</p>
                 </div>
-                <div className="rounded-lg border border-[var(--border)] surface-1 px-2 py-1.5">
+                <div className="rounded-2xl border border-[var(--border)] surface-1 px-2 py-1.5">
                   <p className="soft">Streak</p>
                   <p className="text-sm font-semibold">{metrics.streak}d</p>
                 </div>
-                <div className="rounded-lg border border-[var(--border)] surface-1 px-2 py-1.5">
+                <div className="rounded-2xl border border-[var(--border)] surface-1 px-2 py-1.5">
                   <p className="soft">Best</p>
                   <p className="text-sm font-semibold">{metrics.bestStreak}d</p>
                 </div>
@@ -325,7 +325,7 @@ export default function Challenge() {
               key={day.date}
               onClick={() => setDayDetail(day.date)}
               className={cn(
-                'group relative flex aspect-square flex-col items-center justify-center rounded-lg border text-center transition-all hover:-translate-y-0.5',
+                'group relative flex aspect-square flex-col items-center justify-center rounded-2xl border text-center transition-transform hover:-translate-y-0.5',
                 day.status === 'completed' && 'border-emerald-400/30 bg-emerald-500/15',
                 day.status === 'missed' && 'border-rose-400/30 bg-rose-500/10',
                 day.status === 'pending' && 'border-brand-400/50 bg-brand-500/10',
@@ -343,7 +343,7 @@ export default function Challenge() {
             </button>
           ))}
         </div>
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[var(--border)] surface-1 px-3 py-2 text-[10.5px] muted">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-[var(--border)] surface-1 px-3 py-2 text-[10.5px] muted">
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5 text-brand-300" /> Missed days are recorded, never erased. The challenge continues until Day {metrics.totalDays}.
           </span>
@@ -356,7 +356,7 @@ export default function Challenge() {
       {metrics.currentDay > metrics.totalDays && (
         <Card className="mt-4 border-brand-400/30 p-5">
           <div className="flex items-start gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
               <Trophy className="h-5 w-5" />
             </span>
             <div>
@@ -405,8 +405,8 @@ export default function Challenge() {
               .sort((a, b) => b.date.localeCompare(a.date))
               .slice(0, 6)
               .map((p) => (
-                <button key={p.id} onClick={() => setDayDetail(p.date)} className="flex w-full items-center gap-2 rounded-lg border border-[var(--border)] surface-1 px-2.5 py-2 text-left transition hover:surface-2">
-                  <span className={cn('flex h-6 w-6 items-center justify-center rounded-md text-[9px] font-bold', p.status === 'completed' ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/10 text-rose-400')}>
+                <button key={p.id} onClick={() => setDayDetail(p.date)} className="flex w-full items-center gap-2 rounded-2xl border border-[var(--border)] surface-1 px-2.5 py-2 text-left transition hover:surface-2">
+                  <span className={cn('flex h-6 w-6 items-center justify-center rounded-xl text-[9px] font-bold', p.status === 'completed' ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/10 text-rose-400')}>
                     D{p.day_number}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -418,7 +418,7 @@ export default function Challenge() {
                 </button>
               ))}
             {data.challengeProgress.filter((p) => p.challenge_id === active.id).length === 0 && (
-              <p className="rounded-lg border border-dashed border-[var(--border-strong)] px-3 py-5 text-center text-[10.5px] muted">
+              <p className="rounded-2xl border border-dashed border-[var(--border-strong)] px-3 py-5 text-center text-[10.5px] muted">
                 No reports yet. Complete a session and reports will be generated for each elapsed day.
               </p>
             )}
@@ -510,7 +510,7 @@ export default function Challenge() {
           <Field label="Weekly revision target">
             <NumberInput min={0} max={30} value={form.weeklyRevisionTarget} onValueChange={(v) => setForm((f) => ({ ...f, weeklyRevisionTarget: v }))} />
           </Field>
-          <div className="rounded-xl border border-[var(--border)] surface-1 p-3 text-[10.5px] leading-relaxed muted">
+          <div className="rounded-2xl border border-[var(--border)] surface-1 p-3 text-[10.5px] leading-relaxed muted">
             Current challenge runs {formatDateShort(active.start_date)} to {formatDateShort(active.end_date)}. Changing the daily target affects today and future days only.
           </div>
         </div>
@@ -532,7 +532,7 @@ export default function Challenge() {
                 { label: 'Sessions', value: `${detailStats.completedSessions}` },
                 { label: 'Focus score', value: `${detailStats.focusScore}` },
               ].map((s) => (
-                <div key={s.label} className="rounded-xl border border-[var(--border)] surface-1 px-2.5 py-2">
+                <div key={s.label} className="rounded-2xl border border-[var(--border)] surface-1 px-2.5 py-2">
                   <p className="text-[9px] uppercase tracking-wider soft">{s.label}</p>
                   <p className="mt-0.5 text-sm font-semibold">{s.value}</p>
                 </div>
@@ -552,7 +552,7 @@ export default function Challenge() {
               <p>· {detailStats.minutes >= detailStats.targetMinutes ? 'Daily target met — counts as a completed challenge day.' : `${formatMinutes(Math.max(0, detailStats.targetMinutes - detailStats.minutes))} short of target.`}</p>
             </div>
             {reportRow?.report && (
-              <div className="rounded-xl border border-[var(--border)] surface-1 p-3 text-[10.5px] leading-relaxed muted">
+              <div className="rounded-2xl border border-[var(--border)] surface-1 p-3 text-[10.5px] leading-relaxed muted">
                 <p className="font-semibold text-[var(--text)]">Persisted report</p>
                 <p className="mt-1">{reportRow.report.summary}</p>
               </div>

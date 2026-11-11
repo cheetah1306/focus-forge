@@ -140,7 +140,7 @@ export function SessionLauncher({
                     setMinutes(m.focus)
                   }}
                   className={cn(
-                    'relative rounded-xl border p-2.5 text-left transition-all',
+                    'relative rounded-xl border p-2.5 text-left transition-colors',
                     mode === m.id ? 'border-brand-400/50 bg-brand-500/10' : 'border-[var(--border)] surface-1 hover:surface-2',
                   )}
                 >

@@ -93,16 +93,16 @@ export default function Achievements() {
         <SectionHeader title="Next achievements" subtitle="Closest unlocked milestones, based on live progress" action={<Star className="h-4 w-4 text-amber-400" />} />
         <div className="mt-3 grid gap-2 sm:grid-cols-3">
           {nextUp.length === 0 ? (
-            <p className="col-span-full rounded-xl border border-emerald-500/25 bg-emerald-500/[0.06] px-3 py-4 text-center text-[11px] text-emerald-400">
+            <p className="col-span-full rounded-2xl border border-emerald-500/25 bg-emerald-500/[0.06] px-3 py-4 text-center text-[11px] text-emerald-400">
               Every achievement unlocked. Extraordinary consistency — keep the record clean.
             </p>
           ) : (
             nextUp.map((a) => {
               const tier = TIER_STYLE[a.tier]
               return (
-                <div key={a.id} className={cn('rounded-xl border p-3', tier.ring, 'bg-gradient-to-br', tier.bg)}>
+                <div key={a.id} className={cn('rounded-2xl border p-3', tier.ring, 'bg-gradient-to-br', tier.bg)}>
                   <div className="flex items-center gap-2">
-                    <span className={cn('flex h-8 w-8 items-center justify-center rounded-lg surface-2', tier.text)}>{ICONS[a.icon] ?? <Trophy className="h-5 w-5" />}</span>
+                    <span className={cn('flex h-8 w-8 items-center justify-center rounded-xl surface-2', tier.text)}>{ICONS[a.icon] ?? <Trophy className="h-5 w-5" />}</span>
                     <div className="min-w-0">
                       <p className="truncate text-[11px] font-semibold">{a.title}</p>
                       <p className="truncate text-[9.5px] muted">{a.description}</p>
@@ -137,12 +137,12 @@ export default function Achievements() {
               <div className="flex items-start gap-3">
                 <span
                   className={cn(
-                    'relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border',
+                    'relative flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border',
                     a.unlocked ? cn('surface-2', tier.ring, tier.text) : 'border-[var(--border)] surface-1 soft',
                   )}
                 >
                   {a.unlocked ? ICONS[a.icon] ?? <Trophy className="h-5 w-5" /> : <Lock className="h-4 w-4" />}
-                  {a.unlocked && <span className="absolute inset-0 animate-pulseRing rounded-xl border border-current opacity-20" />}
+                  {a.unlocked && <span className="absolute inset-0 animate-pulseRing rounded-2xl border border-current opacity-20" />}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
@@ -175,7 +175,7 @@ export default function Achievements() {
             { label: 'Tasks completed', value: `${data.tasks.filter((t) => t.status === 'completed').length}`, hint: `${data.tasks.length} created in total` },
             { label: 'Challenge days', value: `${data.challengeProgress.filter((p) => p.status === 'completed').length}`, hint: 'Days that met their target' },
           ].map((r) => (
-            <div key={r.label} className="rounded-xl border border-[var(--border)] surface-1 p-3">
+            <div key={r.label} className="rounded-2xl border border-[var(--border)] surface-1 p-3">
               <p className="text-[9.5px] uppercase tracking-wider soft">{r.label}</p>
               <p className="mt-1 font-display text-base font-semibold">{r.value}</p>
               <p className="mt-0.5 text-[9.5px] muted">{r.hint}</p>

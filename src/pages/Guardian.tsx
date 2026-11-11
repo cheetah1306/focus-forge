@@ -109,7 +109,7 @@ export default function Guardian() {
                 key={p.id}
                 onClick={() => setPlatform(p.id)}
                 className={cn(
-                  'flex items-center gap-2 rounded-xl border px-2.5 py-2 text-[11px] font-medium transition',
+                  'flex items-center gap-2 rounded-full border px-3 py-2 text-[11px] font-medium transition',
                   platform === p.id ? 'border-brand-400/45 bg-brand-500/12 text-[var(--text)]' : 'border-[var(--border)] surface-1 muted hover:surface-2',
                 )}
               >
@@ -140,7 +140,7 @@ export default function Guardian() {
               Log distraction
             </Button>
             {[10, 20, 30, 60].map((m) => (
-              <button key={m} onClick={() => setMinutes(m)} className="rounded-lg border border-[var(--border)] px-2 py-1 text-[10px] font-medium surface-1 muted transition hover:surface-2">
+              <button key={m} onClick={() => setMinutes(m)} className="rounded-full border border-[var(--border)] px-3 py-1 text-[10px] font-medium surface-1 muted transition hover:surface-2">
                 {m}m
               </button>
             ))}
@@ -152,7 +152,7 @@ export default function Guardian() {
               {todayLogs.map((log) => {
                 const meta = PLATFORMS.find((p) => p.id === log.platform)
                 return (
-                  <motion.div key={log.id} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-2 rounded-lg border border-[var(--border)] surface-1 px-2.5 py-2">
+                  <motion.div key={log.id} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-2 rounded-2xl border border-[var(--border)] surface-1 px-2.5 py-2">
                     <span className="text-rose-400">{meta?.icon}</span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[11px] font-medium capitalize">{meta?.label ?? log.platform} · {formatMinutes(log.minutes, true)}</p>
@@ -172,7 +172,7 @@ export default function Guardian() {
           <SectionHeader title="Today's accountability checklist" subtitle="No gamification tricks — just the facts" />
           <div className="mt-3 space-y-1.5">
             {checklist.map((item) => (
-              <div key={item.label} className={cn('flex items-center gap-2 rounded-lg border px-2.5 py-2', item.done ? 'border-emerald-500/25 bg-emerald-500/[0.05]' : 'border-[var(--border)] surface-1')}>
+              <div key={item.label} className={cn('flex items-center gap-2 rounded-2xl border px-2.5 py-2', item.done ? 'border-emerald-500/25 bg-emerald-500/[0.05]' : 'border-[var(--border)] surface-1')}>
                 <span className={cn('flex h-5 w-5 shrink-0 items-center justify-center rounded-full border', item.done ? 'border-emerald-400/40 bg-emerald-500/15 text-emerald-400' : 'border-[var(--border-strong)] soft')}>
                   {item.done ? <CheckCircle2 className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
                 </span>
@@ -208,7 +208,7 @@ export default function Guardian() {
               </div>
             ))}
           </div>
-          <p className="mt-3 rounded-lg border border-[var(--border)] surface-1 p-2.5 text-[10px] leading-relaxed muted">
+          <p className="mt-3 rounded-2xl border border-[var(--border)] surface-1 p-2.5 text-[10px] leading-relaxed muted">
             Formula: study volume 40 + session completion 25 + academic tasks 15 + consistency 10 + focus discipline 10 = 100. Tasks with no deadline due today contribute 0
             unless you complete extra work.
           </p>
@@ -223,7 +223,7 @@ export default function Guardian() {
               </p>
             )}
             {missedEntries.map((entry) => (
-              <div key={entry.id} className="rounded-lg border border-amber-500/25 bg-amber-500/[0.06] p-2.5">
+              <div key={entry.id} className="rounded-2xl border border-amber-500/25 bg-amber-500/[0.06] p-2.5">
                 <div className="flex items-start gap-2">
                   <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-400" />
                   <div className="min-w-0 flex-1">
@@ -249,7 +249,7 @@ export default function Guardian() {
               </div>
             ))}
             {overdueTasks.map((task) => (
-              <div key={task.id} className="rounded-lg border border-rose-500/25 bg-rose-500/[0.05] p-2.5">
+              <div key={task.id} className="rounded-2xl border border-rose-500/25 bg-rose-500/[0.05] p-2.5">
                 <p className="text-[11px] font-semibold">{task.title}</p>
                 <p className="text-[9.5px] muted">
                   {relativeDeadline(task.deadline).label} · {task.estimated_minutes} min estimated ·{' '}
@@ -273,7 +273,7 @@ export default function Guardian() {
           ) : (
             <div className="mt-3 space-y-1.5">
               {interruptions.map((i) => (
-                <div key={i.id} className="flex items-center gap-2 rounded-lg border border-[var(--border)] surface-1 px-2.5 py-2">
+                <div key={i.id} className="flex items-center gap-2 rounded-2xl border border-[var(--border)] surface-1 px-2.5 py-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-md bg-rose-500/10 text-rose-400">
                     <ShieldAlert className="h-3 w-3" />
                   </span>
@@ -312,7 +312,7 @@ export default function Guardian() {
               </Button>
             }
           />
-          <p className="mt-3 rounded-xl border border-[var(--border)] surface-1 p-3 text-[11px] leading-relaxed muted">{report}</p>
+          <p className="mt-3 rounded-2xl border border-[var(--border)] surface-1 p-3 text-[11px] leading-relaxed muted">{report}</p>
           <ul className="mt-3 space-y-1.5">
             {insights.slice(0, 3).map((line) => (
               <li key={line} className="flex gap-2 text-[10.5px] leading-relaxed muted">
@@ -344,7 +344,7 @@ export default function Guardian() {
                 { label: 'Interruptions', value: `${stats.interruptedSessions}` },
                 { label: 'Distraction', value: formatMinutes(stats.distractionMinutes, true) },
               ].map((s) => (
-                <div key={s.label} className="rounded-lg border border-[var(--border)] surface-1 px-2 py-1.5">
+                <div key={s.label} className="rounded-2xl border border-[var(--border)] surface-1 px-2 py-1.5">
                   <p className="text-[9px] uppercase tracking-wider soft">{s.label}</p>
                   <p className="text-[11px] font-semibold">{s.value}</p>
                 </div>
@@ -363,7 +363,7 @@ export default function Guardian() {
             { label: 'Daily target reminders', active: Boolean(prefs?.notify.daily_target), detail: prefs?.notify.daily_target ? 'Enabled in settings' : 'Enable in Settings → Notifications' },
             { label: 'Deadline alerts', active: Boolean(prefs?.notify.deadlines), detail: prefs?.notify.deadlines ? '24h before due' : 'Enable in Settings → Notifications' },
           ].map((f) => (
-            <div key={f.label} className={cn('rounded-xl border p-3', f.active ? 'border-emerald-500/25 bg-emerald-500/[0.04]' : 'border-[var(--border)] surface-1')}>
+            <div key={f.label} className={cn('rounded-2xl border p-3', f.active ? 'border-emerald-500/25 bg-emerald-500/[0.04]' : 'border-[var(--border)] surface-1')}>
               <p className="flex items-center gap-1.5 text-[10.5px] font-semibold">
                 <span className={cn('h-1.5 w-1.5 rounded-full', f.active ? 'bg-emerald-400' : 'bg-[var(--text-soft)]')} />
                 {f.label}
@@ -372,7 +372,7 @@ export default function Guardian() {
             </div>
           ))}
         </div>
-        <p className="mt-3 flex items-start gap-2 rounded-lg border border-[var(--border)] surface-1 p-2.5 text-[10px] leading-relaxed muted">
+        <p className="mt-3 flex items-start gap-2 rounded-2xl border border-[var(--border)] surface-1 p-2.5 text-[10px] leading-relaxed muted">
           <ShieldCheck className="mt-0.5 h-3 w-3 shrink-0 text-brand-300" />
           FOCUSFORGE never blocks your device, hides exit controls, or loops confirmations. You can end any session instantly; it simply records the truth.
         </p>
