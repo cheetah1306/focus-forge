@@ -20,7 +20,7 @@ import { useApp } from '../lib/app-context'
 import { isSupabaseConfigured } from '../lib/supabase'
 import { cn, downloadFile, formatMinutes, todayKey } from '../lib/utils'
 import { PageHeader } from '../components/layout'
-import { Badge, Button, Card, ConfirmDialog, Field, Input, Modal, SectionHeader, SegmentedControl, Select, Switch } from '../components/ui'
+import { Badge, Button, Card, ConfirmDialog, Field, Input, Modal, NumberInput, SectionHeader, SegmentedControl, Select, Switch } from '../components/ui'
 import { toast } from '../lib/events'
 import { notificationPermission, requestNotificationPermission, showBrowserNotification } from '../lib/notifications'
 import type { ThemeMode, UserPreferences } from '../lib/types'
@@ -47,7 +47,6 @@ export default function Settings() {
   const [savingProfile, setSavingProfile] = useState(false)
   const [permission, setPermission] = useState(notificationPermission())
   const [deleteOpen, setDeleteOpen] = useState(false)
-  const [deleteConfirm, setDeleteConfirm] = useState('')
   const [passwordOpen, setPasswordOpen] = useState(false)
   const [newPassword, setNewPassword] = useState('')
   const [passwordBusy, setPasswordBusy] = useState(false)
@@ -216,13 +215,13 @@ export default function Settings() {
                 </Select>
               </Field>
               <Field label="Short break minutes">
-                <Input type="number" min={1} max={30} value={prefs?.break_minutes ?? 5} onChange={(e) => void actions.updatePreferences({ break_minutes: Math.max(1, Number(e.target.value) || 5) })} />
+                <NumberInput min={1} max={30} value={prefs?.break_minutes ?? 5} onValueChange={(v) => void actions.updatePreferences({ break_minutes: v })} />
               </Field>
               <Field label="Long break minutes">
-                <Input type="number" min={5} max={60} value={prefs?.long_break_minutes ?? 20} onChange={(e) => void actions.updatePreferences({ long_break_minutes: Math.max(5, Number(e.target.value) || 20) })} />
+                <NumberInput min={5} max={60} value={prefs?.long_break_minutes ?? 20} onValueChange={(v) => void actions.updatePreferences({ long_break_minutes: v })} />
               </Field>
               <Field label="Sessions before a long break">
-                <Input type="number" min={2} max={10} value={prefs?.sessions_before_long_break ?? 4} onChange={(e) => void actions.updatePreferences({ sessions_before_long_break: Math.max(2, Number(e.target.value) || 4) })} />
+                <NumberInput min={2} max={10} value={prefs?.sessions_before_long_break ?? 4} onValueChange={(v) => void actions.updatePreferences({ sessions_before_long_break: v })} />
               </Field>
             </div>
             <p className="mt-3 flex items-center gap-1.5 text-[10px] soft">
@@ -234,23 +233,21 @@ export default function Settings() {
             <SectionHeader title="Targets & timezone" subtitle="Challenge targets and analytics use these values" />
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               <Field label="Daily target (hours)" hint={formatMinutes((prefs?.daily_target_minutes ?? 240), true)}>
-                <Input
-                  type="number"
+                <NumberInput
                   min={1}
                   max={16}
                   step={0.5}
                   value={(prefs?.daily_target_minutes ?? 240) / 60}
-                  onChange={(e) => void actions.updatePreferences({ daily_target_minutes: Math.round((Number(e.target.value) || 1) * 60) })}
+                  onValueChange={(v) => void actions.updatePreferences({ daily_target_minutes: Math.round(v * 60) })}
                 />
               </Field>
               <Field label="Weekly target (hours)">
-                <Input
-                  type="number"
+                <NumberInput
                   min={1}
                   max={100}
                   step={1}
                   value={Math.round((prefs?.weekly_target_minutes ?? 1680) / 60)}
-                  onChange={(e) => void actions.updatePreferences({ weekly_target_minutes: Math.round((Number(e.target.value) || 1) * 60) })}
+                  onValueChange={(v) => void actions.updatePreferences({ weekly_target_minutes: Math.round(v * 60) })}
                 />
               </Field>
               <Field label="Timezone">
@@ -448,18 +445,12 @@ VITE_SUPABASE_ANON_KEY=YOUR-ANON-KEY`}
 
       <ConfirmDialog
         open={deleteOpen}
-        onClose={() => {
-          setDeleteOpen(false)
-          setDeleteConfirm('')
-        }}
+        onClose={() => setDeleteOpen(false)}
         title="Delete all your FOCUSFORGE data?"
         description="Type DELETE below to confirm. This cannot be undone unless you have exported a backup."
-        confirmLabel={deleteConfirm === 'DELETE' ? 'Delete permanently' : 'Type DELETE to confirm'}
+        confirmLabel="Delete permanently"
+        requireText="DELETE"
         onConfirm={async () => {
-          if (deleteConfirm !== 'DELETE') {
-            toast.error('Confirmation required', 'Type DELETE exactly to proceed.')
-            return
-          }
           const result = await actions.deleteAccount()
           if (result.error) toast.error('Deletion failed', result.error)
           else {

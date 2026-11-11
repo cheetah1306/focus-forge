@@ -21,7 +21,7 @@ import { FOCUS_MODES, useFocus, type FocusMode } from '../lib/focus'
 import { dayStats, sessionSeconds } from '../lib/metrics'
 import { cn, formatMinutes, formatSeconds, subjectColor } from '../lib/utils'
 import { PageHeader } from '../components/layout'
-import { Badge, Button, Card, Field, Input, Modal, ProgressBar, Ring, SectionHeader, Select } from '../components/ui'
+import { Badge, Button, Card, Field, Input, Modal, NumberInput, ProgressBar, Ring, SectionHeader, Select } from '../components/ui'
 import { toast } from '../lib/events'
 import { requestNotificationPermission, notificationPermission } from '../lib/notifications'
 
@@ -166,12 +166,11 @@ function SetupPanel() {
                     </button>
                   ))}
                   <div className="flex items-center gap-1">
-                    <Input
-                      type="number"
+                    <NumberInput
                       min={1}
                       max={300}
                       value={minutes}
-                      onChange={(e) => setMinutes(Math.min(300, Math.max(1, Number(e.target.value) || 1)))}
+                      onValueChange={setMinutes}
                       className="field-sm w-[74px] text-center"
                     />
                     <span className="text-[10px] soft">custom</span>

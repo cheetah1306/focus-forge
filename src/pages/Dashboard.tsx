@@ -42,7 +42,7 @@ import {
   relativeDeadline,
   weekdayOfKey,
 } from '../lib/utils'
-import { AnimatedNumber, Badge, Button, Card, EmptyState, Field, Input, Modal, Ring, SectionHeader } from '../components/ui'
+import { AnimatedNumber, Badge, Button, Card, EmptyState, Field, Modal, NumberInput, Ring, SectionHeader } from '../components/ui'
 import { PageHeader } from '../components/layout'
 import { SessionLauncher, type LaunchContext } from '../components/session-launcher'
 import { subjectColor as sc } from '../lib/utils'
@@ -484,7 +484,7 @@ export default function Dashboard() {
                         className="flex h-4 w-4 shrink-0 items-center justify-center rounded border border-[var(--border-strong)] transition hover:border-emerald-400 hover:bg-emerald-500/20"
                         aria-label={`Complete ${task.title}`}
                       >
-                        <Check className="h-2.5 w-2.5 opacity-0 transition group-hover:opacity-100" />
+                        <Check className="h-2.5 w-2.5 opacity-0 transition hover:opacity-100" />
                       </button>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-[11.5px] font-medium">{task.title}</p>
@@ -598,14 +598,14 @@ export default function Dashboard() {
       >
         <div className="space-y-3">
           <Field label="Study hours" hint={`Target: ${formatMinutes(targetForm.hours * 60)}`}>
-            <Input type="number" min={1} max={16} value={targetForm.hours} onChange={(e) => setTargetForm((f) => ({ ...f, hours: Number(e.target.value) }))} />
+            <NumberInput min={1} max={16} value={targetForm.hours} onValueChange={(v) => setTargetForm((f) => ({ ...f, hours: v }))} />
           </Field>
           <div className="grid grid-cols-2 gap-3">
             <Field label="Focus sessions">
-              <Input type="number" min={1} max={12} value={targetForm.sessions} onChange={(e) => setTargetForm((f) => ({ ...f, sessions: Number(e.target.value) }))} />
+              <NumberInput min={1} max={12} value={targetForm.sessions} onValueChange={(v) => setTargetForm((f) => ({ ...f, sessions: v }))} />
             </Field>
             <Field label="Tasks">
-              <Input type="number" min={0} max={20} value={targetForm.tasks} onChange={(e) => setTargetForm((f) => ({ ...f, tasks: Number(e.target.value) }))} />
+              <NumberInput min={0} max={20} value={targetForm.tasks} onValueChange={(v) => setTargetForm((f) => ({ ...f, tasks: v }))} />
             </Field>
           </div>
           <p className="text-[11px] soft">Remaining after current progress: {formatMinutes(Math.max(0, targetForm.hours * 60 - stats.minutes))}.</p>

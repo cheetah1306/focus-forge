@@ -20,9 +20,9 @@ import { useApp } from '../lib/app-context'
 import { useFocus } from '../lib/focus'
 import { buildInsights, dailyReportText, dayStats, distractionStats } from '../lib/metrics'
 import type { DistractionPlatform } from '../lib/types'
-import { cn, formatClock12, formatMinutes, minutesBetweenTimes, relativeDeadline, toDateKey } from '../lib/utils'
+import { cn, formatClock12, formatMinutes, minutesBetweenTimes, relativeDeadline, toDateKey, weekdayOfKey } from '../lib/utils'
 import { PageHeader } from '../components/layout'
-import { Badge, Button, Card, EmptyState, Field, Input, ProgressBar, SectionHeader } from '../components/ui'
+import { Badge, Button, Card, EmptyState, Field, Input, NumberInput, ProgressBar, SectionHeader } from '../components/ui'
 import { SessionLauncher } from '../components/session-launcher'
 import { toast } from '../lib/events'
 
@@ -60,7 +60,7 @@ export default function Guardian() {
 
   const missedEntries = data.entries.filter((e) => {
     if (e.status !== 'pending') return false
-    const isToday = e.day_of_week === new Date().getDay() || e.recurrence === 'daily'
+    const isToday = e.day_of_week === weekdayOfKey(today) || e.recurrence === 'daily'
     if (!isToday) return false
     const [h, m] = e.end_time.split(':').map(Number)
     return h * 60 + m < new Date(now).getHours() * 60 + new Date(now).getMinutes()
@@ -120,7 +120,7 @@ export default function Guardian() {
           </div>
           <div className="mt-3 grid gap-3 sm:grid-cols-[110px_1fr_150px]">
             <Field label="Minutes">
-              <Input type="number" min={1} max={720} value={minutes} onChange={(e) => setMinutes(Math.max(1, Number(e.target.value) || 1))} />
+              <NumberInput min={1} max={720} value={minutes} onValueChange={setMinutes} />
             </Field>
             <Field label="What happened? (optional)">
               <Input value={note} onChange={(e) => setNote(e.target.value)} placeholder="e.g. 40 minutes of Reels after lunch" />

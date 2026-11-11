@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Bell, BookOpen, CalendarClock, Check, GraduationCap, Plus, Target, Trash2, User } from 'lucide-react'
 import { useApp } from '../lib/app-context'
-import { Button, Field, Input, Modal, ProgressBar, Select, Switch } from '../components/ui'
+import { Button, Field, Input, Modal, NumberInput, ProgressBar, Select, Switch } from '../components/ui'
 import { SUBJECT_COLORS, addMinutesToTime, cn, formatMinutes, todayKey } from '../lib/utils'
 import { toast } from '../lib/events'
 import type { ExamType, SubjectColor } from '../lib/types'
@@ -357,7 +357,7 @@ export default function Onboarding() {
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field label="Daily study target (hours)" hint={`That is ${formatMinutes(totalGoal)} per day.`}>
-                        <Input type="number" min={1} max={16} value={dailyHours} onChange={(e) => setDailyHours(Math.max(1, Math.min(16, Number(e.target.value) || 1)))} />
+                        <NumberInput min={1} max={16} value={dailyHours} onValueChange={setDailyHours} />
                       </Field>
                       <Field label="Preferred focus block" hint="Used as the default timer duration.">
                         <Select value={focusMinutes} onChange={(e) => setFocusMinutes(Number(e.target.value))}>

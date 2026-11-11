@@ -22,7 +22,7 @@ import { useFocus } from '../lib/focus'
 import type { StudyTask, TaskCategory } from '../lib/types'
 import { addDaysKey, cn, formatMinutes, relativeDeadline, subjectColor, todayKey } from '../lib/utils'
 import { PageHeader } from '../components/layout'
-import { Badge, Button, Card, ConfirmDialog, EmptyState, Field, Input, Modal, ProgressBar, SectionHeader, Select, Textarea } from '../components/ui'
+import { Badge, Button, Card, ConfirmDialog, EmptyState, Field, Input, Modal, NumberInput, ProgressBar, SectionHeader, Select, Textarea } from '../components/ui'
 import { SessionLauncher, type LaunchContext } from '../components/session-launcher'
 import { toast } from '../lib/events'
 
@@ -457,7 +457,7 @@ export default function Planner() {
               </Select>
             </Field>
             <Field label="Estimated minutes">
-              <Input type="number" min={5} max={600} step={5} value={form.estimated} onChange={(e) => setForm((f) => ({ ...f, estimated: Number(e.target.value) }))} />
+              <NumberInput min={5} max={600} step={5} value={form.estimated} onValueChange={(v) => setForm((f) => ({ ...f, estimated: v }))} />
             </Field>
           </div>
           <Field label="Deadline (optional)">

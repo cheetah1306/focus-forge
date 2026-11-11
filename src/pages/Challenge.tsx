@@ -17,7 +17,7 @@ import { useFocus } from '../lib/focus'
 import { challengeMetrics, dayStats } from '../lib/metrics'
 import { addDaysKey, cn, formatDateShort, formatMinutes } from '../lib/utils'
 import { PageHeader } from '../components/layout'
-import { Badge, Button, Card, Field, Input, Modal, ProgressBar, Ring, SectionHeader, Select } from '../components/ui'
+import { Badge, Button, Card, Field, Input, Modal, NumberInput, ProgressBar, Ring, SectionHeader, Select } from '../components/ui'
 import { SessionLauncher } from '../components/session-launcher'
 import { toast } from '../lib/events'
 
@@ -168,14 +168,14 @@ export default function Challenge() {
                 <Input type="date" value={form.startDate} onChange={(e) => setForm((f) => ({ ...f, startDate: e.target.value }))} />
               </Field>
               <Field label="Duration (days)">
-                <Input type="number" min={7} max={120} value={form.days} onChange={(e) => setForm((f) => ({ ...f, days: Math.max(7, Math.min(120, Number(e.target.value) || 30)) }))} />
+                <NumberInput min={7} max={120} value={form.days} onValueChange={(v) => setForm((f) => ({ ...f, days: v }))} />
               </Field>
               <Field label="Daily hours">
-                <Input type="number" min={1} max={16} step={0.5} value={form.dailyHours} onChange={(e) => setForm((f) => ({ ...f, dailyHours: Number(e.target.value) || 1 }))} />
+                <NumberInput min={1} max={16} step={0.5} value={form.dailyHours} onValueChange={(v) => setForm((f) => ({ ...f, dailyHours: v }))} />
               </Field>
             </div>
             <Field label="Weekly revision target (revision tasks)">
-              <Input type="number" min={0} max={30} value={form.weeklyRevisionTarget} onChange={(e) => setForm((f) => ({ ...f, weeklyRevisionTarget: Number(e.target.value) || 0 }))} />
+              <NumberInput min={0} max={30} value={form.weeklyRevisionTarget} onValueChange={(v) => setForm((f) => ({ ...f, weeklyRevisionTarget: v }))} />
             </Field>
             <Field label="Subject priorities (up to 3)">
               <div className="flex flex-wrap gap-1.5">
@@ -451,14 +451,14 @@ export default function Challenge() {
               <Input type="date" value={form.startDate} onChange={(e) => setForm((f) => ({ ...f, startDate: e.target.value }))} />
             </Field>
             <Field label="Days">
-              <Input type="number" min={7} max={120} value={form.days} onChange={(e) => setForm((f) => ({ ...f, days: Number(e.target.value) || 30 }))} />
+              <NumberInput min={7} max={120} value={form.days} onValueChange={(v) => setForm((f) => ({ ...f, days: v }))} />
             </Field>
             <Field label="Daily hours">
-              <Input type="number" min={1} max={16} step={0.5} value={form.dailyHours} onChange={(e) => setForm((f) => ({ ...f, dailyHours: Number(e.target.value) || 1 }))} />
+              <NumberInput min={1} max={16} step={0.5} value={form.dailyHours} onValueChange={(v) => setForm((f) => ({ ...f, dailyHours: v }))} />
             </Field>
           </div>
           <Field label="Weekly revision target">
-            <Input type="number" min={0} max={30} value={form.weeklyRevisionTarget} onChange={(e) => setForm((f) => ({ ...f, weeklyRevisionTarget: Number(e.target.value) || 0 }))} />
+            <NumberInput min={0} max={30} value={form.weeklyRevisionTarget} onValueChange={(v) => setForm((f) => ({ ...f, weeklyRevisionTarget: v }))} />
           </Field>
           <Field label="Subject priorities">
             <Select value="" onChange={(e) => e.target.value && setForm((f) => ({ ...f, prioritySubjects: [...f.prioritySubjects, e.target.value].slice(0, 3) }))}>
@@ -505,10 +505,10 @@ export default function Challenge() {
       >
         <div className="space-y-3">
           <Field label="Daily target hours">
-            <Input type="number" min={1} max={16} step={0.5} value={form.dailyHours} onChange={(e) => setForm((f) => ({ ...f, dailyHours: Number(e.target.value) || 1 }))} />
+            <NumberInput min={1} max={16} step={0.5} value={form.dailyHours} onValueChange={(v) => setForm((f) => ({ ...f, dailyHours: v }))} />
           </Field>
           <Field label="Weekly revision target">
-            <Input type="number" min={0} max={30} value={form.weeklyRevisionTarget} onChange={(e) => setForm((f) => ({ ...f, weeklyRevisionTarget: Number(e.target.value) || 0 }))} />
+            <NumberInput min={0} max={30} value={form.weeklyRevisionTarget} onValueChange={(v) => setForm((f) => ({ ...f, weeklyRevisionTarget: v }))} />
           </Field>
           <div className="rounded-xl border border-[var(--border)] surface-1 p-3 text-[10.5px] leading-relaxed muted">
             Current challenge runs {formatDateShort(active.start_date)} to {formatDateShort(active.end_date)}. Changing the daily target affects today and future days only.

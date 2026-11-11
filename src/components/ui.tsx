@@ -123,6 +123,61 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
   return <input ref={ref} className={cn('field', className)} {...props} />
 })
 
+export function NumberInput({
+  value,
+  onValueChange,
+  min,
+  max,
+  className,
+  ...props
+}: Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> & {
+  value: number
+  onValueChange: (value: number) => void
+  min?: number
+  max?: number
+}) {
+  const [draft, setDraft] = useState(String(value))
+  const [focused, setFocused] = useState(false)
+
+  useEffect(() => {
+    if (!focused) setDraft(String(value))
+  }, [value, focused])
+
+  const inRange = (n: number) => (min === undefined || n >= min) && (max === undefined || n <= max)
+
+  return (
+    <input
+      {...props}
+      type="number"
+      min={min}
+      max={max}
+      className={cn('field', className)}
+      value={draft}
+      onFocus={(e) => {
+        setFocused(true)
+        props.onFocus?.(e)
+      }}
+      onChange={(e) => {
+        const raw = e.target.value
+        // Keep whatever the user is typing, including "" and partial input like "-".
+        setDraft(raw)
+        if (raw.trim() === '') return
+        const parsed = Number(raw)
+        if (Number.isFinite(parsed) && inRange(parsed)) onValueChange(parsed)
+      }}
+      onBlur={(e) => {
+        setFocused(false)
+        const parsed = Number(draft)
+        const fallback = min ?? 0
+        const next = draft.trim() === '' || !Number.isFinite(parsed) ? fallback : Math.min(max ?? Number.POSITIVE_INFINITY, Math.max(min ?? Number.NEGATIVE_INFINITY, parsed))
+        setDraft(String(next))
+        if (next !== value) onValueChange(next)
+        props.onBlur?.(e)
+      }}
+    />
+  )
+}
+
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement>>(function Textarea(
   { className, ...props },
   ref,
@@ -495,6 +550,7 @@ export function ConfirmDialog({
   tone = 'danger',
   onConfirm,
   loading,
+  requireText,
 }: {
   open: boolean
   onClose: () => void
@@ -504,7 +560,15 @@ export function ConfirmDialog({
   tone?: 'danger' | 'primary'
   onConfirm: () => void | Promise<void>
   loading?: boolean
+  /** When set, the user must type this exact phrase before the confirm button unlocks. */
+  requireText?: string
 }) {
+  const [typed, setTyped] = useState('')
+  useEffect(() => {
+    if (!open) setTyped('')
+  }, [open])
+  const blocked = Boolean(requireText) && typed !== requireText
+
   return (
     <Modal
       open={open}
@@ -517,7 +581,7 @@ export function ConfirmDialog({
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant={tone === 'danger' ? 'danger' : 'primary'} loading={loading} onClick={() => void onConfirm()}>
+          <Button variant={tone === 'danger' ? 'danger' : 'primary'} loading={loading} disabled={blocked} onClick={() => void onConfirm()}>
             {confirmLabel}
           </Button>
         </>
@@ -527,6 +591,22 @@ export function ConfirmDialog({
         <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
         <p className="text-xs leading-relaxed muted">This action is recorded honestly in your accountability history so your analytics stay accurate.</p>
       </div>
+      {requireText && (
+        <div className="mt-3">
+          <Field label={`Type ${requireText} to confirm`}>
+            <Input
+              value={typed}
+              onChange={(e) => setTyped(e.target.value)}
+              placeholder={requireText}
+              autoFocus
+              autoComplete="off"
+              spellCheck={false}
+              aria-describedby={undefined}
+            />
+          </Field>
+          <p className="mt-1 text-[11px] soft">{blocked ? `Confirm button unlocks when you type ${requireText}.` : 'Confirmed — you can proceed.'}</p>
+        </div>
+      )}
     </Modal>
   )
 }
