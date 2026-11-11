@@ -1,262 +1,206 @@
-# FOCUSFORGE — Study Operating System
+<div align="center">
 
-FOCUSFORGE is a full-stack study productivity PWA for engineering students preparing for exams. It combines a
-timestamp-accurate focus timer, a weekly timetable, a task planner tied to a real syllabus, an exam countdown, a
-30-day preparation challenge, distraction accountability and analytics that are computed only from persisted records.
+# Focus Forge
 
-Nothing in the product invents data: every minute, streak and readiness percentage traces back to a row you created.
+### Build focus. Protect your time. Forge your progress.
+
+A personal study workspace for focused sessions, academic planning, timetable management and measurable progress.
+
+**[Open the Live App](https://focusforge-ashen-five.vercel.app)** · **[View on GitHub](https://github.com/cheetah1306/focus-forge)**
+
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Backend-3FCF8E?logo=supabase&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000?logo=vercel&logoColor=white)
+
+</div>
 
 ---
 
-## 1. Status at a glance
+## About Focus Forge
 
-| Area | State |
+Focus Forge helps students turn study plans into consistent action. It brings together what you plan to study, when you plan to study, and the time you actually spend studying—all in one workspace.
+
+It is more than a countdown timer: it combines a focus room, study planner, weekly timetable, exam preparation tools and progress analytics.
+
+## What makes it different?
+
+- **Timestamp-driven focus sessions:** Session time is calculated from real timestamps, helping avoid timer drift when a browser tab sleeps or reloads.
+- **Planning connected to execution:** Link focus sessions to tasks and timetable blocks so planned work can be compared with completed work.
+- **A realistic 30-day challenge:** Missed days remain part of the history instead of resetting the entire challenge.
+- **Activity-based insights:** Focus scores, streaks, analytics and achievements are based on recorded study activity and topic progress.
+- **Flexible data modes:** Use browser-local storage to get started, or configure Supabase for authentication and cloud-backed, user-isolated data.
+- **Transparent accountability:** Focus Guardian records reported distractions and interruptions; it does not monitor or block other applications.
+
+## Features
+
+| Feature | Description |
 | --- | --- |
-| Frontend (10 sections + auth/onboarding) | Complete, responsive, light/dark, PWA installable |
-| Timer engine (timestamp-based, recovery, duplicate-proof) | Complete and browser-verified |
-| Planner / timetable / subjects / exams / challenge / guardian | Complete and browser-verified |
-| Analytics, achievements, CSV export | Complete and browser-verified |
-| Supabase schema, RLS, triggers, storage policies | Complete in `supabase/migrations/0001_init.sql` |
-| Supabase runtime (real auth, RLS, storage) | **Verified live** on a real project: schema, signup bootstrap, cross-account isolation, storage policies |
-| Deployment | **Live on Vercel**: https://focusforge-ashen-five.vercel.app (production alias, Vite build from `dist`) |
+| **Dashboard** | Daily targets, focus score, upcoming exams, challenge progress, schedule and priority tasks. |
+| **Focus Room** | Five focus modes, custom duration, session objectives, linked tasks, pause/resume, extensions, breaks and interruption records. |
+| **Study Planner** | Organise tasks by subject, unit, topic, priority, category, estimated time and deadline. |
+| **Smart Timetable** | Recurring weekly blocks, day/week/month views, conflict detection, drag-to-reschedule and session launching. |
+| **Subject & Topic Tracking** | Organise units and topics; track not started, in progress, completed and needs revision. |
+| **Exam Preparation** | Add exam dates and types, view countdowns and track readiness through topic coverage. |
+| **30-Day Focus Challenge** | Set daily goals, review results and retain history when days are missed. |
+| **Analytics** | Daily, weekly and monthly trends, subject distribution, completion rates, distraction insights and CSV export. |
+| **Achievements** | 13 milestones earned through recorded activity. |
+| **Focus Guardian** | Distraction logs, interruptions, missed timetable blocks, overdue tasks and focus-score breakdown. |
+| **Personalisation** | Profile and avatar, themes, reduced motion, sounds, timer defaults, targets and notification preferences. |
 
-No live URL is claimed. See [section 9](#9-what-was-tested-and-what-was-not) for the exact verification report.
+## The focus engine
 
----
+The timer uses a timestamp-driven session model instead of relying only on a ticking counter. It records the session start, planned end, pause time, accumulated paused duration and current status. This allows remaining time to be reconstructed after a refresh and supports recovery from interrupted sessions.
 
-## 2. Stack
+Break time is tracked separately from study time. A unique partial database index also prevents multiple active or paused sessions for the same user.
 
-- React 18 + TypeScript 5 + Vite 5 (route-level code splitting)
-- Tailwind CSS 3 with CSS-variable light/dark themes
-- Framer Motion, Lucide React icons, Recharts
-- React Router 6
-- Supabase (`@supabase/supabase-js`) — Postgres, Auth, Storage; RLS on every table
-- Hand-written PWA (`public/manifest.webmanifest`, `public/sw.js`) with offline shell + notification click handling
-- Vercel (primary) / Netlify (alternative) static deployment with SPA rewrites
+The focus score is a 100-point activity breakdown:
 
----
+| Dimension | Weight |
+| --- | ---: |
+| Study volume | 40 |
+| Session completion | 25 |
+| Academic tasks | 15 |
+| Consistency | 10 |
+| Focus discipline | 10 |
+| **Total** | **100** |
 
-## 3. Run it locally
+The score is intended as a habit and activity indicator—not as a prediction of exam marks or academic results.
 
-```bash
+## Technology stack
+
+| Layer | Technologies |
+| --- | --- |
+| Frontend | React 18, TypeScript 5, Vite 5 |
+| UI and styling | Tailwind CSS 3, CSS variables, Framer Motion, Lucide React |
+| Routing and charts | React Router 6, Recharts |
+| Backend | Supabase: PostgreSQL, Auth and Storage |
+| Offline experience | Web App Manifest, Service Worker and browser storage |
+| Deployment | Vercel; Netlify configuration is also included |
+
+## Run locally
+
+**Prerequisites:** Node.js and npm.
+
+\`\`\`bash
+git clone https://github.com/cheetah1306/focus-forge.git
+cd focus-forge
 npm install
-npm run dev            # http://127.0.0.1:5173
-```
+npm run dev
+\`\`\`
 
-Without any environment variables the app boots into **Local workspace mode**:
+Open the local address printed by Vite (configured host: \`127.0.0.1:5173\`).
 
-- A complete, fully functional workspace stored in this browser's `localStorage`.
-- Clearly labelled in the UI as browser-only. It is **not** authentication and **not** multi-device.
-- Documents are stored as data URLs, so uploads are capped at 1.5 MB with an explicit message.
+### Useful commands
 
-Scripts:
+\`\`\`bash
+npm run dev             # Start the development server
+npm run build           # Type-check and create the production build
+npm run preview         # Preview the production build
+npm run typecheck       # Run TypeScript checks
+npm run verify:supabase # Verify Supabase configuration and schema
+\`\`\`
 
-```bash
-npm run dev        # dev server
-npm run build      # tsc -b && vite build
-npm run preview    # serve dist on 127.0.0.1:4173
-npm run typecheck  # tsc --noEmit -p tsconfig.app.json
-```
+## Data modes
 
----
+### Local workspace
 
-## 4. Connect Supabase (production mode)
+The app can run without Supabase environment variables. In this mode, workspace data is stored in the current browser's \`localStorage\`. This is useful for trying the app, but it does not provide account authentication or multi-device synchronisation. Clearing browser site data removes local workspace data. Local document uploads are limited to 1.5 MB.
 
-1. Create a project at [supabase.com](https://supabase.com).
-2. Open **SQL Editor** and run the whole of `supabase/migrations/0001_init.sql`.
-   It creates the schema, checks, indexes, the single-active-session unique index, `updated_at` triggers, the
-   new-user bootstrap trigger, every RLS policy, the achievement catalogue and both storage buckets.
-3. Copy `.env.example` to `.env` and fill:
+### Supabase production mode
 
-   ```env
-   VITE_SUPABASE_URL=https://<project-ref>.supabase.co
-   VITE_SUPABASE_ANON_KEY=<publishable key or legacy anon public key>
-   ```
+1. Create a project at [Supabase](https://supabase.com).
+2. Run \`supabase/migrations/0001_init.sql\` in the Supabase SQL Editor.
+3. Copy \`.env.example\` to \`.env\` and configure:
 
-   Either the new `sb_publishable_…` key or the legacy anon JWT works. Never place a secret or
-   `service_role` key in a `VITE_` variable.
+\`\`\`env
+VITE_SUPABASE_URL=https://<project-ref>.supabase.co
+VITE_SUPABASE_ANON_KEY=<publishable-or-anon-public-key>
+\`\`\`
 
-   Then run `npm run verify:supabase` — it checks the URL, the key type, the Auth service, every table
-   from the migration and that anonymous reads return no rows. It never prints the key.
-4. **Authentication → Providers**: Email is enabled by default. For Google sign-in, enable Google, add your OAuth
-   client ID/secret, and register the callback `https://<project-ref>.supabase.co/auth/v1/callback`. The app reads the
-   project's provider settings on load, so the "Continue with Google" button only appears once the provider is live —
-   an unconfigured provider never renders a dead control.
-5. **Authentication → URL Configuration**:
-   - Site URL: your deployed origin (or `http://127.0.0.1:5173` while developing)
-   - Redirect URLs: `http://127.0.0.1:5173/**`, `https://your-domain/**`
-6. Restart the dev server. The app now requires real sign-in, and the "Local workspace mode" banner disappears.
+4. Run \`npm run verify:supabase\`.
+5. Configure authentication providers and Site URL / redirect URLs in Supabase Auth settings.
+6. Restart the development server.
 
-Storage buckets are created by the migration: `avatars` (public, owner-scoped writes) and `study-documents`
-(private, owner-scoped, read through 7-day signed URLs).
+The migration defines the database schema, indexes, triggers, user-scoped Row Level Security (RLS) policies, achievement catalogue and storage policies.
 
----
+**Security:** Never expose a Supabase \`service_role\` key or secret key through a \`VITE_\` variable. Frontend environment variables are visible in the browser. Use only the publishable key or legacy anon public key in client-side configuration.
 
-## 5. What each section does
+## Live deployment
 
-| Section | Behaviour |
-| --- | --- |
-| **Dashboard** | Today's target ring, focus score, next exam countdown, challenge progress, schedule, priority tasks, evidence-based insights, 7-day chart |
-| **Focus Room** | Five modes, custom duration, objective, linked task, commitment gate, pause/resume, extend, authorised break, interruption capture with reason |
-| **Timetable** | Recurring weekly blocks, day/week/month views, conflict detection, drag-to-reschedule, launch a session directly from a block (completion marks that block) |
-| **Study Planner** | Tasks with subject/unit/topic, category, priority, estimate, deadline; links study time to tasks |
-| **Subjects** | Subjects → units → topics with status (`not started / in progress / completed / needs revision`), study documents |
-| **Exams** | Real dates, type, readiness derived from topic coverage, days/at-risk views |
-| **30-Day Challenge** | Never resets on a missed day; per-day hit/miss/partial records, recovery copy, editable targets that never rewrite past days |
-| **Analytics** | Daily/weekly/monthly series, subject distribution, completion rates, distraction totals, CSV export |
-| **Achievements** | 13 persisted milestones; unlocked only from stored activity, with a celebration modal |
-| **Focus Guardian** | Distraction logging, interruption history, transparent score breakdown, missed-block and overdue-task detection |
-| **Settings** | Profile, avatar, theme (dark/light/system), reduced motion, sounds, timer defaults, targets, notification preferences, data export, sign out, account deletion |
+<div align="center">
 
-Global: `Ctrl/⌘ + K` opens All Sections, `Space` toggles pause in the focus lock, bottom navigation on mobile.
+### Focus Forge is live
 
----
+**[https://focusforge-ashen-five.vercel.app](https://focusforge-ashen-five.vercel.app)**
 
-## 6. How the timer stays honest
+[**Launch the app**](https://focusforge-ashen-five.vercel.app)
 
-- The database stores `started_at`, `planned_end_at`, `planned_minutes`, `paused_at`, `total_paused_seconds`, `status`.
-- Remaining time is always derived from timestamps — never from a decrementing counter — so throttled tabs, sleep
-  and refreshes cannot drift the clock.
-- A 500 ms tick only re-renders; a 15 s heartbeat writes `elapsed_seconds` and a `localStorage` mirror.
-- A unique partial index (`status in ('active','paused')`) makes duplicate active sessions impossible at the DB level.
-- On reload: an in-progress session resumes. If the tab was gone long enough that the planned end passed, or the
-  mirror is older than 10 minutes, the session is finalised as `interrupted` with reason `browser_closed` and the
-  logged time is truncated to the last heartbeat — nothing is fabricated.
-- Breaks are separate from study time and are excluded from every metric.
+</div>
 
-**Focus score** (shown with its component breakdown in Focus Guardian):
+The repository includes Vercel configuration for a Vite production build:
 
-```
-study volume 40 + session completion 25 + academic tasks 15 + consistency 10 + focus discipline 10 = 100
-```
+- Build command: \`npm run build\`
+- Output directory: \`dist\`
+- SPA rewrite to \`index.html\`
+- Service worker and manifest response headers
+- Immutable caching for generated assets
 
-**30-day challenge**: Day 1 starts on your first day; past days are immutable; a missed day is recorded as missed
-(not a reset) and recovery guidance is shown.
+To deploy your own copy, import the repository into Vercel, configure Supabase environment variables if using cloud mode, and deploy. Add the deployed origin to Supabase Auth URL configuration. A Netlify configuration is also included in \`netlify.toml\`.
 
----
+## Project structure
 
-## 7. Data model
+\`\`\`text
+focus-forge/
+├── public/                    # PWA manifest, service worker and icons
+├── src/
+│   ├── components/            # Shared UI and session launcher
+│   ├── lib/
+│   │   ├── backend.ts         # Typed backend interface and adapters
+│   │   ├── store.tsx          # Workspace state and data operations
+│   │   ├── focus.tsx          # Timer engine and recovery
+│   │   ├── metrics.ts         # Focus score and analytics
+│   │   ├── notifications.ts   # Reminder handling
+│   │   └── types.ts           # Domain types
+│   └── pages/                 # Application screens
+├── supabase/
+│   └── migrations/
+│       └── 0001_init.sql      # Schema, RLS, triggers and storage policies
+├── vercel.json
+├── netlify.toml
+└── package.json
+\`\`\`
 
-Created and secured in `supabase/migrations/0001_init.sql`:
+## Privacy and practical limitations
 
-`profiles`, `user_preferences`, `subjects`, `units`, `topics`, `study_tasks`, `timetable_entries`, `focus_sessions`,
-`session_interruptions`, `daily_goals`, `exam_schedule`, `study_challenges`, `daily_challenge_progress`,
-`notifications`, `achievements`, `user_achievements`, `distraction_logs`, `study_resources`.
+- Supabase mode uses user-scoped RLS policies for user-owned records. Local mode stays in the current browser.
+- Focus Guardian records reported distractions and timer interruptions; it does not monitor or block other applications.
+- Browser notifications require permission and browser support. Delivery is not guaranteed after the browser is fully closed.
+- Screen Wake Lock is requested where supported, but the operating system may still turn off the display.
+- Exam readiness is calculated from topic statuses entered in the app; it is not an external assessment of syllabus mastery.
+- Daily boundaries use the configured timezone (default: \`Asia/Kolkata\`).
 
-Every user-owned table has `user_id` + RLS policies for `select/insert/update/delete` scoped to `auth.uid()`;
-`achievements` is read-only to authenticated users. `handle_new_user()` bootstraps a profile, preferences and the
-default challenge on signup.
+## Verification notes
 
-Application code talks to a small typed `Backend` interface (`src/lib/backend.ts`) with two real adapters —
-Supabase and local storage — so the UI is identical in both modes.
+Project documentation records checks for TypeScript compilation and production builds, timer pause/resume and reload recovery, session completion and interruption logging, planner/timetable/subject/exam workflows, analytics consistency, responsive layouts, and Supabase RLS/storage isolation.
+
+Google OAuth and password-reset email delivery require provider configuration and are not documented as fully verified. Browser-closed notification delivery is not guaranteed.
+
+## Contributing
+
+Ideas and improvements are welcome. Open an issue to report a bug or discuss a feature, or submit a pull request with a clear description and testing notes.
+
+## License
+
+A license file is not currently documented in this repository. Please contact the repository owner before reusing or redistributing the code.
 
 ---
 
-## 8. Deployment
+<div align="center">
 
-### Vercel (primary)
+**Plan with intention. Focus with discipline. Forge your progress.**
 
-```bash
-npm i -g vercel      # or use the dashboard
-vercel               # preview
-vercel --prod        # production
-```
+[Try Focus Forge](https://focusforge-ashen-five.vercel.app) · [Explore the GitHub repository](https://github.com/cheetah1306/focus-forge)
 
-`vercel.json` already sets the Vite build, `dist` output, SPA rewrite, service-worker no-cache headers, manifest
-content type and immutable asset caching. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in Project → Settings →
-Environment Variables, then redeploy.
-
-The production deployment of this project lives at **https://focusforge-ashen-five.vercel.app**, built by Vercel from
-`main` with both `VITE_SUPABASE_*` variables stored as Project Environment Variables (Production + Preview).
-
-Sign-ups depend on the project's email settings: with **Confirm email** enabled, Supabase must be able to deliver the
-confirmation link, which needs a custom SMTP provider (Project → Settings → Auth → SMTP). Until then, either keep
-confirmation disabled or expect new accounts to stall at "check your inbox".
-
-### Netlify (alternative)
-
-```bash
-npm i -g netlify-cli
-netlify deploy --build --prod
-```
-
-`netlify.toml` contains the build command, publish directory, SPA redirect and headers.
-
-After deploying, add the production origin to Supabase Auth → URL Configuration (Site URL + redirect URLs), otherwise
-confirmation, recovery and Google links will bounce to localhost. For this deployment that means Site URL
-`https://focusforge-ashen-five.vercel.app` and redirect URLs `https://focusforge-ashen-five.vercel.app/**` plus
-`http://127.0.0.1:5173/**`.
-
----
-
-## 9. What was tested and what was not
-
-Verified on this machine against the real running app (Chromium, 747×768 mobile viewport and desktop widths):
-
-- `npx tsc --noEmit -p tsconfig.app.json` → 0 errors; `npm run build` → success (entry 84 kB gzip, charts split into
-  a lazy chunk).
-- Production bundle served by `vite preview`: HTTP 200 for `/`, manifest and `sw.js`; service worker active; clean
-  console (no errors/warnings after the Router future flags and SVG `strokeDashoffset` fix).
-- Onboarding: identity → 3 subjects → exam → targets → dashboard, with the real records visible afterwards.
-- Focus session: commitment gate disabled until checked, session start, live countdown, pause/resume, authorised
-  break (break time excluded), interruption dialog with reason + note → row stored as `interrupted` with 45 s actual.
-- Reload during an active session: timer rebuilt from timestamps and continued (no false interruption).
-- Natural completion of a 1-minute session: status `completed`, 60 s logged, completion modal, break offer, "First
-  Spark" achievement unlocked.
-- Timetable block creation (conflict view updates), planner task creation, subject unit + topics creation, exam
-  countdown, challenge dashboard and settings preload, guardian distraction logging, achievements, settings
-  (light/dark switch, reduce motion, sound), mobile "More" sheet.
-- Analytics totals matched the stored rows (2 min focused, 1/3 sessions completed, 33% completion).
-- Live Supabase project: `npm run verify:supabase` → all 18 tables present, Auth healthy, anonymous reads return 0
-  rows. Two real test accounts proved: the signup trigger creates profile + preferences (`Asia/Kolkata`), the 13
-  achievements are seeded, owners can CRUD their rows, a second account cannot read/update/delete them, forging a
-  `user_id` is rejected, a second active session is rejected with 409, an invalid distraction platform violates the
-  check constraint, avatars upload and read publicly while cross-folder writes fail, and a private study document's
-  signed URL cannot be minted by another user.
-- Browser sign-in with a real Supabase account: `/login` → `/onboarding` → dashboard, session survived a reload, and
-  no local-mode banner appeared.
-- Layout checked at 320 px, 390 px and desktop widths: no horizontal overflow, mobile bottom navigation and the
-  "More" sheet reachable, fixed focus-lock header usable.
-
-Not verified:
-
-- Google OAuth — the provider is still disabled on the project, so the button is hidden by design. The redirect and
-  callback handling are in place, but completing it needs a Google OAuth client (see the setup section).
-- Password-reset email delivery — sending to a real inbox was not exercised.
-- Cross-device sync on two physical devices (the same session was exercised through one browser profile).
-
-- Browser notification delivery after the tab/browser is closed (impossible for a web app; see limitations).
-
----
-
-## 10. Honest limitations
-
-- **Notifications** require granted permission and a running browser. FOCUSFORGE explicitly states it cannot
-  guarantee reminders once the browser is fully closed; the in-app reminder engine runs only while a tab is open.
-- **Local mode** is a real, usable workspace but it is browser storage: clearing site data deletes it, and documents
-  are limited to 1.5 MB. It is not authentication and offers no protection on a shared computer.
-- **Focus Guardian** never blocks apps, hides exit controls or traps you in confirmation loops. It records what you
-  report and what the timer observes; it cannot detect other apps.
-- **Screen wake lock** is requested where supported; the OS may still sleep the display.
-- **Readiness %** is derived from topic statuses you set, not from an external syllabus.
-- **Timezone** defaults to `Asia/Kolkata` and is configurable in Settings; daily boundaries follow that zone.
-
----
-
-## 11. Project structure
-
-```
-src/
-  App.tsx                 # providers, gates, lazy routes
-  components/             # layout shell, UI primitives, session launcher
-  lib/
-    backend.ts            # Supabase + local adapters behind one typed interface
-    store.tsx             # dataset, CRUD actions, achievements, challenge sync
-    focus.tsx             # timestamp timer engine, recovery, breaks, completion
-    metrics.ts            # day stats, focus score, streaks, analytics, insights
-    notifications.ts      # permission handling + reminder engine
-    types.ts / utils.ts   # domain types and formatting helpers
-  pages/                  # 13 screens incl. auth, onboarding, reset password
-supabase/migrations/0001_init.sql
-public/                   # manifest, service worker, icons
-```
+</div>
