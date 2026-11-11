@@ -333,10 +333,19 @@ function Sidebar({ onOpenMore }: { onOpenMore: () => void }) {
   )
 }
 
-function MobileHeader() {
+function MobileHeader({ onOpenMore }: { onOpenMore: () => void }) {
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[var(--border)] bg-[var(--bg-elevated)]/90 px-4 backdrop-blur-xl lg:hidden">
-      <Logo />
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onOpenMore}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] surface-1 text-[var(--text)] transition active:scale-95 hover:surface-2"
+          aria-label="Open navigation menu"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+        <Logo />
+      </div>
       <div className="flex items-center gap-2">
         <NotificationBell />
         <AccountMenu />
@@ -376,11 +385,11 @@ function DesktopHeader() {
   )
 }
 
-function MobileNav({ onOpenMore }: { onOpenMore: () => void }) {
+function MobileNav() {
   return (
-    <nav className="safe-bottom fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--border)] bg-[var(--bg-elevated)]/95 px-2 pt-1.5 pb-2 backdrop-blur-2xl lg:hidden shadow-[0_-4px_24px_rgba(0,0,0,0.12)]">
-      <div className="mx-auto flex max-w-md items-center justify-around">
-        {MOBILE_NAV.slice(0, 2).map((item) => (
+    <nav className="safe-bottom fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--border)] bg-[var(--bg-elevated)]/95 px-3 pt-1.5 pb-2 backdrop-blur-2xl lg:hidden shadow-[0_-4px_24px_rgba(0,0,0,0.12)]">
+      <div className="mx-auto flex max-w-md items-center justify-between">
+        {MOBILE_NAV.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
@@ -401,50 +410,6 @@ function MobileNav({ onOpenMore }: { onOpenMore: () => void }) {
             )}
           </NavLink>
         ))}
-
-        <div className="flex flex-1 items-center justify-center -mt-6">
-          <NavLink to="/focus" aria-label="Focus room" className="group flex flex-col items-center">
-            {({ isActive }) => (
-              <span
-                className={cn(
-                  'flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 via-pink-500 to-purple-600 text-white shadow-fab shadow-pink-500/40 ring-4 ring-[var(--bg-elevated)] transition-all duration-200 active:scale-90 group-hover:scale-105',
-                  isActive && 'ring-brand-400/60 ring-offset-2',
-                )}
-              >
-                <Timer className="h-6 w-6" strokeWidth={2.4} />
-              </span>
-            )}
-          </NavLink>
-        </div>
-
-        {MOBILE_NAV.slice(2).map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) =>
-              cn(
-                'flex flex-1 flex-col items-center justify-center gap-0.5 py-1 text-[11px] font-semibold transition-all active:scale-95',
-                isActive ? 'text-brand-500 dark:text-brand-300' : 'muted',
-              )
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <span className={cn('flex h-8 w-12 items-center justify-center rounded-full transition-all duration-200', isActive ? 'bg-brand-500/15 text-brand-500 dark:text-brand-300 shadow-sm' : 'text-current')}>
-                  {item.icon}
-                </span>
-                <span className="truncate">{item.label}</span>
-              </>
-            )}
-          </NavLink>
-        ))}
-
-        <button onClick={onOpenMore} className="flex flex-1 flex-col items-center justify-center gap-0.5 py-1 text-[11px] font-semibold muted transition-all active:scale-95">
-          <span className="flex h-8 w-12 items-center justify-center rounded-full transition-all duration-200">
-            <Menu className="h-[20px] w-[20px]" />
-          </span>
-          <span className="truncate">More</span>
-        </button>
       </div>
     </nav>
   )
@@ -765,14 +730,14 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="app-bg min-h-screen">
       <Sidebar onOpenMore={() => setMoreOpen(true)} />
       <div className="lg:pl-[248px]">
-        <MobileHeader />
+        <MobileHeader onOpenMore={() => setMoreOpen(true)} />
         <DesktopHeader />
         <main className="mx-auto w-full max-w-[1400px] px-4 pb-28 pt-5 sm:px-6 lg:pb-10 lg:pt-6" style={{ contain: 'layout style' }}>
           <LocalModeBanner />
           {children}
         </main>
       </div>
-      <MobileNav onOpenMore={() => setMoreOpen(true)} />
+      <MobileNav />
       <ActiveSessionDock />
       <BreakDock />
       <CompletionModal />
